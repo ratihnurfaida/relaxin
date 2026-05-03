@@ -20,6 +20,12 @@ Route::prefix('admin')
         Route::get('/dashboard', function () {
             return view('admin.dashboard');
         })->name('dashboard');
+
+        //CRUD Hotel
+        Route::resource('hotel', App\Http\Controllers\Admin\HotelController::class);
+
+        //CRUD Kamar
+        Route::resource('kamar', App\Http\Controllers\Admin\KamarController::class);
     });
 
 // Route profile
