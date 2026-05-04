@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Hotel extends Model
+class Penginapan extends Model
 {
-    protected $table = 'hotel';
-    protected $primarykey = 'id_hotel';
+    protected $table = 'penginapan';
+    protected $primarykey = 'id_penginapan';
     protected $timstamps = false;
 
     protected $fillable  = [
@@ -19,8 +19,8 @@ class Hotel extends Model
         'gambar',
     ];
 
-    puyblic function kamar()
+    public function kamar()
     {
-        return $this->hasMany(Kamar::class, 'id_hotel', 'id_hotel');
+        return $this->hasMany(Kamar::class, 'id_penginapan', 'id_penginapan');
     }
 }

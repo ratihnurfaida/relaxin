@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kamar', function (Blueprint $table) {
             $table->id('id_kamar');
-            $table->unsignedBigInteger('id_hotel'); //foreign key harus unsignedBigInteger
+            $table->unsignedBigInteger('id_penginapan'); //foreign key harus unsignedBigInteger
             $table->string('kode_kamar');
             $table->string('tipe_kamar');
             $table->integer('kapasitas');
@@ -25,9 +25,9 @@ return new class extends Migration
             $table->timestamps();
 
             //definisi relasi
-            $table->foreign('id_hotel')
-                ->references('id_hotel')
-                ->on('hotel')
+            $table->foreign('id_penginapan')
+                ->references('id_penginapan')
+                ->on('penginapan')
                 ->onDelete('cascade');
         });
     }

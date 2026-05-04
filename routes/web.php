@@ -21,8 +21,8 @@ Route::prefix('admin')
             return view('admin.dashboard');
         })->name('dashboard');
 
-        //CRUD Hotel
-        Route::resource('hotel', App\Http\Controllers\Admin\HotelController::class);
+        //CRUD Penginapan
+        Route::resource('penginapan', App\Http\Controllers\Admin\PenginapanController::class);
 
         //CRUD Kamar
         Route::resource('kamar', App\Http\Controllers\Admin\KamarController::class);

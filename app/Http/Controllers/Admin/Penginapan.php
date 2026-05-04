@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Hotel;
+use App\Models\Penginapan;
 use illuminate\Support\Facades\Storage;
 
-class HotelController extends Controller
+class PenginapanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $hotels = Hotel::all();
-        return view('admin.hotel.index', compact('hotels'));
+        $penginapans = Penginapan::all();
+        return view('admin.penginapan.index', compact('penginapans'));
     }
 
     /**
@@ -23,7 +23,7 @@ class HotelController extends Controller
      */
     public function create()
     {
-        return view('admin.hotel.create');
+        return view('admin.penginapan.create');
     }
 
     /**
@@ -40,9 +40,9 @@ class HotelController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-       $gambarPath = $request->file('gambar')->store('hotel', 'public');
+       $gambarPath = $request->file('gambar')->store('penginapan', 'public');
     
-        Hotel::create([
+        Penginapan::create([
             'nama' => $request->nama,
             'kota' => $request->kota,
             'alamat' => $request->alamat,
@@ -51,12 +51,13 @@ class HotelController extends Controller
             'gambar' => $gambarPath,
         ]);
 
-        return redirect()->route('admin.hotel.index')->with('success', 'Hotel berhasil ditambahkan!');
+        return redirect()->route('admin.penginapan.index')->with('success', 'Penginapan berhasil ditambahkan!');
+    }
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
+    public function show(string $id) {
+    
         //
     }
 
@@ -65,8 +66,8 @@ class HotelController extends Controller
      */
     public function edit(string $id)
     {
-        $hotel = Hotel::findOrFail($id);
-        return view('admin.hotel.edit', compact('hotel'));
+        $penginapan = Penginapan::findOrFail($id);
+        return view('admin.penginapan.edit', compact('penginapan'));
     }
 
     /**
@@ -74,7 +75,7 @@ class HotelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $hotel = Hotel::findOrFail($id);
+        $penginapan = Penginapan::findOrFail($id);
 
         $request->validate([
             'nama' => 'required|string|max:255',
@@ -85,13 +86,13 @@ class HotelController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $gambarPath = $hotel->gambar;
+        $gambarPath = $penginapan->gambar;
         if ($request->hasFile('gambar')) {
-            Storage::disk('public')->delete($hotel->gambar);
-            $gambarPath = $request->file('gambar')->store('hotel', 'public');
+            Storage::disk('public')->delete($penginapan->gambar);
+            $gambarPath = $request->file('gambar')->store('penginapan', 'public');
         }
 
-        hotel->update([
+        $penginapan->update([
             'nama' => $request->nama,
             'kota' => $request->kota,
             'alamat' => $request->alamat,
@@ -106,10 +107,10 @@ class HotelController extends Controller
      */
     public function destroy(string $id)
     {
-        $hotel = Hotel::findOrFail($id);
-        Storage::disk('public')->delete($hotel->gambar);
-        $hotel->delete();
+        $penginapan = Penginapan::findOrFail($id);
+        Storage::disk('public')->delete($penginapan->gambar);
+        $penginapan->delete();
 
-        return redirect()->route('admin.hotel.index')->with('success', 'Hotel berhasil dihapus!');
+        return redirect()->route('admin.penginapan.index')->with('success', 'Penginapan berhasil dihapus!');
     }
 }
