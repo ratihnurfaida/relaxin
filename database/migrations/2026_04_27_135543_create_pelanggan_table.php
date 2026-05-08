@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_pelanggan');
             $table->string('nama');
             $table->string('email')->unique;
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('no_telepon');
             $table->enum('role', ['admin', 'user'])->default('user');
