@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('kode_kamar');
             $table->string('tipe_kamar');
             $table->integer('kapasitas');
-            $table->bigInteger('harga_3jam');
-            $table->bigInteger('harga_6jam');
-            $table->bigInteger('harga_12jam');
+            $table->bigInteger('harga_per_kamar');;
             $table->integer('total_kamar');
             $table->string('gambar')->nullable();
             $table->timestamps();

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id('id_pemesanan');
             $table->unsignedBigInteger('id_pelanggan');
             $table->unsignedBigInteger('id_kamar');
-            $table->dateTime('check_in');
-            $table->dateTime('check_out');
-            $table->integer('durasi_jam');
+            $table->date('check_in');
+            $table->date('check_out');
+            $table->integer('total_malam');
+            $table->integer('total_tamu');
+            $table->integer('jumlah_kamar');
             $table->bigInteger('total_harga');
             $table->enum('status', ['Pending', 'Confirmed', 'Selesai', 'Cancelled']);
             $table->timestamps();
