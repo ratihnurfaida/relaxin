@@ -34,14 +34,15 @@
                                 <td class="border px-4 py-2">{{ $hotel->star_rating }}</td>
                                 <td class="border px-4 py-2">
                                     <a href="{{ route('admin.hotel.edit', $hotel->id_hotel) }}" class="text-blue-600">Edit</a> | 
-                                    <form action="{{ route('admin.hotel.destroy', $hotel->id_hotel) }}" method="POST" 
-                                        onsubmit="return confirm('Yakin ingin menghapus hotel ini?')"></form>
-                                    @csrf
-                                    @method('DELETE')
-                                   <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
+                                    <form action="{{ route('admin.hotel.destroy', $hotel->id_hotel) }}" method="POST" class="relative z-10"
+                                        onsubmit="return confirm('Yakin ingin menghapus hotel ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-900 cursor-pointer">Hapus</button>
+                                    </form>
                                 </td>
                             </tr>
-                        @empty
+                        @empty  
                             <tr>
                                 <td colspan="3" class="border px-4 py-2 text-center">Belum ada data hotel.</td>
                             </tr>

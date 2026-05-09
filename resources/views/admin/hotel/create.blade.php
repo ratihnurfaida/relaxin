@@ -7,7 +7,7 @@
 
     {{-- Header --}}
     <div class="mb-8">
-        <a href="{{ route('hotels.index') }}" class="inline-flex items-center gap-1.5 text-sm text-primary hover:underline mb-3">
+        <a href="{{ route('admin.hotel.index') }}" class="inline-flex items-center gap-1.5 text-sm text-primary hover:underline mb-3">
             ← Kembali ke daftar hotel
         </a>
         <h1 class="font-display text-3xl font-black text-slate-900">Tambah Hotel Baru</h1>
@@ -159,7 +159,7 @@
 
             {{-- Tombol --}}
             <div class="flex items-center justify-end gap-3 pt-2">
-                <a href="{{ route('hotels.index') }}" class="btn-outline">Batal</a>
+                <a href="{{ route('admin.hotel.index') }}" class="btn-outline">Batal</a>
                 <button type="submit" class="btn-primary">Simpan Hotel</button>
             </div>
         </form>

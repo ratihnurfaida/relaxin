@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
-use illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {
@@ -104,23 +104,30 @@ class HotelController extends Controller
             'alamat' => 'required|string',
             'deskripsi' => 'required|string',
             'star_rating' => 'required|integer|min:1|max:5',
+            'harga' => 'required|integer',
+            'fasilitas' => 'nullable|array', 
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        $hotel = Hotel::findOrFail($id);
+        $data = $request->all();
+
         $gambarPath = $hotel->gambar;
-        if ($request->hasFile('gambar')) {
-            Storage::disk('public')->delete($hotel->gambar);
-            $gambarPath = $request->file('gambar')->store('hotel', 'public');
+
+         if($request->has('facilities')) {
+            $data['fasilitas'] = implode(',', $request->input('facilities'));
+        } else {
+            $data['fasilitas'] = '';
         }
 
-        $hotel->update([
-            'nama' => $request->nama,
-            'kota' => $request->kota,
-            'alamat' => $request->alamat,
-            'deskripsi' => $request->deskripsi,
-            'star_rating' => $request->star_rating,
-            'gambar' => $gambarPath,
-        ]);
+        //logika upload gambar
+        if ($request->hasFile('gambar')) {
+            $data['gambar'] = $request->file('gambar')->store('assets/hotel', 'public');
+        }
+
+        $hotel->update($data);
+
+        return redirect()->route('admin.hotel.index')->with('success', 'Data hotel berhasil diupdatee!');
     }
 
     /**
@@ -128,8 +135,12 @@ class HotelController extends Controller
      */
     public function destroy(string $id)
     {
+        // cari hotel
         $hotel = Hotel::findOrFail($id);
+
         Storage::disk('public')->delete($hotel->gambar);
+        
+        // hapus datanya
         $hotel->delete();
 
         return redirect()->route('admin.hotel.index')->with('success', 'Hotel berhasil dihapus!');

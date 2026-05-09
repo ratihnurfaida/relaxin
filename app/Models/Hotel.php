@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Hotel extends Model
 {
     protected $table = 'hotel';
-    protected $primarykey = 'id_hotel';
-    protected $timstamps = false;
+    protected $primaryKey = 'id_hotel';
+    public  $timestamps = false;
 
     protected $fillable  = [
         'nama',
