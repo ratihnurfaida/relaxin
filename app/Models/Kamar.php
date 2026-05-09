@@ -11,7 +11,7 @@ class Kamar extends Model
     protected $timstamps = false;
 
     protected $fillable  = [
-        'id_penginapan',
+        'id_hotel',
         'kode_kamar',
         'tipe_kamar',
         'kapasitas',
@@ -22,8 +22,8 @@ class Kamar extends Model
         'gambar',
     ];
 
-    public function penginapan()
+    public function hotel()
     {
-        return $this->belongsTo(Penginapan::class, 'id_penginapan', 'id_penginapan');
+        return $this->belongsTo(Hotel::class, 'id_hotel', 'id_hotel');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\HotelController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,7 +11,11 @@ Route::get('/', function () {
 // Route user biasa
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::get('/tambah-hotel', function() {
+    return view('pages.hotels.hotel-create');
+});
 
 // Route admin
 Route::prefix('admin')
@@ -21,12 +26,14 @@ Route::prefix('admin')
             return view('admin.dashboard');
         })->name('dashboard');
 
-        //CRUD Penginapan
-        Route::resource('penginapan', App\Http\Controllers\Admin\PenginapanController::class);
+        //CRUD Hotel
+        Route::resource('hotel', App\Http\Controllers\Admin\HotelController::class);
 
         //CRUD Kamar
         Route::resource('kamar', App\Http\Controllers\Admin\KamarController::class);
     });
+
+Route::resource('hotels', HotelController::class);
 
 // Route profile
 Route::middleware('auth')->group(function () {
@@ -34,5 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__.'/auth.php';

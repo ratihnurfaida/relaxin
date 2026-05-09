@@ -1,4 +1,4 @@
-@extends('layouts.app')
+<x-app-layout>
 
 @section('title', 'Tambah Hotel')
 
@@ -15,72 +15,72 @@
     </div>
 
     <div class="bg-white rounded-3xl shadow-cyan-lg p-8">
-        <form method="POST" action="{{ route('hotels.store') }}" enctype="multipart/form-data" class="space-y-6">
+        <form method="POST" action="{{ route('admin.hotel.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             {{-- Nama Hotel --}}
             <div>
-                <label for="name" class="block text-sm font-semibold text-slate-700 mb-1.5">Nama Hotel <span class="text-rose">*</span></label>
+                <label for="nama" class="block text-sm font-semibold text-slate-700 mb-1.5">Nama Hotel <span class="text-rose">*</span></label>
                 <input
-                    id="name"
+                    id="nama"
                     type="text"
-                    name="name"
-                    value="{{ old('name') }}"
+                    name="nama"
+                    value="{{ old('nama') }}"
                     required
                     placeholder="cth. The Grand Relaxin Hotel"
                     class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                            focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                           placeholder:text-slate-300 @error('name') border-rose @enderror"
+                           placeholder:text-slate-300 @error('nama') border-rose @enderror"
                 >
-                @error('name') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                @error('nama') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             {{-- Deskripsi --}}
             <div>
-                <label for="description" class="block text-sm font-semibold text-slate-700 mb-1.5">Deskripsi</label>
+                <label for="deskripsi" class="block text-sm font-semibold text-slate-700 mb-1.5">Deskripsi</label>
                 <textarea
-                    id="description"
-                    name="description"
+                    id="deskripsi"
+                    name="deskripsi"
                     rows="4"
                     placeholder="Deskripsikan hotel secara singkat..."
                     class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                            focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                           placeholder:text-slate-300 resize-none @error('description') border-rose @enderror"
-                >{{ old('description') }}</textarea>
-                @error('description') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                           placeholder:text-slate-300 resize-none @error('deskripsi') border-rose @enderror"
+                >{{ old('deskripsi') }}</textarea>
+                @error('deskripsi') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             {{-- Lokasi & Kota (2 kolom) --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label for="city" class="block text-sm font-semibold text-slate-700 mb-1.5">Kota <span class="text-rose">*</span></label>
+                    <label for="kota" class="block text-sm font-semibold text-slate-700 mb-1.5">Kota <span class="text-rose">*</span></label>
                     <input
-                        id="city"
+                        id="kota"
                         type="text"
-                        name="city"
-                        value="{{ old('city') }}"
+                        name="kota"
+                        value="{{ old('kota') }}"
                         required
                         placeholder="cth. Bandung"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                               placeholder:text-slate-300 @error('city') border-rose @enderror"
+                               placeholder:text-slate-300 @error('kota') border-rose @enderror"
                     >
-                    @error('city') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                    @error('kota') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label for="address" class="block text-sm font-semibold text-slate-700 mb-1.5">Alamat Lengkap <span class="text-rose">*</span></label>
+                    <label for="alamat" class="block text-sm font-semibold text-slate-700 mb-1.5">Alamat Lengkap <span class="text-rose">*</span></label>
                     <input
-                        id="address"
+                        id="alamat"
                         type="text"
-                        name="address"
-                        value="{{ old('address') }}"
+                        name="alamat"
+                        value="{{ old('alamat') }}"
                         required
                         placeholder="Jl. Merdeka No. 10"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                               placeholder:text-slate-300 @error('address') border-rose @enderror"
+                               placeholder:text-slate-300 @error('alamat') border-rose @enderror"
                     >
-                    @error('address') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                    @error('alamat') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -105,20 +105,20 @@
                     @error('star_rating') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
                 <div>
-                    <label for="price_per_night" class="block text-sm font-semibold text-slate-700 mb-1.5">Harga/Malam (Rp) <span class="text-rose">*</span></label>
+                    <label for="harga" class="block text-sm font-semibold text-slate-700 mb-1.5">Harga/Malam (Rp) <span class="text-rose">*</span></label>
                     <input
-                        id="price_per_night"
+                        id="harga"
                         type="number"
-                        name="price_per_night"
-                        value="{{ old('price_per_night') }}"
+                        name="harga"
+                        value="{{ old('harga') }}"
                         required
                         min="0"
                         placeholder="cth. 500000"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                               placeholder:text-slate-300 @error('price_per_night') border-rose @enderror"
+                               placeholder:text-slate-300 @error('harga') border-rose @enderror"
                     >
-                    @error('price_per_night') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                    @error('harga') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -132,7 +132,7 @@
                                 type="checkbox"
                                 name="facilities[]"
                                 value="{{ $facility }}"
-                                {{ in_array($facility, old('facilities', [])) ? 'checked' : '' }}
+                                {{ in_array($facility, old('fasilitas', [])) ? 'checked' : '' }}
                                 class="rounded border-slate-300 text-primary focus:ring-primary/40"
                             >
                             <span class="text-sm text-slate-600">{{ $facility }}</span>
@@ -143,18 +143,18 @@
 
             {{-- Foto Utama --}}
             <div>
-                <label for="thumbnail" class="block text-sm font-semibold text-slate-700 mb-1.5">Foto Utama Hotel</label>
+                <label for="gambar" class="block text-sm font-semibold text-slate-700 mb-1.5">Foto Utama Hotel</label>
                 <input
-                    id="thumbnail"
+                    id="gambar"
                     type="file"
-                    name="thumbnail"
+                    name="gambar"
                     accept="image/*"
                     class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
                            file:rounded-full file:border-0 file:text-sm file:font-semibold
                            file:bg-ice-cyan file:text-primary hover:file:bg-primary/10
-                           @error('thumbnail') border-rose @enderror"
+                           @error('gambar') border-rose @enderror"
                 >
-                @error('thumbnail') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                @error('gambar') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             {{-- Tombol --}}
@@ -165,4 +165,4 @@
         </form>
     </div>
 </div>
-@endsection
+</x-app-layout>

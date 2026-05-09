@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penginapan', function (Blueprint $table) {
-            $table->id('id_penginapan');
-            $table->string('kode_kamar')->unique();
+        Schema::create('hotel', function (Blueprint $table) {
+            $table->id('id_hotel');
+            $table->string('kode_kamar')->nullable();
             $table->string('nama');
             $table->string('kota');
             $table->text('alamat');
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
+            $table->integer('harga')->nullable;
+            $table->text('fasilitas')->nullable();
             $table->tinyInteger('star_rating');
             $table->string('gambar');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penginapan');
+        Schema::dropIfExists('hotel');
     }
 };

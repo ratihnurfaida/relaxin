@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Penginapan extends Model
+class Hotel extends Model
 {
-    protected $table = 'penginapan';
-    protected $primarykey = 'id_penginapan';
+    protected $table = 'hotel';
+    protected $primarykey = 'id_hotel';
     protected $timstamps = false;
 
     protected $fillable  = [
@@ -16,11 +16,13 @@ class Penginapan extends Model
         'alamat',
         'deskripsi',
         'star_rating',
+        'harga',
+        'fasilitas',
         'gambar',
     ];
 
     public function kamar()
     {
-        return $this->hasMany(Kamar::class, 'id_penginapan', 'id_penginapan');
+        return $this->hasMany(Kamar::class, 'id_hotel', 'id_hotel');
     }
 }
