@@ -14,7 +14,7 @@
                     Hotel Populer Minggu Ini
                 </h2>
             </div>
-            <a href="{{ route('hotels.index') }}"
+            <a href="{{ route('admin.hotel.index') }}"
                class="text-sm font-semibold text-primary border-2 border-light-cyan
                       px-4 py-1.5 rounded-full whitespace-nowrap
                       hover:bg-primary hover:text-white hover:border-primary transition-all">

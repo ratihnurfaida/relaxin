@@ -24,9 +24,8 @@
     {{-- Gambar --}}
     <div class="relative h-48 overflow-hidden">
         <img
-            src="{{ $hotel['image'] }}"
-            alt="{{ $hotel['name'] }}"
-            loading="lazy"
+            src="{{ asset('assets/hotel/' . $hotel->gambar) }}" 
+            alt="{{ $hotel->nama }}"
             class="w-full h-full object-cover
                    transition-transform duration-500 group-hover:scale-105"
         >
@@ -68,7 +67,7 @@
         {{-- Nama --}}
         <h3 class="font-display text-[1.05rem] font-bold text-slate-900
                    leading-snug mb-2 line-clamp-1">
-            {{ $hotel['name'] }}
+            {{ $hotel['nama'] }}
         </h3>
 
         {{-- Rating --}}
@@ -76,15 +75,26 @@
             <span class="text-amber-400 text-xs">
                 {{ str_repeat('★', $hotel['stars']) }}{{ str_repeat('☆', 5 - $hotel['stars']) }}
             </span>
-            <span class="text-xs font-bold text-slate-800">{{ $hotel['rating'] }}</span>
+            <span class="text-xs font-bold text-slate-800">{{ $hotel['star_rating'] }}</span>
             <span class="text-xs text-slate-400">({{ $hotel['reviews'] }} ulasan)</span>
         </div>
 
         {{-- Fasilitas --}}
         <div class="flex flex-wrap gap-1.5 mb-4">
-            @foreach($hotel['amenities'] as $am)
-                <span class="tag">{{ $am }}</span>
+            @if(!empty($hotel['fasilitas']))
+             @php
+            // Kita pecah tulisan "AC, WiFi" menjadi daftar berdasarkan tanda koma
+                 $data_fasilitas = is_string($hotel['fasilitas']) 
+                    ? explode(',', $hotel['fasilitas']) 
+                    : $hotel['fasilitas'];
+            @endphp
+
+            @foreach($data_fasilitas as $am)
+                <span class="tag">{{ trim($am) }}</span>
             @endforeach
+            @else
+                <span class="text-xs text-gray-400 italic">Fasilitas standar</span>
+            @endif
         </div>
 
         {{-- Harga + tombol --}}
@@ -93,11 +103,11 @@
             <div>
                 <p class="text-[0.65rem] text-slate-400 mb-0.5">Mulai dari</p>
                 <p class="font-display text-xl font-black text-rose leading-none">
-                    Rp {{ number_format($hotel['price'], 0, ',', '.') }}
+                    Rp {{ number_format($hotel->harga, 0, ',', '.') }}
                     <span class="font-sans text-xs text-slate-400 font-normal">/ malam</span>
                 </p>
             </div>
-            <a href="{{ route('hotels.show', $hotel['id']) }}" class="btn-primary">
+            <a href="{{ route('hotels.show', $hotel['id_hotel']) }}" class="btn-primary">
                 Pesan
             </a>
         </div>

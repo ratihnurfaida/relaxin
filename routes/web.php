@@ -1,70 +1,45 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\KamarController;
+use App\Http\Controllers\Admin\HotelController;
 
-Route::get('/', function () {
+// Halaman utama & search
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/search', [HomeController::class, 'search'])->name('hotels.search');
 
-    $hotels = collect([
-        [
-            'id'          => 1,
-            'name'        => 'The Trans Luxury Hotel',
-            'location'    => 'Bandung, Jawa Barat',
-            'image'       => 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=80',
-            'stars'       => 5,
-            'rating'      => '4.9',
-            'reviews'     => '1.2k',
-            'amenities'   => ['🏊 Pool', '🍳 Sarapan', '💆 Spa'],
-            'price'       => 850000,
-            'badge'       => 'Best Seller',
-            'badge_color' => 'rose',
-        ],
-        [
-            'id'          => 2,
-            'name'        => 'Padma Resort Ubud',
-            'location'    => 'Ubud, Bali',
-            'image'       => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80',
-            'stars'       => 5,
-            'rating'      => '4.8',
-            'reviews'     => '2.4k',
-            'amenities'   => ['🏊 Infinity Pool', '🍽️ All-inclusive'],
-            'price'       => 1200000,
-            'badge'       => 'Hemat 30%',
-            'badge_color' => 'emerald',
-        ],
-        [
-            'id'          => 3,
-            'name'        => 'Four Points by Sheraton',
-            'location'    => 'Makassar, Sulawesi',
-            'image'       => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80',
-            'stars'       => 4,
-            'rating'      => '4.7',
-            'reviews'     => '890',
-            'amenities'   => ['🌊 View Laut', '🍳 Sarapan'],
-            'price'       => 620000,
-            'badge'       => 'Baru',
-            'badge_color' => 'primary',
-        ],
-        [
-            'id'          => 4,
-            'name'        => 'Swiss-Belhotel Yogyakarta',
-            'location'    => 'Yogyakarta',
-            'image'       => 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&q=80',
-            'stars'       => 4,
-            'rating'      => '4.6',
-            'reviews'     => '1.1k',
-            'amenities'   => ['🏛️ Pusat Kota', '🅿️ Parkir'],
-            'price'       => 450000,
-            'badge'       => null,
-            'badge_color' => null,
-        ],
-    ]);
+// route hotel detail
+Route::get('/hotel/{id}', [HomeController::class, 'show'])->name('hotels.show');
 
-    return view('pages.welcome', compact('hotels'));
+// Route user biasa
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
-})->name('home');
+// Route admin
+Route::prefix('admin')
+    ->middleware(['auth', 'role:admin']) // Pastikan middleware 'role' sudah kamu buat
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
 
-Route::get('/hotels',        fn() => redirect('/') )->name('hotels.index');
-Route::get('/hotels/search', fn() => redirect('/') )->name('hotels.search');
-Route::get('/hotels/{id}',   fn() => redirect('/') )->name('hotels.show');
+        // CRUD Hotel
+        Route::resource('hotel', HotelController::class);
+
+        // CRUD Kamar
+        Route::resource('kamar', KamarController::class);
+    });
+
+
+// Route profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 require __DIR__.'/auth.php';
