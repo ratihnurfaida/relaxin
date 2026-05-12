@@ -4,14 +4,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\KamarController;
-use App\Http\Controllers\Admin\HotelController;
+use App\Http\Controllers\Admin\HotelController as AdminHotelController;
+use App\Http\Controllers\HotelController;
 
 // Halaman utama & search
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/search', [HomeController::class, 'search'])->name('hotels.search');
 
-// route hotel detail
-Route::get('/hotel/{id}', [HomeController::class, 'show'])->name('hotels.show');
+// Route detail hotel dan tipe kamar
+Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotels.show');  
 
 // Route user biasa
 Route::get('/dashboard', function () {
@@ -28,7 +29,7 @@ Route::prefix('admin')
         })->name('dashboard');
 
         // CRUD Hotel
-        Route::resource('hotel', HotelController::class);
+        Route::resource('hotel', AdminHotelController::class);
 
         // CRUD Kamar
         Route::resource('kamar', KamarController::class);

@@ -11,7 +11,11 @@
 
     @include('components.navbar')
 
-    <main>@yield('content')</main>
+    <main>
+            {{ $slot ?? '' }}
+        @yield('content')
+    
+    </main>
 
     @include('components.footer')
 

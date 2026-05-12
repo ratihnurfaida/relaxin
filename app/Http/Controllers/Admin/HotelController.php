@@ -30,56 +30,43 @@ class HotelController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'kota' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'deskripsi' => 'required|string',
-            'star_rating' => 'required|integer|min:1|max:5',
-            'harga' => 'required|integer',
-            'fasilitas' => 'nullable|array', 
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+{
+    $request->validate([
+        'nama' => 'required|string|max:255|unique:hotel,nama',
+        'kota' => 'required|string|max:255',
+        'alamat' => 'required|string',
+        'deskripsi' => 'required|string',
+        'star_rating' => 'required|integer|min:1|max:5',
+        'harga' => 'required|integer',
+        'fasilitas' => 'nullable|array', 
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $data = $request->all();
+    $data = $request->all();
 
-        //trik untuk fasilitas yang berupa array, kita ubah dulu menjadi string dengan implode
-        if($request->has('facilities')) {
-            $data['fasilitas'] = implode(',', $request->input('facilities'));
-        } else {
-            $data['fasilitas'] = '';
-        }
-
-        //logika upload gambar
-        if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('assets/hotel', 'public');
-        }
-
-        //simpan data hotel ke database
-        Hotel::create($data);
-
-       $gambarPath = $request->file('gambar')->store('assets/hotel', 'public');
-    
-        Hotel::create([
-            'nama' => $request->nama,
-            'kota' => $request->kota,
-            'alamat' => $request->alamat,
-            'deskripsi' => $request->deskripsi,
-            'star_rating' => $request->star_rating,
-            'harga' => $request->harga,
-            'fasilitas' => isset($data['fasilitas']) ? $data['fasilitas'] : '',
-            'gambar' => $gambarPath,
-        ]);
-
-        return redirect()->route('admin.hotel.index')->with('success', 'Hotel berhasil ditambahkan!');
+    // Pastikan nama input di Blade adalah 'fasilitas', jika 'facilities' sesuaikan di sini
+    if($request->has('facilities')) {
+        $data['fasilitas'] = implode(',', $request->input('facilities'));
+    } else {
+        $data['fasilitas'] = '';
     }
+
+    // Logika upload gambar 
+    if ($request->hasFile('gambar')) {
+        $data['gambar'] = $request->file('gambar')->store('assets/hotel', 'public');
+    }
+
+    // SIMPAN DATA HOTEL 
+    Hotel::create($data);
+
+    return redirect()->route('admin.hotel.index')->with('success', 'Hotel berhasil ditambahkan!');
+}
     /**
      * Display the specified resource.
      */
     public function show(string $id) {
     
-        //
+        
     }
 
     /**
