@@ -16,7 +16,7 @@ Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotels.show')
 
 // Route user biasa
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('/');
 })->middleware(['auth'])->name('dashboard');
 
 // Route admin

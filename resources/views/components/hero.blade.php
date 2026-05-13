@@ -28,7 +28,7 @@
 
     {{-- ── Search box ── --}}
     <div class="animate-fade-up-3 relative z-10 w-full max-w-3xl">
-        <form action="{{ route('hotels.search') }}" method="GET">
+        <form action="{{ url('/') }}" method="GET">
             <div class="bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,.22)] p-4">
 
                 {{-- Fields row --}}
@@ -40,8 +40,8 @@
                             📍 Destinasi
                         </label>
                         <input
-                            type="text" name="location"
-                            placeholder="Kota atau nama hotel..."
+                            type="text" name="search"
+                            placeholder="Area atau nama hotel..."
                             class="field bg-transparent text-sm placeholder-slate-400"
                         >
                     </div>

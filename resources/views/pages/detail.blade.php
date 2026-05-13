@@ -25,27 +25,61 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($hotel->kamar as $item)
-                            <div class="border rounded-2xl p-5 hover:shadow-lg transition">
+                            @php
+                                // Menghitung sisa kamar berdasarkan total dikurangi yang sudah terisi
+                                $sisaKamar = $item->total_kamar - ($item->pesanan_terisi ?? 0);
+                            @endphp
+
+                            <div class="border rounded-2xl p-5 hover:shadow-lg transition bg-white">
+                                <div class="w-full h-48 overflow-hidden rounded-xl mb-4">
+                                    <img src="{{ asset('assets/hotel/' . $item->gambar) }}" 
+                                         alt="{{ $item->tipe_kamar }}" 
+                                         class="w-full h-full object-cover shadow-sm">
+                                </div>
+                                
                                 <div class="flex justify-between items-start">
                                     <div>
                                         <h4 class="text-xl font-bold text-gray-900">{{ $item->tipe_kamar }}</h4>
                                         <p class="text-sm text-gray-500 mt-1">Kapasitas: {{ $item->kapasitas }} Orang</p>
+                                        
+                                        {{-- Indikator Sisa Kamar --}}
+                                        <p class="text-xs mt-2 font-medium {{ $sisaKamar > 0 ? 'text-green-600' : 'text-red-600' }}">
+                                            @if($sisaKamar > 0)
+                                                ● Tersisa {{ $sisaKamar }} kamar untuk tanggal ini
+                                            @else
+                                                ● Maaf, kamar sudah penuh
+                                            @endif
+                                        </p>
                                     </div>
-                                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
-                                        Tersedia
-                                    </span>
+                                    
+                                    @if($sisaKamar > 0)
+                                        <span class="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                            Tersedia
+                                        </span>
+                                    @else
+                                        <span class="bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                            Penuh
+                                        </span>
+                                    @endif
                                 </div>
                                 
                                 <div class="mt-6 flex justify-between items-center">
                                     <div>
                                         <p class="text-xs text-gray-400 uppercase">Harga Per Malam</p>
                                         <p class="text-lg font-bold text-blue-600">
-                                            Rp {{ number_format($item->harga_malam, 0, ',', '.') }}
+                                            Rp {{ number_format($item->harga_per_kamar, 0, ',', '.') }}
                                         </p>
                                     </div>
-                                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition">
-                                        Pesan Sekarang
-                                    </button>
+
+                                    @if($sisaKamar > 0)
+                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition">
+                                            Pesan Sekarang
+                                        </button>
+                                    @else
+                                        <button class="bg-gray-300 text-gray-500 font-bold py-2 px-6 rounded-xl cursor-not-allowed" disabled>
+                                            Penuh
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

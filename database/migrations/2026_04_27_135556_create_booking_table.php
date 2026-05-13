@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemesanan', function (Blueprint $table) {
-            $table->id('id_pemesanan');
+        Schema::create('booking', function (Blueprint $table) {
+            $table->id('id_booking');
             $table->unsignedBigInteger('id_pelanggan');
             $table->unsignedBigInteger('id_kamar');
-            $table->date('check_in');
-            $table->date('check_out');
+            $table->date('tgl_checkin');
+            $table->date('tgl_checkout');
             $table->integer('total_malam');
             $table->integer('total_tamu');
             $table->integer('jumlah_kamar');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemesanan');
+        Schema::dropIfExists('booking');
     }
 };

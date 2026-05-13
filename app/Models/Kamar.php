@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Hotel;
+use App\Models\Booking;
 
 class Kamar extends Model
 {
@@ -25,5 +27,10 @@ class Kamar extends Model
     public function hotel()
     {
         return $this->belongsTo(Hotel::class, 'id_hotel', 'id_hotel');
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'id_kamar', 'id_kamar');
     }
 }

@@ -8,6 +8,15 @@
 
     <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
+        @if ($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        </div>
+        @endif
 
         {{-- Nama --}}
         <div>
@@ -15,17 +24,17 @@
             <input
                 id="name"
                 type="text"
-                name="name"
-                value="{{ old('name') }}"
+                name="nama"
+                value="{{ old('nama') }}"
                 required
                 autofocus
                 autocomplete="name"
                 placeholder="John Doe"
                 class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                        focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                       placeholder:text-slate-300 @error('name') border-rose @enderror"
+                       placeholder:text-slate-300 @error('nama') border-rose @enderror"
             >
-            @error('name')
+            @error('nama')
                 <p class="text-rose text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
@@ -50,6 +59,24 @@
             @enderror
         </div>
 
+        <div class="mt-4">
+            <label>Nomor Telepon</label>
+            <input 
+                type="text" 
+                name="no_telepon" 
+                value="{{ old('no_telepon') }}" 
+                placeholder="Contoh: 0812345678" 
+                required 
+                autocomplete="no_telepon"
+                class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
+                       focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
+                       placeholder:text-slate-300 @error('no_telepon') border-rose @enderror"
+            >
+            @error('no_telepon')
+                <p class="text-rose text-xs mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
         {{-- Password --}}
         <div>
             <label for="password" class="block text-sm font-semibold text-slate-700 mb-1.5">Password</label>
@@ -65,7 +92,7 @@
                        placeholder:text-slate-300 @error('password') border-rose @enderror"
             >
             @error('password')
-                <p class="text-rose text-xs mt-1">{{ $message }}</p>
+                <span class="text-rose text-xs mt-1">{{ $message }}</span>
             @enderror
         </div>
 
@@ -81,8 +108,7 @@
                 placeholder="Ulangi password"
                 class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                        focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                       placeholder:text-slate-300"
-            >
+                       placeholder:text-slate-300">
         </div>
 
         {{-- Submit --}}
