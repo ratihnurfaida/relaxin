@@ -1,8 +1,4 @@
-@extends('layouts.auth')
-
-@section('title', 'Masuk')
-
-@section('content')
+<x-app-layout>
     <h1 class="font-display text-2xl font-black text-slate-900 mb-1">Selamat Datang</h1>
     <p class="text-slate-400 text-sm mb-6">Masuk ke akun Relaxin kamu</p>
 
@@ -11,6 +7,16 @@
         <div class="bg-cyan-50 text-primary text-sm rounded-xl px-4 py-3 mb-5 border border-primary/20">
             {{ session('status') }}
         </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="bg-red-100 text-red-600 p-3 rounded-lg mb-4">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
     <form method="POST" action="{{ route('login') }}" class="space-y-5">
@@ -84,4 +90,4 @@
             <a href="{{ route('register') }}" class="text-primary font-semibold hover:underline">Daftar sekarang</a>
         </p>
     @endif
-@endsection
+</x-app-layout>

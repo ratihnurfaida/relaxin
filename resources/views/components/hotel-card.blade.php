@@ -107,8 +107,11 @@
                     <span class="font-sans text-xs text-slate-400 font-normal">/ malam</span>
                 </p>
             </div>
-            <a href="{{ route('hotels.show', $hotel['id_hotel']) }}" class="btn-primary">
-                Pesan
+            <a href="{{ route('hotel.show', ['id' => $hotel->id_hotel, 
+            'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}"
+                class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold
+                       hover:bg-primary/90 transition">
+                Pesan Sekarang
             </a>
         </div>
     </div>

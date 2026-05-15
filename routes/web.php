@@ -6,17 +6,25 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\KamarController;
 use App\Http\Controllers\Admin\HotelController as AdminHotelController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\BookingController;
 
 // Halaman utama & search
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/search', [HomeController::class, 'search'])->name('hotels.search');
+Route::get('/', [HomeController::class, 'index'])->name('hotel.index');
+Route::get('/search', [HomeController::class, 'search'])->name('hotel.search');
 
 // Route detail hotel dan tipe kamar
-Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotels.show');  
+Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');  
+
+// Route booking
+Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store')->middleware('auth');
+// Route menampilkan halaman sukses booking
+Route::get('/booking-success', function() {
+    return view('pages.booking-success');
+})->name('booking.success');
 
 // Route user biasa
 Route::get('/dashboard', function () {
-    return view('/');
+    return view('pages.dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 // Route admin

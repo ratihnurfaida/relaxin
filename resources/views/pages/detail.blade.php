@@ -72,9 +72,28 @@
                                     </div>
 
                                     @if($sisaKamar > 0)
-                                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition">
-                                            Pesan Sekarang
-                                        </button>
+                                    <form action="{{ route('booking.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id_hotel" value="{{ $hotel->id_hotel }}">
+                                    <input type="hidden" name="id_kamar" value="{{ $item->id_kamar }}">
+                                    <input type="hidden" name="jumlah_kamar" value="1">
+                                    <input type="hidden" name="total_tamu" value="{{ $item->kapasitas }}">
+
+                                    <div class="grid grid-cols-2 gap-2 mb-4">
+                                        <div>
+                                            <label class="text-[10px] text-gray-400 uppercase">Check-in</label>
+                                            <input type="date" name="tgl_checkin" value="{{ request('checkin') }}" class="w-full text-xs border-gray-300 rounded-lg p-1" required>
+                                        </div>
+                                        <div>
+                                            <label class="text-[10px] text-gray-400 uppercase">Check-out</label>
+                                            <input type="date" name="tgl_checkout" value="{{ request('checkout') }}" class="w-full text-xs border-gray-300 rounded-lg p-1" required>
+                                        </div>
+                                    </div>
+
+                                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition">
+                                        Pesan Sekarang
+                                    </button>
+                                    </form>
                                     @else
                                         <button class="bg-gray-300 text-gray-500 font-bold py-2 px-6 rounded-xl cursor-not-allowed" disabled>
                                             Penuh

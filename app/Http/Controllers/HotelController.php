@@ -24,18 +24,35 @@ class HotelController extends Controller
         }
     }])->findOrFail($id);
 
-    return view('pages.detail', compact('hotel', 'checkin', 'checkout'));
+   return view('pages.detail', [
+    'hotel' => $hotel, 
+    'tgl_checkin' => $checkin, 
+    'tgl_checkout' => $checkout
+    ]);
     }
 
     public function index(Request $request)
-{
-    $hotels = Hotel::all(); // Ambil semua dulu buat tes
+    {
+        $query = Hotel::query(); 
 
-    // Tambahkan ini sementara:
-    if($request->has('search')) {
-        dd($request->all()); 
+        //filter berdasarkan apa yang diketik di "Destinasi"
+        if ($request->filled('search')) {
+            $query->where('nama_hotel', 'like', '%' . $request->search . '%');
+        }
+
+        //ambil hasilnya
+        $hotels = $query->get(); 
+
+        // cek kalau hasil pencariannya pas cuma 1, langsung pindah ke detail
+        if ($hotels->count() == 1) {
+            return redirect()->route('hotel.show', [
+                'id' => $hotels->first()->id_hotel,
+                'checkin' => $request->checkin,
+                'checkout' => $request->checkout
+            ]);
+        }
+
+        // kalau lebih dari satu (misal cari "Hotel" muncul banyak), tampilkan daftar
+        return view('pages.welcome', compact('hotels')); 
     }
-
-    return view('pages.home', compact('hotels'));
-}
 }

@@ -28,7 +28,7 @@
 
     {{-- ── Search box ── --}}
     <div class="animate-fade-up-3 relative z-10 w-full max-w-3xl">
-        <form action="{{ url('/') }}" method="GET">
+        <form action="{{ route('hotel.index') }}" method="GET">
             <div class="bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,.22)] p-4">
 
                 {{-- Fields row --}}
@@ -41,6 +41,7 @@
                         </label>
                         <input
                             type="text" name="search"
+                            value="{{ request('search') }}"
                             placeholder="Area atau nama hotel..."
                             class="field bg-transparent text-sm placeholder-slate-400"
                         >
@@ -53,6 +54,7 @@
                         </label>
                         <input
                             type="date" name="checkin"
+                            value="{{ request('checkin') }}"
                             class="field bg-transparent text-sm"
                         >
                     </div>
@@ -64,6 +66,7 @@
                         </label>
                         <input
                             type="date" name="checkout"
+                            value="{{ request('checkout') }}"
                             class="field bg-transparent text-sm"
                         >
                     </div>

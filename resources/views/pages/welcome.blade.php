@@ -1,5 +1,5 @@
 {{-- resources/views/pages/welcome.blade.php --}}
-@extends('layouts.app')
+<x-app-layout>
 
 @section('title', 'Temukan Hotel Terbaikmu')
 
@@ -23,4 +23,4 @@
         });
     });
 </script>
-@endpush
+</x-app-layout> 

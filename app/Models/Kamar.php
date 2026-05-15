@@ -9,11 +9,11 @@ use App\Models\Booking;
 class Kamar extends Model
 {
     protected $table = 'kamar';
-    protected $primarykey = 'id_kamar';
+    protected $primaryKey = 'id_kamar';
     protected $timstamps = false;
 
     protected $fillable  = [
-        'id_hotel',
+        'id_kamar',
         'kode_kamar',
         'tipe_kamar',
         'kapasitas',

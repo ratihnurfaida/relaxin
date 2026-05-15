@@ -11,9 +11,9 @@ class User extends Authenticatable // implements MustVerifyEmail
 {
     use Notifiable, HasFactory;
 
-    protected $table = 'pelanggan';
+    protected $table = 'user';
 
-    protected $primaryKey = 'id_pelanggan'; 
+    protected $primaryKey = 'id_user';
 
     protected $fillable = [
         'nama',
@@ -34,7 +34,7 @@ class User extends Authenticatable // implements MustVerifyEmail
 
     public function getAuthIdentifierName()
     {
-        return 'id_pelanggan';
+        return 'id_user';
     }
 
     public function getNameAttribute()
@@ -49,12 +49,12 @@ class User extends Authenticatable // implements MustVerifyEmail
 
     public function getRouteKeyName()
     {
-        return 'id_pelanggan';
+        return 'id_user';
     }
 
     public function getKey()    
     {
-        return $this->id_pelanggan;
+        return $this->id_user;
     }
 
 }

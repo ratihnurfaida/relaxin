@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
     {
     $request->validate([
         'nama'       => ['required', 'string', 'max:255'],
-        'email'      => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:pelanggan,email'],
+        'email'      => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:user,email'],
         'password'   => ['required', 'confirmed', Rules\Password::defaults()],
         'no_telepon' => ['required', 'string', 'max:20'],
     ]);
