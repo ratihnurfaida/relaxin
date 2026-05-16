@@ -1,117 +1,50 @@
-{{-- resources/views/components/hotel-card.blade.php --}}
-{{--
-    Cara pakai:
-    @include('components.hotel-card', ['hotel' => $hotel])
+@props([
+    'hotel',
+    'bgColor' => 'bg-green-100',
+])
 
-    Struktur $hotel:
-    [
-        'id'        => 1,
-        'name'      => 'Nama Hotel',
-        'location'  => 'Kota, Provinsi',
-        'image'     => 'https://...',
-        'stars'     => 4,           // 1–5
-        'rating'    => '4.8',
-        'reviews'   => '1.2k',
-        'amenities' => ['🏊 Pool', '🍳 Sarapan'],
-        'price'     => 850000,
-        'badge'     => 'Best Seller',   // null = tidak ada
-        'badge_color' => 'rose',        // rose | primary | emerald
-    ]
---}}
+<div class="bg-gray-800 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-200">
 
-<div class="hotel-card group">
-
-    {{-- Gambar --}}
-    <div class="relative h-48 overflow-hidden">
-        <img
-            src="{{ asset('assets/hotel/' . $hotel->gambar) }}" 
-            alt="{{ $hotel->nama }}"
-            class="w-full h-full object-cover
-                   transition-transform duration-500 group-hover:scale-105"
-        >
-
-        {{-- Badge opsional --}}
-        @if (!empty($hotel['badge']))
-            @php
-                $bg = match($hotel['badge_color'] ?? 'rose') {
-                    'primary' => 'bg-primary',
-                    'emerald' => 'bg-emerald-600',
-                    default   => 'bg-rose',
-                };
-            @endphp
-            <span class="absolute top-3 left-3 {{ $bg }} text-white
-                         text-[0.65rem] font-bold uppercase tracking-wide
-                         px-2.5 py-1 rounded-full">
-                {{ $hotel['badge'] }}
-            </span>
-        @endif
-
-        {{-- Tombol favorit --}}
-        <button
-            data-id="{{ $hotel['id'] }}"
-            class="fav-btn absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white
-                   rounded-full flex items-center justify-center shadow
-                   transition-all duration-200 text-base">
-            🤍
-        </button>
+    {{-- Gambar / Placeholder --}}
+    <div class="{{ $bgColor }} h-40 flex items-center justify-center text-5xl">
+        🏨
     </div>
 
-    {{-- Konten --}}
     <div class="p-4">
-
-        {{-- Lokasi --}}
-        <p class="text-[0.68rem] font-bold uppercase tracking-wider text-primary mb-0.5">
-            📍 {{ $hotel['location'] }}
-        </p>
+        {{-- Area --}}
+        <div class="flex items-center gap-1 text-green-400 text-xs font-semibold mb-1">
+            📍 {{ $hotel->area ?? 'Bandung' }}
+        </div>
 
         {{-- Nama --}}
-        <h3 class="font-display text-[1.05rem] font-bold text-slate-900
-                   leading-snug mb-2 line-clamp-1">
-            {{ $hotel['nama'] }}
-        </h3>
+        <h3 class="text-white font-bold text-base mb-2">{{ $hotel->name }}</h3>
 
         {{-- Rating --}}
-        <div class="flex items-center gap-1.5 mb-3">
-            <span class="text-amber-400 text-xs">
-                {{ str_repeat('★', $hotel['stars']) }}{{ str_repeat('☆', 5 - $hotel['stars']) }}
-            </span>
-            <span class="text-xs font-bold text-slate-800">{{ $hotel['star_rating'] }}</span>
-            <span class="text-xs text-slate-400">({{ $hotel['reviews'] }} ulasan)</span>
+        <div class="flex items-center gap-2 mb-3">
+            <span class="text-yellow-400 text-sm">★★★★☆</span>
+            <span class="text-white text-sm font-bold">{{ number_format($hotel->rating ?? 4.5, 1) }}</span>
+            <span class="text-gray-500 text-xs">({{ $hotel->reviews_count ?? 0 }} ulasan)</span>
         </div>
 
         {{-- Fasilitas --}}
-        <div class="flex flex-wrap gap-1.5 mb-4">
-            @if(!empty($hotel['fasilitas']))
-             @php
-            // Kita pecah tulisan "AC, WiFi" menjadi daftar berdasarkan tanda koma
-                 $data_fasilitas = is_string($hotel['fasilitas']) 
-                    ? explode(',', $hotel['fasilitas']) 
-                    : $hotel['fasilitas'];
-            @endphp
-
-            @foreach($data_fasilitas as $am)
-                <span class="tag">{{ trim($am) }}</span>
+        <div class="flex flex-wrap gap-1 mb-4">
+            @foreach(explode(',', $hotel->facilities ?? 'WiFi,Parkir,AC') as $f)
+                <span class="text-xs text-gray-400 bg-gray-700 px-2 py-1 rounded-md">{{ trim($f) }}</span>
             @endforeach
-            @else
-                <span class="text-xs text-gray-400 italic">Fasilitas standar</span>
-            @endif
         </div>
 
-        {{-- Harga + tombol --}}
-        <div class="flex items-end justify-between
-                    pt-3 border-t border-[#B2EBF5]">
+        {{-- Harga + Tombol --}}
+        <div class="flex items-center justify-between">
             <div>
-                <p class="text-[0.65rem] text-slate-400 mb-0.5">Mulai dari</p>
-                <p class="font-display text-xl font-black text-rose leading-none">
-                    Rp {{ number_format($hotel->harga, 0, ',', '.') }}
-                    <span class="font-sans text-xs text-slate-400 font-normal">/ malam</span>
+                <p class="text-xs text-gray-500">Mulai dari</p>
+                <p class="text-green-400 font-extrabold text-base">
+                    Rp {{ number_format($hotel->price_per_night ?? 0, 0, ',', '.') }}
                 </p>
+                <p class="text-xs text-gray-500">/malam</p>
             </div>
-            <a href="{{ route('hotel.show', ['id' => $hotel->id_hotel, 
-            'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}"
-                class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold
-                       hover:bg-primary/90 transition">
-                Pesan Sekarang
+            <a href="{{ route('hotel.detail', $hotel->id) }}"
+               class="bg-white text-gray-900 font-bold text-sm px-5 py-2 rounded-lg hover:bg-green-400 transition-colors">
+                Pesan
             </a>
         </div>
     </div>
