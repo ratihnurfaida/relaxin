@@ -7,7 +7,7 @@
 
     {{-- Gambar / Placeholder --}}
     <div class="{{ $bgColor }} h-40 flex items-center justify-center text-5xl">
-        🏨
+        <img src="{{ asset('assets/hotel/' . $hotel->gambar) }}" alt="{{ $hotel->nama_hotel }}" class="...">
     </div>
 
     <div class="p-4">
@@ -42,7 +42,7 @@
                 </p>
                 <p class="text-xs text-gray-500">/malam</p>
             </div>
-            <a href="{{ route('hotel.detail', $hotel->id) }}"
+            <a href="{{ route('hotel.show', $hotel->id_hotel) }}"
                class="bg-white text-gray-900 font-bold text-sm px-5 py-2 rounded-lg hover:bg-green-400 transition-colors">
                 Pesan
             </a>

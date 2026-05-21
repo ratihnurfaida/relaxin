@@ -10,12 +10,13 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\BookingController;
 
 // Halaman utama & search
-Route::get('/', [HomeController::class, 'index'])->name('welcome');
+Route::get('/', [HomeController::class, 'index'])->name('hotel.index');
 Route::get('/search', [HomeController::class, 'search'])->name('hotel.search');
 
 // Route detail hotel dan tipe kamar
-Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.detail');
+Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');
 // Route booking
+
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store')->middleware('auth');
 // Route menampilkan halaman sukses booking
 Route::get('/booking-success', function() {

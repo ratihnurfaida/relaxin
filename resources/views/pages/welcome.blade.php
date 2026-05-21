@@ -1,8 +1,4 @@
-@extends('layouts.app')
-
-@section('title', 'Beranda')
-
-@section('content')
+<x-app-layout>
 
 {{-- ===== HERO ===== --}}
 <section class="bg-[#1a3a2a] px-12 py-16 text-center">
@@ -23,21 +19,21 @@
     </p>
 
     {{-- SEARCH BOX --}}
-    <form action="{{ route('hotel.search') }}" method="GET">
+    <form action="{{ route('hotel.index') }}" method="GET">
         <div class="bg-white rounded-2xl px-7 py-5 max-w-2xl mx-auto shadow-2xl
                     flex items-center gap-4 flex-wrap md:flex-nowrap">
 
             <div class="flex flex-col flex-1 min-w-[120px]">
-                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tujuan</label>
-                <input type="text" name="destination" value="Bandung, Jawa Barat"
-                       class="text-sm font-bold text-gray-800 outline-none border-none bg-transparent w-full" readonly>
+                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Destination</label>
+                <input type="text" name="search" placeholder="Cari hotel di Bandung...."
+                       class="text-sm font-bold text-gray-800 outline-none border-none bg-transparent w-full">
             </div>
 
             <div class="w-px h-10 bg-gray-200 hidden md:block"></div>
 
             <div class="flex flex-col flex-1 min-w-[120px]">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Check-in</label>
-                <input type="date" name="checkin" value="{{ now()->format('Y-m-d') }}"
+                <input type="date" name="checkin" placeholder="Y-m-d"
                        class="text-sm font-bold text-gray-800 outline-none border-none bg-transparent w-full">
             </div>
 
@@ -45,7 +41,7 @@
 
             <div class="flex flex-col flex-1 min-w-[120px]">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Check-out</label>
-                <input type="date" name="checkout" value="{{ now()->addDays(2)->format('Y-m-d') }}"
+                <input type="date" name="checkout" placeholder="Y-m-d"
                        class="text-sm font-bold text-gray-800 outline-none border-none bg-transparent w-full">
             </div>
 
@@ -98,17 +94,21 @@
             $bgColors = ['bg-green-100', 'bg-blue-100', 'bg-orange-100'];
         @endphp
 
-        @forelse($popularHotels ?? [] as $i => $hotel)
+        {{-- 1. Ganti variabel menjadi $hotels sesuai kiriman dari Controller --}}
+        @forelse($hotels ?? [] as $i => $hotel)
             <x-hotel-card :hotel="$hotel" :bgColor="$bgColors[$i % 3]" />
         @empty
-            {{-- Placeholder data dummy --}}
+            {{-- 2. Kalau database kosong, ini data dinamis buatan Dejan yang membaca folder assets/hotel kamu --}}
             @foreach([
-                ['name'=>'Aston Pasteur Bandung','area'=>'Pasteur','rating'=>4.5,'reviews'=>128,'facilities'=>'WiFi,Parkir,Gym,AC,Kolam','price'=>699000,'bg'=>'bg-green-100'],
-                ['name'=>'Clove Garden Hotel','area'=>'Dago','rating'=>4.2,'reviews'=>96,'facilities'=>'WiFi,Parkir,Gym,AC,Bar','price'=>400000,'bg'=>'bg-blue-100'],
-                ['name'=>'Grand Lembang Resort','area'=>'Lembang','rating'=>4.7,'reviews'=>214,'facilities'=>'WiFi,Kolam,Spa,Restoran','price'=>850000,'bg'=>'bg-orange-100'],
+                ['id' => 1, 'name'=>'Aston Pasteur Bandung','area'=>'Pasteur','rating'=>4.5,'reviews'=>128,'facilities'=>'WiFi,Parkir,Gym,AC,Kolam','price'=>699000,'bg'=>'bg-green-100', 'foto' => 'hotelaston.jpg'],
+                ['id' => 2, 'name'=>'Clove Garden Hotel','area'=>'Dago','rating'=>4.2,'reviews'=>96,'facilities'=>'WiFi,Parkir,Gym,AC,Bar','price'=>400000,'bg'=>'bg-blue-100', 'foto' => 'hotel2.jpg'],
+                ['id' => 3, 'name'=>'Grand Lembang Resort','area'=>'Lembang','rating'=>4.7,'reviews'=>214,'facilities'=>'WiFi,Kolam,Spa,Restoran','price'=>850000,'bg'=>'bg-orange-100', 'foto' => 'hotel2.jpg'],
             ] as $dummy)
                 <div class="bg-gray-800 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-200">
-                    <div class="{{ $dummy['bg'] }} h-40 flex items-center justify-center text-5xl">🏨</div>
+                    {{-- Perbaikan Jalur Gambar: Mengarah ke public/assets/hotel/ --}}
+                    <div class="{{ $dummy['bg'] }} h-40 overflow-hidden relative">
+                        <img src="{{ asset('assets/hotel/' . $dummy['foto']) }}" class="w-full h-full object-cover">
+                    </div>
                     <div class="p-4">
                         <div class="text-green-400 text-xs font-semibold mb-1">📍 {{ $dummy['area'] }}</div>
                         <h3 class="text-white font-bold text-base mb-2">{{ $dummy['name'] }}</h3>
@@ -128,7 +128,11 @@
                                 <p class="text-green-400 font-extrabold text-base">Rp {{ number_format($dummy['price'],0,',','.') }}</p>
                                 <p class="text-xs text-gray-500">/malam</p>
                             </div>
-                            <a href="#" class="bg-white text-gray-900 font-bold text-sm px-5 py-2 rounded-lg hover:bg-green-400 transition-colors">Pesan</a>
+                            {{-- OPER PARAMETER: Tanggal check-in & check-out ikut dibawa ke halaman detail --}}
+                            <a href="{{ route('hotel.show', ['id' => $dummy['id'], 'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}" 
+                               class="bg-white text-gray-900 font-bold text-sm px-5 py-2 rounded-lg hover:bg-green-400 transition-colors">
+                               Pesan
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -190,4 +194,4 @@
     </div>
 </section>
 
-@endsection
+</x-app-layout>

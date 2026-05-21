@@ -26,6 +26,6 @@ class HomeController extends Controller
     public function show()
     {
         $hotels = Hotel::all();
-        return view ('pages.detail', compact('hotels'));
+        return view ('pages.show', compact('hotels'));
     }
 }
