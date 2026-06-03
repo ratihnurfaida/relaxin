@@ -1,20 +1,20 @@
 <x-app-layout>
 
 {{-- ===== HERO ===== --}}
-<section class="bg-[#1a3a2a] px-12 py-16 text-center">
+<section class="bg-[#0e7490] px-12 py-16 text-center">
 
     {{-- Badge --}}
-    <div class="inline-flex items-center gap-2 bg-green-400/10 border border-green-400/30
-                text-green-400 text-xs font-bold px-4 py-1.5 rounded-full mb-6">
+    <div class="inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/30
+                text-cyan-300 text-xs font-bold px-4 py-1.5 rounded-full mb-6">
         🏨 Khusus Hotel Bandung
     </div>
 
     {{-- Judul --}}
     <h1 class="text-5xl font-extrabold text-white leading-tight mb-3">
         Temukan Hotel Terbaik<br>
-        di <span class="text-green-400">Bandung</span>, Mudah & Cepat
+        di <span class="text-cyan-300">Bandung</span>, Mudah & Cepat
     </h1>
-    <p class="text-green-100/70 text-base mb-10">
+    <p class="text-cyan-100/70 text-base mb-10">
         Dari budget hingga bintang lima — semua hotel Bandung ada di sini
     </p>
 
@@ -46,8 +46,8 @@
             </div>
 
             <button type="submit"
-                    class="bg-gray-900 text-white font-bold text-sm px-7 py-3.5 rounded-xl
-                           hover:bg-[#2d5a3d] transition-colors whitespace-nowrap">
+                    class="bg-[#0891b2] text-white font-bold text-sm px-7 py-3.5 rounded-xl
+                           hover:bg-[#0e7490] transition-colors whitespace-nowrap">
                 Cari Hotel
             </button>
         </div>
@@ -56,22 +56,22 @@
 
 {{-- ===== PROMO BANNER ===== --}}
 <div class="px-12 mt-10">
-    <div class="bg-gradient-to-r from-emerald-100 to-green-200 rounded-2xl px-8 py-7
+    <div class="bg-gradient-to-r from-cyan-100 to-sky-200 rounded-2xl px-8 py-7
                 flex items-center justify-between gap-6 flex-wrap">
         <div>
-            <div class="inline-flex items-center gap-1.5 bg-emerald-500 text-white
+            <div class="inline-flex items-center gap-1.5 bg-cyan-500 text-white
                         text-xs font-bold px-3 py-1 rounded-full mb-3">
                 🔥 Promo Akhir Pekan
             </div>
-            <h3 class="text-lg font-extrabold text-emerald-900 mb-1">Weekend Getaway di Bandung</h3>
-            <p class="text-sm text-emerald-800">
-                Pesan hotel bintang 3 mulai <strong class="text-emerald-700">Rp 299.000/malam</strong>
+            <h3 class="text-lg font-extrabold text-cyan-900 mb-1">Weekend Getaway di Bandung</h3>
+            <p class="text-sm text-cyan-800">
+                Pesan hotel bintang 3 mulai <strong class="text-cyan-700">Rp 299.000/malam</strong>
                 — berlaku Jumat s/d Minggu
             </p>
         </div>
         <a href="#"
-           class="bg-gray-900 text-white font-bold text-sm px-6 py-3 rounded-xl
-                  hover:bg-[#2d5a3d] transition-colors whitespace-nowrap">
+           class="bg-[#0891b2] text-white font-bold text-sm px-6 py-3 rounded-xl
+                  hover:bg-[#0e7490] transition-colors whitespace-nowrap">
             Lihat Promo
         </a>
     </div>
@@ -81,36 +81,33 @@
 <section class="px-12 mt-12">
     <div class="flex items-end justify-between mb-6">
         <div>
-            <p class="text-xs font-bold text-green-400 uppercase tracking-widest mb-1">Rekomendasi</p>
+            <p class="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1">Rekomendasi</p>
             <h2 class="text-2xl font-extrabold text-white">Hotel Populer Minggu Ini</h2>
         </div>
-        <a href="{{ route('hotel.index') }}" class="text-green-400 text-sm font-semibold hover:opacity-70 transition-opacity">
+        <a href="{{ route('hotel.index') }}" class="text-cyan-400 text-sm font-semibold hover:opacity-70 transition-opacity">
             Lihat semua →
         </a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         @php
-            $bgColors = ['bg-green-100', 'bg-blue-100', 'bg-orange-100'];
+            $bgColors = ['bg-cyan-100', 'bg-blue-100', 'bg-sky-100'];
         @endphp
 
-        {{-- 1. Ganti variabel menjadi $hotels sesuai kiriman dari Controller --}}
         @forelse($hotels ?? [] as $i => $hotel)
             <x-hotel-card :hotel="$hotel" :bgColor="$bgColors[$i % 3]" />
         @empty
-            {{-- 2. Kalau database kosong, ini data dinamis buatan Dejan yang membaca folder assets/hotel kamu --}}
             @foreach([
-                ['id' => 1, 'name'=>'Aston Pasteur Bandung','area'=>'Pasteur','rating'=>4.5,'reviews'=>128,'facilities'=>'WiFi,Parkir,Gym,AC,Kolam','price'=>699000,'bg'=>'bg-green-100', 'foto' => 'hotelaston.jpg'],
+                ['id' => 1, 'name'=>'Aston Pasteur Bandung','area'=>'Pasteur','rating'=>4.5,'reviews'=>128,'facilities'=>'WiFi,Parkir,Gym,AC,Kolam','price'=>699000,'bg'=>'bg-cyan-100', 'foto' => 'hotelaston.jpg'],
                 ['id' => 2, 'name'=>'Clove Garden Hotel','area'=>'Dago','rating'=>4.2,'reviews'=>96,'facilities'=>'WiFi,Parkir,Gym,AC,Bar','price'=>400000,'bg'=>'bg-blue-100', 'foto' => 'hotel2.jpg'],
-                ['id' => 3, 'name'=>'Grand Lembang Resort','area'=>'Lembang','rating'=>4.7,'reviews'=>214,'facilities'=>'WiFi,Kolam,Spa,Restoran','price'=>850000,'bg'=>'bg-orange-100', 'foto' => 'hotel2.jpg'],
+                ['id' => 3, 'name'=>'Grand Lembang Resort','area'=>'Lembang','rating'=>4.7,'reviews'=>214,'facilities'=>'WiFi,Kolam,Spa,Restoran','price'=>850000,'bg'=>'bg-sky-100', 'foto' => 'hotel2.jpg'],
             ] as $dummy)
                 <div class="bg-gray-800 rounded-2xl overflow-hidden hover:-translate-y-1 hover:shadow-2xl transition-all duration-200">
-                    {{-- Perbaikan Jalur Gambar: Mengarah ke public/assets/hotel/ --}}
                     <div class="{{ $dummy['bg'] }} h-40 overflow-hidden relative">
                         <img src="{{ asset('assets/hotel/' . $dummy['foto']) }}" class="w-full h-full object-cover">
                     </div>
                     <div class="p-4">
-                        <div class="text-green-400 text-xs font-semibold mb-1">📍 {{ $dummy['area'] }}</div>
+                        <div class="text-cyan-400 text-xs font-semibold mb-1">📍 {{ $dummy['area'] }}</div>
                         <h3 class="text-white font-bold text-base mb-2">{{ $dummy['name'] }}</h3>
                         <div class="flex items-center gap-2 mb-3">
                             <span class="text-yellow-400 text-sm">★★★★☆</span>
@@ -125,12 +122,11 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <p class="text-xs text-gray-500">Mulai dari</p>
-                                <p class="text-green-400 font-extrabold text-base">Rp {{ number_format($dummy['price'],0,',','.') }}</p>
+                                <p class="text-cyan-400 font-extrabold text-base">Rp {{ number_format($dummy['price'],0,',','.') }}</p>
                                 <p class="text-xs text-gray-500">/malam</p>
                             </div>
-                            {{-- OPER PARAMETER: Tanggal check-in & check-out ikut dibawa ke halaman detail --}}
-                            <a href="{{ route('hotel.show', ['id' => $dummy['id'], 'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}" 
-                               class="bg-white text-gray-900 font-bold text-sm px-5 py-2 rounded-lg hover:bg-green-400 transition-colors">
+                            <a href="{{ route('hotel.show', ['id' => $dummy['id'], 'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}"
+                               class="bg-white text-gray-900 font-bold text-sm px-5 py-2 rounded-lg hover:bg-cyan-400 transition-colors">
                                Pesan
                             </a>
                         </div>
@@ -144,7 +140,7 @@
 {{-- ===== CARI BERDASARKAN AREA ===== --}}
 <section class="px-12 mt-12">
     <div class="mb-6">
-        <p class="text-xs font-bold text-green-400 uppercase tracking-widest mb-1">Jelajahi</p>
+        <p class="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1">Jelajahi</p>
         <h2 class="text-2xl font-extrabold text-white">Cari berdasarkan area</h2>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -173,7 +169,7 @@
 {{-- ===== KENAPA RELAXIN ===== --}}
 <section class="px-12 mt-12 pb-16">
     <div class="mb-6">
-        <p class="text-xs font-bold text-green-400 uppercase tracking-widest mb-1">Kenapa RelaXin?</p>
+        <p class="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1">Kenapa RelaXin?</p>
         <h2 class="text-2xl font-extrabold text-white">Lebih fokus, lebih mudah</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
