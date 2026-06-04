@@ -17,7 +17,11 @@ class Booking extends Model
         'total_malam',
         'total_tamu',
         'jumlah_kamar',
+        'permintaan_khusus',
+        'catatan',
+        'metode_payment',
         'total_harga',
+        'bukti_payment',
         'status'
     ];
 

@@ -1,27 +1,33 @@
 <x-app-layout>
 
 {{-- ===== HERO ===== --}}
-<section class="bg-[#0e7490] px-12 py-16 text-center">
+    {{-- Path diperbaiki ke 'assets/foto/bg.jpeg' dan simbol '-' dihilangkan --}}
+    <section class="relative px-12 py-16 text-center bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('assets/foto/bg.jpeg') }}');">
+        
+        {{-- TAMBAHAN: Dark Overlay agar teks putih terbaca jelas --}}
+        <div class="absolute inset-0 bg-black/50 z-0"></div>
 
-    {{-- Badge --}}
-    <div class="inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/30
-                text-cyan-300 text-xs font-bold px-4 py-1.5 rounded-full mb-6">
-        🏨 Khusus Hotel Bandung
-    </div>
+        {{-- Konten Utama (dengan z-index agar di atas overlay) --}}
+        <div class="relative z-10">
+            {{-- Badge --}}
+            <div class="inline-flex items-center gap-2 bg-cyan-400/10 border border-cyan-400/30
+                        text-cyan-300 text-xs font-bold px-4 py-1.5 rounded-full mb-6">
+                🏨 Khusus Hotel Bandung
+            </div>
 
-    {{-- Judul --}}
-    <h1 class="text-5xl font-extrabold text-white leading-tight mb-3">
-        Temukan Hotel Terbaik<br>
-        di <span class="text-cyan-300">Bandung</span>, Mudah & Cepat
-    </h1>
-    <p class="text-cyan-100/70 text-base mb-10">
-        Dari budget hingga bintang lima — semua hotel Bandung ada di sini
-    </p>
+            {{-- Judul (menggunakan teks putih) --}}
+            <h1 class="text-5xl font-extrabold text-white leading-tight mb-3">
+                Temukan Hotel Terbaik<br>
+                di <span class="text-cyan-300">Bandung</span>, Mudah & Cepat
+            </h1>
+            <p class="text-cyan-100/70 text-base mb-10">
+                Dari budget hingga bintang lima semua hotel Bandung ada di sini
+            </p>
 
-    {{-- SEARCH BOX --}}
-    <form action="{{ route('hotel.index') }}" method="GET">
-        <div class="bg-white rounded-2xl px-7 py-5 max-w-2xl mx-auto shadow-2xl
-                    flex items-center gap-4 flex-wrap md:flex-nowrap">
+            {{-- SEARCH BOX --}}
+            <form action="{{ route('welcome') }}" method="GET">
+            <div class="bg-white rounded-2xl px-7 py-5 max-w-2xl mx-auto shadow-2xl
+                        flex items-center gap-4 flex-wrap md:flex-nowrap">
 
             <div class="flex flex-col flex-1 min-w-[120px]">
                 <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Destination</label>
@@ -84,7 +90,7 @@
             <p class="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-1">Rekomendasi</p>
             <h2 class="text-2xl font-extrabold text-white">Hotel Populer Minggu Ini</h2>
         </div>
-        <a href="{{ route('hotel.index') }}" class="text-cyan-400 text-sm font-semibold hover:opacity-70 transition-opacity">
+        <a href="{{ route('welcome') }}" class="text-cyan-400 text-sm font-semibold hover:opacity-70 transition-opacity">
             Lihat semua →
         </a>
     </div>

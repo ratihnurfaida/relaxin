@@ -21,6 +21,10 @@ return new class extends Migration
             $table->integer('total_malam');
             $table->integer('total_tamu')->default(1);
             $table->integer('jumlah_kamar');
+            $table->text('permintaan_khusus')->nullable();
+            $table->text('catatan')->nullable();
+            $table->enum('metode_payment', ['Transfer Bank', 'Kartu Kredit', 'E-Wallet', 'Bayar di Hotel'])->default('Transfer Bank');
+            $table->string('bukti_payment')->nullable();
             $table->bigInteger('total_harga');
             $table->enum('status', ['Pending', 'Confirmed', 'Selesai', 'Cancelled']);
             $table->timestamps();

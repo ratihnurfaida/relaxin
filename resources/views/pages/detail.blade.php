@@ -26,7 +26,6 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($hotel->kamar as $item)
                             @php
-                                // Menghitung sisa kamar berdasarkan total dikurangi yang sudah terisi
                                 $sisaKamar = $item->total_kamar - ($item->pesanan_terisi ?? 0);
                             @endphp
 
@@ -42,7 +41,6 @@
                                         <h4 class="text-xl font-bold text-gray-900">{{ $item->tipe_kamar }}</h4>
                                         <p class="text-sm text-gray-500 mt-1">Kapasitas: {{ $item->kapasitas }} Orang</p>
                                         
-                                        {{-- Indikator Sisa Kamar --}}
                                         <p class="text-xs mt-2 font-medium {{ $sisaKamar > 0 ? 'text-green-600' : 'text-red-600' }}">
                                             @if($sisaKamar > 0)
                                                 ● Tersisa {{ $sisaKamar }} kamar untuk tanggal ini
@@ -72,17 +70,10 @@
                                     </div>
 
                                     @if($sisaKamar > 0)
-                                    <form action="{{ route('booking.store') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id_hotel" value="{{ $hotel->id_hotel }}">
-                                    <input type="hidden" name="id_kamar" value="{{ $item->id_kamar }}">
-                                    <input type="hidden" name="jumlah_kamar" value="1">
-                                    <input type="hidden" name="total_tamu" value="{{ $item->kapasitas }}">
-
-                                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition">
-                                        Pesan Sekarang
-                                    </button>
-                                    </form>
+                                        <a href="{{ route('booking.create', ['hotel_id' => $hotel->id_hotel, 'id_kamar' => $item->id_kamar]) }}" 
+                                           class="text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition">
+                                            Pesan Sekarang
+                                        </a>
                                     @else
                                         <button class="bg-gray-300 text-gray-500 font-bold py-2 px-6 rounded-xl cursor-not-allowed" disabled>
                                             Penuh

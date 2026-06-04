@@ -17,9 +17,7 @@ class Kamar extends Model
         'kode_kamar',
         'tipe_kamar',
         'kapasitas',
-        'harga_3jam',
-        'harga_6jam',
-        'harga_12jam',
+        'harga_per_kamar',
         'total_kamar',
         'gambar',
     ];

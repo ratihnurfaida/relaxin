@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pembayaran', function (Blueprint $table) {
-            $table->id('pembayaran');
+        Schema::create('payment', function (Blueprint $table) {
+            $table->id('payment');
             $table->unsignedBigInteger('id_booking');
             $table->bigInteger('jumlah_bayar');
-            $table->string('metode_pembayaran');
-            $table->string('bukti_pembayaran');
+            $table->string('metode_payment');
+            $table->string('bukti_payment');
             $table->enum('status', ['Pending', 'Confirmed', 'Selesai', 'Cancelled']);
             $table->timestamps();
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pembayaran');
+        Schema::dropIfExists('payment');
     }
 };

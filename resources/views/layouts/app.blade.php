@@ -11,11 +11,11 @@
 
     {{-- NAVBAR --}}
     <nav class="bg-[#0e7490] sticky top-0 z-50 px-12 py-4 flex items-center justify-between">
-        <a href="{{ route('hotel.index') }}" class="text-2xl font-extrabold text-white">
+        <a href="{{ route('welcome') }}" class="text-2xl font-extrabold text-white">
             Rela<span class="text-cyan-300">Xin</span>
         </a>
         <ul class="flex items-center gap-8 list-none">
-            <li><a href="{{ route('hotel.index') }}" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Hotel</a></li>
+            <li><a href="{{ route('welcome') }}" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Hotel</a></li>
             <li><a href="#" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Destinasi</a></li>
             <li><a href="#" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Promo</a></li>
             <li><a href="#" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Tentang</a></li>
@@ -61,7 +61,7 @@
             <div>
                 <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Navigasi</h4>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('hotel.index') }}" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Hotel</a></li>
+                    <li><a href="{{ route('welcome') }}" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Hotel</a></li>
                     <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Destinasi</a></li>
                     <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Promo</a></li>
                 </ul>
