@@ -4,55 +4,70 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Hotel;
+use App\Models\Area;
 
 class HotelController extends Controller
 {
     public function show(Request $request, $id)
     {
-    $checkin = $request->query('checkin');
-    $checkout = $request->query('checkout');
+        $checkin = $request->query('checkin');
+        $checkout = $request->query('checkout');
 
-    $hotel = Hotel::with(['kamar' => function($query) use ($checkin, $checkout) {
-        if ($checkin && $checkout) {
-            $query->withCount(['bookings as pesanan_terisi' => function($q) use ($checkin, $checkout) {
-                $q->where('status', 'success')
-                  ->where(function($dateQuery) use ($checkin, $checkout) {
-                      $dateQuery->whereBetween('tgl_checkin', [$checkin, $checkout])
-                                ->orWhereBetween('tgl_checkout', [$checkin, $checkout]);
-                  });
-            }]);
-        }
-    }])->findOrFail($id);
+        $hotel = Hotel::with(['kamar' => function($query) use ($checkin, $checkout) {
+            if ($checkin && $checkout) {
+                $query->withCount(['bookings as pesanan_terisi' => function($q) use ($checkin, $checkout) {
+                    $q->where('status', 'success')
+                      ->where(function($dateQuery) use ($checkin, $checkout) {
+                          $dateQuery->whereBetween('tgl_checkin', [$checkin, $checkout])
+                                    ->orWhereBetween('tgl_checkout', [$checkin, $checkout]);
+                      });
+                }]);
+            }
+        }])->findOrFail($id);
 
-   return view('pages.detail', [
-    'hotel' => $hotel, 
-    'tgl_checkin' => $checkin, 
-    'tgl_checkout' => $checkout
-    ]);
+        return view('pages.detail', [
+            'hotel' => $hotel, 
+            'tgl_checkin' => $checkin, 
+            'tgl_checkout' => $checkout
+        ]);
     }
 
     public function index(Request $request)
     {
+  
         $query = Hotel::query(); 
 
-        //filter berdasarkan apa yang diketik di "Destinasi"
+        // filter search
         if ($request->filled('search')) {
-            $query->where('nama_hotel', 'like', '%' . $request->search . '%');
+            $query->where('nama', 'like', '%' . $request->search . '%');
         }
 
-        //ambil hasilnya
-        $hotels = $query->get(); 
+        // filter area
+        if ($request->filled('area')) {
+            $query->whereHas('area', function($q) use ($request) {
+                $q->where('nama', 'like', '%' . $request->area . '%');
+            });
+        }
 
-        // cek kalau hasil pencariannya pas cuma 1, langsung pindah ke detail
-        if ($hotels->count() == 1) {
+        $hotels = $query->get(); 
+        $totalHotels = $hotels->count();
+
+        if ($totalHotels == 1 && $request->filled('search')) {
             return redirect()->route('hotel.show', [
-                'id' => $hotels->first()->id_hotel,
-                'checkin' => $request->checkin,
-                'checkout' => $request->checkout
+                'id' => $hotels->first()->id_hotel, 
+                'tgl_checkin' => $request->checkin,
+                'tgl_checkout' => $request->checkout
             ]);
         }
-
-        // kalau lebih dari satu (misal cari "Hotel" muncul banyak), tampilkan daftar
-        return view('pages.welcome', compact('hotels')); 
+        return view('pages.hotel', compact('hotels', 'totalHotels')); 
     }
+
+    public function destinasi()
+    {
+        $hotels = Hotel::all();
+        $areas = Area::withCount('hotels')->get();
+        return view('pages.destinasi', compact('areas'));
+    }
+
+
 }

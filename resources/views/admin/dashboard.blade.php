@@ -24,7 +24,7 @@
     <div class="py-12 bg-slate-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
             
-            {{-- ── 3 KOTAK STATISTIK UTAMA (CLEAN & PROFESSIONAL) ── --}}
+            {{-- ── 3 KOTAK STATISTIK UTAMA ── --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {{-- Box 1: Total Reservasi --}}
                 <div class="bg-white overflow-hidden border border-slate-200/80 rounded-xl p-6 shadow-sm flex items-center justify-between transition hover:shadow-md">
@@ -45,7 +45,7 @@
                     <div>
                         <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Pendapatan Berhasil</p>
                         <h3 class="text-3xl font-black text-emerald-600 mt-1">
-                            Rp {{ number_format($booking->where('status', 'Confirmed')->sum('total_harga'), 0, ',', '.') }}
+                            Rp {{ number_format($booking->sum(fn($b) => in_array(strtolower($b->status), ['confirmed', 'success', 'berhasil']) ? $b->total_harga : 0), 0, ',', '.') }}
                         </h3>
                         <div class="flex items-center gap-1 text-xs text-emerald-600 font-semibold mt-2">
                             <span>▲</span> Dari transaksi berstatus Confirmed
@@ -79,7 +79,7 @@
                         <p class="text-xs text-slate-400 mt-0.5">Daftar pesanan masuk yang memerlukan tindakan validasi manual admin.</p>
                     </div>
                     <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-slate-200/80 text-slate-700">
-                        {{ $booking->where('status', 'Pending')->count() }} Perlu Validasi
+                        {{ $booking->filter(fn($b) => in_array(strtolower($b->status), ['pending', 'menunggu konfirmasi']))->count() }} Perlu Validasi
                     </span>
                 </div>
 
@@ -130,19 +130,26 @@
                                             <img src="{{ asset('storage/bukti_transfer/' . $item->bukti_payment) }}" alt="Bukti Transfer" class="w-10 h-10 object-cover rounded-lg border border-slate-200 hover:scale-110 transition shadow-sm mx-auto">
                                             <span class="absolute hidden group-hover:block bottom-12 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-[10px] py-0.5 px-2 rounded whitespace-nowrap z-10 shadow">Klik Perbesar</span>
                                         </a>
-                                    @else
+                                    @ graves else
                                         <span class="text-xs text-slate-400 italic font-medium bg-slate-50 px-2 py-1 rounded border border-dashed border-slate-200">Bukan Transfer</span>
                                     @endif
                                 </td>
                                 
                                 {{-- Kolom Status Badge --}}
                                 <td class="px-6 py-4 text-center">
-                                    <span class="px-2.5 py-1 rounded-full text-xs font-bold border
-                                        @if($item->status == 'Confirmed') bg-emerald-50 text-emerald-700 border-emerald-200
-                                        @elseif($item->status == 'Pending' || $item->status == 'Menunggu Konfirmasi') bg-amber-50 text-amber-700 border-amber-200
-                                        @else bg-rose-50 text-rose-700 border-rose-200 @endif">
-                                        {{ $item->status }}
-                                    </span>
+                                    @if(in_array(strtolower($item->status), ['confirmed', 'success', 'berhasil']))
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full">
+                                            ✅ Berhasil
+                                        </span>
+                                    @elseif(in_array(strtolower($item->status), ['pending', 'menunggu konfirmasi']))
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 rounded-full">
+                                            ⏳ Pending
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 rounded-full">
+                                            ❌ {{ $item->status }}
+                                        </span>
+                                    @endif
                                 </td>
                                 
                                 {{-- Kolom Total Harga --}}
@@ -152,7 +159,7 @@
 
                                 {{-- Kolom Tombol Aksi Admin --}}
                                 <td class="px-6 py-4 text-center">
-                                    @if($item->status == 'Pending' || $item->status == 'Menunggu Konfirmasi')
+                                    @if(in_array(strtolower($item->status), ['pending', 'menunggu konfirmasi']))
                                     <div class="flex items-center justify-center gap-2">
                                         {{-- Tombol Setuju (Confirmed) --}}
                                         <form method="POST" action="{{ route('admin.booking.status', $item->id_booking) }}">

@@ -8,6 +8,10 @@ class Hotel extends Model
 {
     protected $table = 'hotel';
     protected $primaryKey = 'id_hotel';
+    protected $casts = [
+        'harga' => 'integer',
+        'star_rating' => 'integer',
+    ];
     public  $timestamps = false;
 
     protected $fillable  = [
@@ -24,5 +28,10 @@ class Hotel extends Model
     public function kamar()
     {
         return $this->hasMany(Kamar::class, 'id_hotel', 'id_hotel');
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class, 'id_area', 'id_area');
     }
 }

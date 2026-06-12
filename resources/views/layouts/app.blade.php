@@ -6,6 +6,9 @@
     <title>{{ config('app.name', 'RelaXin') }} – {{ $title ?? 'Hotel Bandung' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
+    <style>
+        html { scroll-behavior: smooth; }
+    </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-jakarta antialiased">
 
@@ -15,10 +18,10 @@
             Rela<span class="text-cyan-300">Xin</span>
         </a>
         <ul class="flex items-center gap-8 list-none">
-            <li><a href="{{ route('welcome') }}" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Hotel</a></li>
-            <li><a href="#" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Destinasi</a></li>
-            <li><a href="#" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Promo</a></li>
-            <li><a href="#" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Tentang</a></li>
+            <li><a href="{{ route('hotel.index') }}" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Hotel</a></li>
+<li><a href="{{ route('destinasi.index') }}" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Destinasi</a></li>
+<li><a href="#promo" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Promo</a></li>
+<li><a href="#tentang" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Tentang</a></li>
             @auth
                 <li><a href="{{ route('dashboard') }}" class="text-gray-100 text-sm font-medium hover:text-white transition-colors">Dashboard</a></li>
                 <li>
@@ -61,15 +64,15 @@
             <div>
                 <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Navigasi</h4>
                 <ul class="space-y-2">
-                    <li><a href="{{ route('welcome') }}" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Hotel</a></li>
-                    <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Destinasi</a></li>
-                    <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Promo</a></li>
+                    <li><a href="{{ route('hotel.index') }}" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Hotel</a></li>
+<li><a href="{{ route('destinasi.index') }}" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Destinasi</a></li>
+<li><a href="#promo" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Promo</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Informasi</h4>
                 <ul class="space-y-2">
-                    <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Tentang Kami</a></li>
+                    <li><a href="#tentang" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Tentang Kami</a></li>
                     <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Kebijakan Privasi</a></li>
                     <li><a href="#" class="text-sm text-gray-500 hover:text-cyan-400 transition-colors">Syarat & Ketentuan</a></li>
                 </ul>

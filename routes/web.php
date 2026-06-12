@@ -8,10 +8,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\KamarController;
 use App\Http\Controllers\Admin\HotelController as AdminHotelController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Models\Booking;
 
 // halam utama
 Route::get('/', [HomeController::class, 'index'])->name('welcome');
 Route::get('/search', [HomeController::class, 'search'])->name('hotel.search');
+Route::get('/hotel', [HotelController::class, 'index'])->name('hotel.index');
+Route::get('/destinasi', [HotelController::class, 'destinasi']) ->name('destinasi.index');
 Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');
 
 
@@ -20,7 +23,8 @@ Route::middleware('auth')->group(function () {
     
     // dashboard user biasa
     Route::get('/dashboard', function () {
-        return view('pages.dashboard');
+        $bookings = Booking::where('id_user', Auth::id())->with('kamar.hotel')->get();
+        return view('pages.dashboard', compact('bookings'));
     })->name('dashboard');
 
     // alur reservasi & booking

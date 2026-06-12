@@ -90,7 +90,7 @@ class BookingController extends Controller
             'metode_payment'    => $metode_payment, // PERBAIKAN: Pakai variabel yang sudah dikonversi
             'total_harga'       => $total_harga,
             'bukti_payment'     => $nama_file, 
-            'status'            => 'Menunggu Konfirmasi', 
+            'status'            => 'Pending', 
         ]);
 
         return redirect()->route('booking.success')->with('success', 'Booking dan pembayaran berhasil dikirim!');
@@ -98,16 +98,18 @@ class BookingController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
+
+        $booking = Booking::where('id_booking', $id)->firstOrFail();
+
         $request->validate([
-            'status' => 'required|in:Disetujui,Ditolak'
+            'status' => 'required|in:Confirmed,Cancelled',
         ]);
 
-        $booking = Booking::findOrFail($id);
         $booking->update([
-            'status' => $request->status
+            'status' => $request->status,
         ]);
-
-        return redirect()->back()->with('success', 'Status berhasil diubah!');
+        
+        return redirect()->back()->with('success', 'Pesanan berhasil disetujui!');
     }
 
     // PERBAIKAN: Hapus fungsi index() yang dobel/kosong, gunakan adminDashboard
