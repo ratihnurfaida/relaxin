@@ -34,10 +34,9 @@ class BookingController extends Controller
             'id_kamar'          => 'required',
             'jumlah_kamar'      => 'required|integer|min:1',
             'total_tamu'        => 'required|integer|min:1',
-            'metode_payment'    => 'required|string',
             'permintaan_khusus' => 'nullable|string',
             'catatan'           => 'nullable|string',
-            'bukti_payment'     => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'status'             => 'nullable|string',
         ]);
         
         if (!Auth::check()) {
@@ -61,7 +60,7 @@ class BookingController extends Controller
         if ($request->hasFile('bukti_payment')) {
             $file = $request->file('bukti_payment');
             $nama_file = time() . '_' . Auth::id() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/bukti_transfer', $nama_file);
+            $file->storeAs('storage/bukti_transfer', $nama_file);
         }
 
         // PERBAIKAN: Gunakan variabel $metode_payment yang sudah dikonversi
@@ -72,8 +71,8 @@ class BookingController extends Controller
             $metode_payment = 'Kartu Kredit';
         }
         
-        Booking::create([
-            'id_user'           => Auth::id(), // Gunakan Auth::id() lebih singkat
+            $booking = Booking::create([
+            'id_user'           => Auth::id(),
             'id_hotel'          => $request->id_hotel,
             'id_kamar'          => $request->id_kamar,
             'nama_tamu'         => $request->nama_tamu,
@@ -85,39 +84,93 @@ class BookingController extends Controller
             'total_malam'       => $total_malam,
             'total_tamu'        => $request->total_tamu,
             'jumlah_kamar'      => $request->jumlah_kamar,
-            'permintaan_khusus' => $request->permintaan_khusus, 
-            'catatan'           => $request->catatan,
-            'metode_payment'    => $metode_payment, // PERBAIKAN: Pakai variabel yang sudah dikonversi
             'total_harga'       => $total_harga,
-            'bukti_payment'     => $nama_file, 
             'status'            => 'Pending', 
         ]);
 
-        return redirect()->route('booking.success')->with('success', 'Booking dan pembayaran berhasil dikirim!');
+        if (!$booking) {
+        return back()->with('error', 'Gagal memproses reservasi.');
+        
+        }
+        // Tambahkan 15 menit ke depan ke session
+        session(['payment_expired_at' => now()->addMinutes(15)->toIso8601String()]);
+
+        // Redirect ke halaman pembayaran baru, bukan ke success
+        return redirect()->route('booking.payment', ['id' => $booking->id_booking]);
     }
 
-    public function updateStatus(Request $request, $id)
+    public function showPaymentPage($id) 
     {
+        $booking = Booking::findOrFail($id);
+            // Cek apakah waktu pembayaran sudah habis
+        if (now()->greaterThan(session('payment_expired_at', now()))) {
+                return redirect()->route('welcome')->with('error', 'Waktu pembayaran habis.');
+        }
+        return view('pages.booking.payment', compact('booking'));
+    }
+
+    public function confirmPayment(Request $request, $id)
+    {
+        $request->validate([
+            'bukti_payment' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'metode_payment' => 'required',
+        ]);
+
+        $booking = Booking::findOrFail($id);
+
+        if ($request->hasFile('bukti_payment')) {
+            $file = $request->file('bukti_payment');
+            $nama_file = time() . '_' . $file->getClientOriginalName();
+            
+            $file->storeAs('bukti_transfer', $nama_file, 'public');
+
+            $booking->update([
+                'bukti_payment' => $nama_file,
+                'metode_payment' => $request->metode_payment,
+                'status' => 'Pending' // Ubah ke 'berhasil' (kecil) agar sesuai dengan logika admin
+            ]);
+        }
+
+        return redirect()->route('booking.success')->with('success', 'Pembayaran berhasil dikirim!');
+    }
+        
+    public function updateStatus(Request $request, $id) 
+    {
+        $request->validate([
+            'status' => 'required|in:confirmed,Cancelled',
+        ]);
 
         $booking = Booking::where('id_booking', $id)->firstOrFail();
-
-        $request->validate([
-            'status' => 'required|in:Confirmed,Cancelled',
-        ]);
-
-        $booking->update([
-            'status' => $request->status,
-        ]);
         
-        return redirect()->back()->with('success', 'Pesanan berhasil disetujui!');
+        $booking->update([
+            'status' => $request->status 
+        ]);
+
+        $pesan = ($request->status == 'confirmed') ? 'Pesanan berhasil disetujui!' : 'Pesanan berhasil dibatalkan!';
+        
+        return redirect()->back()->with('success', $pesan);
     }
 
-    // PERBAIKAN: Hapus fungsi index() yang dobel/kosong, gunakan adminDashboard
-    public function adminDashboard()
+    
+
+    public function index()
     {
-        $booking = Booking::with(['hotel', 'kamar'])->orderBy('created_at', 'desc')->get(); 
-        $total_hotels = Hotel::count(); 
+
+        $bookings = Booking::where('status', '!=', 'selesai')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+                        
+        return view('admin.dashboard', compact('bookings'));
+    }
+
+    public function archive(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
         
-        return view('admin.dashboard', compact('booking', 'total_hotels'));
+        $booking->update([
+            'status' => 'selesai'
+        ]);
+
+        return redirect()->back()->with('success', 'Transaksi telah diarsipkan.');
     }
 }

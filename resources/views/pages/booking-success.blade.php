@@ -1,22 +1,25 @@
 <x-app-layout>
-<div class="flex flex-col items-center justify-center min-h-[80vh] bg-gray-900 px-4">
-    <div class="bg-gray-800 p-8 md:p-10 rounded-2xl shadow-2xl text-center border border-gray-700 max-w-md w-full transition-all duration-300 hover:scale-[1.01]">
-       
-        <div class="text-cyan-400 mb-5 animate-bounce-short">
-            <svg class="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-        </div>
-        
-        <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-3 tracking-wide">Booking Berhasil!</h1>
-        <p class="text-gray-400 text-sm md:text-base mb-8 leading-relaxed">
-            Terima kasih, pesanan hotel kamu di <span class="text-cyan-400 font-semibold">RelaxIn</span> sudah kami terima dan sedang diproses.
-        </p>
+    @slot('title', 'Booking Berhasil')
+
+    <div class="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <div class="bg-white p-8 md:p-12 rounded-2xl shadow-xl shadow-cyan-100/50 border border-slate-100 text-center max-w-lg w-full">
+            
+            {{-- Icon Success (Soft Cyan) --}}
+            <div class="w-20 h-20 bg-cyan-50 text-cyan-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-3 tracking-tight">Booking Berhasil!</h1>
+            <p class="text-slate-500 text-sm mb-10 leading-relaxed">
+                Terima kasih, pesanan hotel kamu di <span class="text-cyan-600 font-semibold">RelaXin</span> sudah kami terima dan sedang diproses oleh tim kami.
+            </p>
     
-        <a href="/" class="inline-block w-full bg-[#0891b2] hover:bg-[#0e7490] text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 transform active:scale-95 shadow-lg shadow-cyan-900/20">
-            Kembali ke Beranda
-        </a>
-        
+            <a href="/" class="block w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3 px-6 rounded-lg transition-all active:scale-[0.98] shadow-lg shadow-cyan-600/20">
+                Kembali ke Beranda
+            </a>
+            
+        </div>
     </div>
-</div>
 </x-app-layout>

@@ -9,21 +9,27 @@ class Booking extends Model
     protected $table = 'booking';
     protected $primaryKey = 'id_booking';
     protected $fillable = [
-        'id_user',
-        'id_kamar',
-        'id_hotel',
-        'tgl_checkin',
-        'tgl_checkout',
-        'total_malam',
-        'total_tamu',
-        'jumlah_kamar',
-        'permintaan_khusus',
-        'catatan',
-        'metode_payment',
-        'total_harga',
-        'bukti_payment',
-        'status'
-    ];
+    'id_user',
+    'id_kamar',
+    'id_hotel',
+    // --- Tambahkan field ini ---
+    'nama_tamu',
+    'email_tamu',
+    'no_telepon',
+    'no_identitas',
+    // ---------------------------
+    'tgl_checkin',
+    'tgl_checkout',
+    'total_malam',
+    'total_tamu',
+    'jumlah_kamar',
+    'permintaan_khusus',
+    'catatan',
+    'metode_payment',
+    'total_harga',
+    'bukti_payment',
+    'status'
+];
 
     public function kamar()
     {

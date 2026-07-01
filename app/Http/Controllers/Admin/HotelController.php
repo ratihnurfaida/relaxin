@@ -44,7 +44,6 @@ class HotelController extends Controller
 
     $data = $request->all();
 
-    // Pastikan nama input di Blade adalah 'fasilitas', jika 'facilities' sesuaikan di sini
     if($request->has('facilities')) {
         $data['fasilitas'] = implode(',', $request->input('facilities'));
     } else {
@@ -53,7 +52,8 @@ class HotelController extends Controller
 
     // Logika upload gambar 
     if ($request->hasFile('gambar')) {
-        $data['gambar'] = $request->file('gambar')->store('assets/hotel', 'public');
+        $path = $request->file('gambar')->store('hotel', 'public');
+        $data['gambar'] = $path;
     }
 
     // SIMPAN DATA HOTEL 

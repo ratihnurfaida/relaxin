@@ -16,10 +16,9 @@ class HomeController extends Controller
     }
     public function adminDashboard()
     {
-        $booking = Booking::with(['hotel', 'kamar'])
-        ->latest()
-        ->get();
-        return view('admin.dashboard', compact('booking'));
+        $total_selesai = Booking::where('status', 'selesai')->count();
+        $booking = Booking::latest()->get();
+        return view('admin.dashboard', compact('total_selesai', 'booking'));
     }
 
     public function search(Request $request)
@@ -36,5 +35,12 @@ class HomeController extends Controller
     {
         $hotels = Hotel::all();
         return view ('pages.show', compact('hotels'));
+    }
+
+    public function about()
+    {
+        return view('pages.about', [
+            'title' => 'Tentang Kami — RelaXin'
+        ]);
     }
 }
