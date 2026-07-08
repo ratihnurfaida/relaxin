@@ -42,6 +42,7 @@ class KamarController extends Controller
         $request->validate([
             'id_hotel'        => 'required|exists:hotel,id_hotel',
             'tipe_kamar'      => 'required|string|max:255',
+            'tipe_bed'        => 'required|string|max:255',
             'kode_kamar'      => 'required|string|max:50',
             'harga_per_kamar' => 'required|integer|min:0',
             'kapasitas'       => 'required|integer|min:1',

@@ -59,6 +59,7 @@ class HotelController extends Controller
                 'tgl_checkout' => $request->checkout
             ]);
         }
+
         return view('pages.hotel', compact('hotels', 'totalHotels')); 
     }
 

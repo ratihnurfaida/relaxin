@@ -101,10 +101,10 @@
                         <a href="{{ url('/about') }}" class="text-sm text-gray-500 hover:text-cyan-600 font-medium transition-colors">Tentang Kami</a>
                     </li>
                     <li>
-                        <a href="#" class="text-sm text-gray-500 hover:text-cyan-600 font-medium transition-colors">Kebijakan Privasi</a>
+                        <a href="{{ route('kebijakan') }}" class="text-sm text-gray-500 hover:text-cyan-600 font-medium transition-colors">Kebijakan Privasi</a>
                     </li>
                     <li>
-                        <a href="#" class="text-sm text-gray-500 hover:text-cyan-600 font-medium transition-colors">Syarat & Ketentuan</a>
+                        <a href="{{ route('syarat') }}" class="text-sm text-gray-500 hover:text-cyan-600 font-medium transition-colors">Syarat & Ketentuan</a>
                     </li>
                 </ul>
             </div>
@@ -114,7 +114,7 @@
         {{-- Baris Hak Cipta / Copyright --}}
         <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-gray-400">
             <div>
-                © 2026 <span class="text-cyan-600 font-semibold">RelaxIn</span> — Proyek 1
+                © 2026 <span class="text-cyan-600 font-semibold">RelaxIn</span> 
             </div>
             <div class="flex gap-4">
                 <span class="hover:text-cyan-600 cursor-pointer transition-colors">IDR / ID</span>

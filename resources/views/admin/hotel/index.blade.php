@@ -20,7 +20,7 @@
                     <thead>
                         <tr class="bg-gray-100">
                             <th class="border px-4 py-2">Nama Hotel</th>
-                            <th class="border px-4 py-2">Kota</th>
+                            <th class="border px-4 py-2">Area</th>
                             <th class="border px-4 py-2">Alamat</th>
                             <th class="border px-4 py-2">Rating</th>
                             <th class="border px-4 py-2">Aksi</th>
@@ -30,7 +30,7 @@
                         @forelse($hotels as $hotel)
                             <tr>
                                 <td class="border px-4 py-2">{{ $hotel->nama }}</td>
-                                <td class="border px-4 py-2">{{ $hotel->kota }}</td>
+                                <td class="border px-4 py-2">{{ $hotel->area->nama ?? '-'}}</td>
                                 <td class="border px-4 py-2">{{ $hotel->alamat }}</td>
                                 <td class="border px-4 py-2">{{ $hotel->star_rating }}</td>
                                 <td class="border px-4 py-2">

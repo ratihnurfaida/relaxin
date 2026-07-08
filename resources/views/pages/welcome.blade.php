@@ -1,6 +1,9 @@
 <x-app-layout>
 
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
 {{-- ===== HERO SECTION (Tetap Cerah Berenergi) ===== --}}
+ <div class="py-14 min-h-screen" style="background-color: #F0F9FA; font-family: 'Inter', sans-serif;">
     <section class="relative px-12 pt-28 pb-24 text-center bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('storage/foto/bg.jpeg') }}');">
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30 z-0"></div>
 
@@ -9,12 +12,13 @@
                 Khusus Hotel Bandung
             </div>
 
-            <h1 class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3">
+            <h1 class="text-4xl md:text-5xl leading-none mb-4" 
+                style="font-family: 'Fraunces', serif; font-weight: 600; color: #F0F9FA;">
                 Temukan Hotel Terbaik<br>
-                di <span class="text-cyan-300">Bandung</span>, Mudah & Cepat
+                di <span class="text-cyan-600">Bandung</span>, Mudah & Cepat
             </h1>
-            <p class="text-cyan-50/90 text-base mb-10 max-w-xl mx-auto">
-                Dari budget hingga bintang lima semua hotel Bandung ada di sini
+            <p class="text-lg text-white mb-10 max-w-xl mx-auto font-medium">
+                Dari budget hingga bintang lima, semua hotel di Bandung ada di sini
             </p>
 
             <form action="{{ route('hotel.index') }}" method="GET">
@@ -68,7 +72,7 @@
                         <div class="p-6 flex-1 flex flex-col justify-between">
                             <div>
                                 <div class="flex items-center justify-between mb-2">
-                                    <div class="text-cyan-700 text-xs font-bold">📍 {{ $hotel->area->name ?? 'Bandung' }}</div>
+                                    <div class="text-cyan-700 text-xs font-bold">📍 {{ $hotel->area->nama ?? '-' }}</div>
                                     <div class="text-xs">
                                         @for($s = 1; $s <= 5; $s++)
                                             <span class="{{ $s <= ($hotel->star_rating ?? 4) ? 'text-yellow-400' : 'text-gray-200' }}">★</span>
@@ -104,7 +108,7 @@
                                 </div>
                                 <a href="{{ route('hotel.show', ['id' => $hotel->id_hotel, 'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}"
                                    class="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:from-cyan-700 hover:to-cyan-600 transition-colors shadow-md shadow-cyan-600/10">
-                                    Pesan
+                                    Lihat Detail
                                 </a>
                             </div>
                         </div>
@@ -127,59 +131,33 @@
             <h2 class="text-2xl font-extrabold text-gray-800">Cari berdasarkan area</h2>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            @foreach([
-                ['name'=>'Dago',      'count'=>32],
-                ['name'=>'Pasteur',   'count'=>18],
-                ['name'=>'Lembang',   'count'=>24],
-                ['name'=>'Buah Batu', 'count'=>15],
-                ['name'=>'Braga',     'count'=>11],
-            ] as $area)
-                <a href="{{ route('hotel.index', ['area' => $area['name']]) }}"
+            @foreach($areas as $area)
+                <a href="{{ route('hotel.index', ['area' => $area->nama]) }}"
                    style="background-color: #ecfbfc;"
                    class="border border-cyan-200 rounded-xl p-5 flex items-center gap-4
                           hover:border-cyan-400 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-150 cursor-pointer">
                     
-                    {{-- Kontainer Icon (Dibuat bg-white padat agar menonjol di atas background soft cyan) --}}
+                    {{-- Kontainer Icon --}}
                     <div class="w-12 h-12 bg-white border border-cyan-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                        
-                        @if($area['name'] == 'Dago')
-                            {{-- Icon Daun / Alam (Dago) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M16.5 7.5a4.5 4.5 0 0 1-9 0" />
-                            </svg>
-
-                        @elseif($area['name'] == 'Pasteur')
-                            {{-- Icon Gedung / Office Kantor (Pasteur) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 16.5h1.5m3 0H15" />
-                            </svg>
-
-                        @elseif($area['name'] == 'Lembang')
-                            {{-- Icon Kompas / Petualangan Gunung (Lembang) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-
-                        @elseif($area['name'] == 'Buah Batu')
-                            {{-- Icon Rumah / Homey (Buah Batu) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                            </svg>
-
-                        @elseif($area['name'] == 'Braga')
-                            {{-- Icon Kamera Seni / Estetik (Braga) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
-                            </svg>
+                        {{-- Menggunakan icon dinamis berdasarkan nama area --}}
+                        @if($area->nama == 'Dago')
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M16.5 7.5a4.5 4.5 0 0 1-9 0" /></svg>
+                        @elseif($area->nama == 'Pasteur')
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 16.5h1.5m3 0H15" /></svg>
+                        @elseif($area->nama == 'Lembang')
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                        @elseif($area->nama == 'Buah Batu')
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                        @else
+                            {{-- Default Icon untuk area lain --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
                         @endif
-
                     </div>
 
-                    {{-- Info Teks --}}
+                    {{-- Info Teks Dinamis --}}
                     <div>
-                        <div class="text-gray-800 text-sm font-bold">{{ $area['name'] }}</div>
-                        <div class="text-cyan-700 text-xs font-semibold mt-0.5">{{ $area['count'] }} hotel</div>
+                        <div class="text-gray-800 text-sm font-bold">{{ $area->nama }}</div>
+                        <div class="text-cyan-700 text-xs font-semibold mt-0.5">{{ $area->hotels_count }} hotel</div>
                     </div>
                 </a>
             @endforeach
@@ -242,5 +220,6 @@
             @endforeach
         </div>
     </div>
+</div>
 </section>
 </x-app-layout>

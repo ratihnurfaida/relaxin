@@ -5,102 +5,116 @@
         </h2>
     </x-slot>
 
-    {{-- ===== BACKGROUND SOFT CYAN POLOS SOLID ===== --}}
-    <div class="py-12 bg-cyan-50/40 min-h-screen">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
-            {{-- Box Utama Putih Bersih --}}
-            <div class="bg-white overflow-hidden shadow-sm rounded-3xl p-8 border border-cyan-100/30">
-                
-                {{-- Nama Hotel & Alamat Header --}}
-                <div class="mb-8 pb-6 border-b border-slate-100">
-                    <h1 class="text-3xl font-black text-gray-800 tracking-tight">{{ $hotel->nama }}</h1>
-                    <p class="text-sm text-cyan-700 font-bold flex items-center mt-2">
-                        <svg class="w-4 h-4 mr-1.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        {{ $hotel->alamat }}, {{ $hotel->kota }}
-                    </p>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    {{-- Background Utama Soft Cyan --}}
+    <div class="py-14 min-h-screen" style="background-color: #F0F9FA; font-family: 'Inter', sans-serif;">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            {{-- ===== KOP SURAT HOTEL ===== --}}
+            <div class="rounded-sm p-8 md:p-10 mb-10" style="background-color: #FAFFFF; border: 1px solid #CCE7E9;">
+                <h1 class="text-4xl md:text-5xl leading-none mb-4" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">
+                    {{ $hotel->nama }}
+                </h1>
+
+                <p class="text-sm font-medium flex items-start gap-2 mb-5" style="color: #4B6F77;">
+                    <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="#0E7490" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span>{{ $hotel->alamat }}, {{ $hotel->kota }}</span>
+                </p>
+
+                <div class="pt-5" style="border-top: 1px dashed #CCE7E9;">
+                    <p class="leading-relaxed text-[15px]" style="color: #4B6F77;">{{ $hotel->deskripsi }}</p>
                 </div>
+            </div>
 
-                {{-- Bagian Pilihan Kamar --}}
-                <div class="mt-8">
-                    <h3 class="text-xl font-black text-gray-800 mb-6 tracking-tight">Pilihan Kamar yang Tersedia</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        @foreach($hotel->kamar as $item)
-                            @php
-                                $sisaKamar = $item->total_kamar - ($item->pesanan_terisi ?? 0);
-                            @endphp
+            {{-- ===== DAFTAR KAMAR ===== --}}
+            <div class="flex items-baseline justify-between mb-6 px-1">
+                <h3 class="text-2xl" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">
+                    Kamar Tersedia
+                </h3>
+                <span class="text-xs font-medium" style="color: #4B6F77;">{{ $hotel->kamar->count() }} tipe kamar</span>
+            </div>
 
-                            {{-- 🔥 PERUBAHAN DISINI: Mengubah background card menjadi soft cyan (#ecfbfc) & border cyan tipis --}}
-                            <div style="background-color: #ecfbfc;" 
-                                 class="border border-cyan-200/70 rounded-3xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-                                
-                                <div>
-                                    {{-- Foto Kamar --}}
-                                    <div class="w-full h-52 overflow-hidden rounded-2xl mb-4 bg-white border border-cyan-100/50">
-                                        <img src="{{ asset('storage/hotel/' . $item->gambar) }}" 
-                                             alt="{{ $item->tipe_kamar }}" 
-                                             class="w-full h-full object-cover">
-                                    </div>
-                                    
-                                    {{-- Informasi Status Ketersediaan --}}
-                                    <div class="flex justify-between items-start mb-2">
-                                        <div>
-                                            <h4 class="text-lg font-black text-gray-800 tracking-tight">{{ $item->tipe_kamar }}</h4>
-                                            <p class="text-xs font-medium text-gray-500 mt-0.5">Kapasitas: {{ $item->kapasitas }} Orang</p>
-                                        </div>
-                                        
-                                        @if($sisaKamar > 0)
-                                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-lg">
-                                                Tersedia
-                                            </span>
-                                        @else
-                                            <span class="bg-rose-100 text-rose-800 text-xs font-bold px-3 py-1 rounded-lg">
-                                                Penuh
-                                            </span>
-                                        @endif
-                                    </div>
+            <div class="space-y-5">
+                @foreach($hotel->kamar as $item)
+                    @php
+                        $sisaKamar = $item->total_kamar - ($item->pesanan_terisi ?? 0);
+                        $tersedia = $sisaKamar > 0;
+                    @endphp
 
-                                    {{-- Indikator Sisa Kamar --}}
-                                    <p class="text-xs font-bold mb-4 {{ $sisaKamar > 0 ? 'text-emerald-700' : 'text-rose-700' }}">
-                                        @if($sisaKamar > 0)
-                                            ● Tersisa {{ $sisaKamar }} kamar untuk tanggal ini
-                                        @else
-                                            ● Maaf, kamar sudah penuh
-                                        @endif
-                                    </p>
-                                </div>
-                                
-                                {{-- Footer Card Kamar --}}
-                                {{-- Perubahan: Mengubah border-t agar serasi dengan warna cyan kontainer --}}
-                                <div class="mt-4 pt-4 border-t border-cyan-200/50 flex justify-between items-center">
-                                    <div>
-                                        <p class="text-[10px] text-cyan-800/70 font-bold uppercase tracking-wider">Harga Per Malam</p>
-                                        <p class="text-xl font-black text-cyan-600 leading-tight">
-                                            Rp {{ number_format($item->harga_per_kamar, 0, ',', '.') }}
-                                        </p>
-                                    </div>
+                    <div class="relative flex flex-col md:flex-row rounded-sm overflow-hidden transition-colors duration-200"
+                         style="background-color: #FAFFFF; border: 1px solid #CCE7E9;"
+                         onmouseover="this.style.borderColor='#0E7490'" onmouseout="this.style.borderColor='#CCE7E9'">
 
-                                    @if($sisaKamar > 0)
-                                        {{-- Tombol Cerah Premium --}}
-                                        <a href="{{ route('booking.create', ['hotel_id' => $hotel->id_hotel, 'id_kamar' => $item->id_kamar]) }}" 
-                                           class="text-center bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-md shadow-cyan-600/10 active:scale-95 transition-all duration-150">
-                                            Pesan Sekarang
-                                        </a>
-                                    @else
-                                        <button class="bg-slate-200 text-slate-500 font-bold text-xs px-5 py-3 rounded-xl cursor-not-allowed" disabled>
-                                            Habis Terjual
-                                        </button>
-                                    @endif
-                                </div>
+                        <div class="w-full md:w-56 h-48 md:h-auto flex-shrink-0" style="background-color: #E0F2F1;">
+                            <img src="{{ asset('storage/hotel/' . $item->gambar) }}" alt="{{ $item->tipe_kamar }}" class="w-full h-full object-cover">
+                        </div>
+
+                        <div class="flex-1 p-6">
+                            <h4 class="text-lg mb-3" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">
+                                {{ $item->tipe_kamar }}
+                            </h4>
+
+                            <div class="flex flex-wrap gap-x-5 gap-y-1.5 mb-4 text-xs font-medium" style="color: #4B6F77;">
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="#0E7490" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a4 4 0 10-4-4"></path>
+                                    </svg>
+                                    Kapasitas {{ $item->kapasitas }} orang
+                                </span>
+                                @if($item->tipe_bed ?? false)
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="#0E7490" viewBox="0 0 24 24" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 18v-6a2 2 0 012-2h14a2 2 0 012 2v6M3 18h18M3 18v2M21 18v2M5 10V6a2 2 0 012-2h10a2 2 0 012 2v4"></path>
+                                    </svg>
+                                    {{ $item->tipe_bed }}
+                                </span>
+                                @endif
                             </div>
-                        @endforeach
-                    </div>
-                </div>
 
+                            <p class="text-xs font-semibold flex items-center gap-1.5" style="color: {{ $tersedia ? '#0F766E' : '#9F1239' }};">
+                                <span class="w-1.5 h-1.5 rounded-full inline-block" style="background-color: {{ $tersedia ? '#0F766E' : '#9F1239' }};"></span>
+                                @if($tersedia)
+                                    Tersisa <span style="font-family: 'IBM Plex Mono', monospace;">{{ $sisaKamar }}</span> kamar untuk tanggal ini
+                                @else
+                                    Kamar penuh untuk tanggal ini
+                                @endif
+                            </p>
+                        </div>
+
+                        <div class="hidden md:block relative w-0" style="border-left: 1.5px dashed #CCE7E9;">
+                            <span class="absolute -top-2.5 -left-2.5 w-5 h-5 rounded-full" style="background-color: #F0F9FA;"></span>
+                            <span class="absolute -bottom-2.5 -left-2.5 w-5 h-5 rounded-full" style="background-color: #F0F9FA;"></span>
+                        </div>
+
+                        <div class="w-full md:w-52 flex-shrink-0 p-6 flex flex-row md:flex-col items-center md:items-stretch justify-between gap-4"
+                             style="background-color: #EBF7F8;">
+                            <div class="text-left md:text-center">
+                                <p class="text-[10px] font-semibold uppercase tracking-wider mb-1" style="color: #4B6F77;">Per malam</p>
+                                <p class="text-xl font-bold leading-none" style="font-family: 'IBM Plex Mono', monospace; color: #155E75;">
+                                    Rp{{ number_format($item->harga_per_kamar, 0, ',', '.') }}
+                                </p>
+                            </div>
+
+                            @if($tersedia)
+                                <a href="{{ route('booking.create', ['hotel_id' => $hotel->id_hotel, 'id_kamar' => $item->id_kamar]) }}"
+                                   class="text-center text-white text-xs font-semibold px-5 py-3 rounded-sm transition-colors duration-150 whitespace-nowrap"
+                                   style="background-color: #0E7490;"
+                                   onmouseover="this.style.backgroundColor='#08576d'" onmouseout="this.style.backgroundColor='#0E7490'">
+                                    Pesan Kamar
+                                </a>
+                            @else
+                                <button class="text-center text-xs font-semibold px-5 py-3 rounded-sm cursor-not-allowed whitespace-nowrap" style="background-color: #D1E5E7; color: #6B7280;" disabled>
+                                    Habis Terjual
+                                </button>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

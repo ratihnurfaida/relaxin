@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\Area;
 
 class HomeController extends Controller
 {
@@ -12,7 +13,8 @@ class HomeController extends Controller
     public function index()
     {
         $hotels = Hotel::all();
-        return view('pages.welcome', compact('hotels'));
+        $areas = Area::withCount('hotels')->get();
+        return view('pages.welcome', compact('hotels', 'areas'));
     }
     public function adminDashboard()
     {
@@ -42,7 +44,8 @@ class HomeController extends Controller
     public function show()
     {
         $hotels = Hotel::all();
-        return view ('pages.show', compact('hotels'));
+        $kamar = $hotels->kamar;
+        return view ('pages.show', compact('hotels', 'kamar'));
     }
 
     public function about()

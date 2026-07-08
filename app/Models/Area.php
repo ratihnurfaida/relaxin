@@ -13,7 +13,7 @@ class Area extends Model
 
     protected $primaryKey = 'id_area';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['nama'];
 
     public function hotels()
     {

@@ -19,6 +19,8 @@ Route::get('/hotel', [HotelController::class, 'index'])->name('hotel.index');
 Route::get('/destinasi', [HotelController::class, 'destinasi']) ->name('destinasi.index');
 Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::view('/kebijakan-privasi', 'pages.kebijakan')->name('kebijakan');
+Route::view('/syarat-ketentuan', 'pages.syarat')->name('syarat');
 
 
 // route user biasa (pelanggan)

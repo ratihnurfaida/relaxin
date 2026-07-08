@@ -67,7 +67,7 @@
                             <input type="tel" name="no_telepon" value="{{ old('no_telepon') }}" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition" required>
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">No. KTP / Paspor</label>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">No. KTP / Paspor <span class="text-red-500">*</span></label>
                             <input type="text" name="no_identitas" value="{{ old('no_identitas') }}" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
                         </div>
                     </div>

@@ -17,6 +17,7 @@ class Kamar extends Model
         'id_hotel',
         'kode_kamar',
         'tipe_kamar',
+        'tipe_bed',
         'kapasitas',
         'harga_per_kamar',
         'total_kamar',

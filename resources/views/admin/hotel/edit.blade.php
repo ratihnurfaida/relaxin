@@ -117,6 +117,26 @@
                 </div>
             </div>
 
+            {{-- Area --}}
+            <div>
+                <label for="id_area" class="block text-sm font-semibold text-slate-700 mb-1.5">Area <span class="text-rose">*</span></label>
+                <select
+                    id="id_area"
+                    name="id_area"
+                    required
+                    class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
+                        focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
+                        @error('id_area') border-rose @enderror"
+                >
+                    <option value="" disabled>-- Pilih area --</option>
+                    @foreach($areas as $area)
+                        <option value="{{ $area->id_area }}" {{ old('id_area', $hotel->id_area) == $area->id_area ? 'selected' : '' }}>
+                            {{ $area->nama }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('id_area') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
             {{-- Fasilitas --}}
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Fasilitas</label>

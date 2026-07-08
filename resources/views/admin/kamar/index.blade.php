@@ -25,6 +25,7 @@
                         <tr>
                             <th class="px-6 py-4">Kode</th>
                             <th class="px-6 py-4">Tipe Kamar</th>
+                            <th class="px-6 py-4">Tipe Bed</th>
                             <th class="px-6 py-4">Harga</th>
                             <th class="px-6 py-4">Stok</th>
                             <th class="px-6 py-4 text-center">Aksi</th>
@@ -35,6 +36,7 @@
                         <tr class="hover:bg-slate-50 transition">
                             <td class="px-6 py-4 font-mono font-medium text-slate-900">{{ $kamar->kode_kamar }}</td>
                             <td class="px-6 py-4 font-semibold text-slate-800">{{ $kamar->tipe_kamar }}</td>
+                            <td class="px-6 py-4 font-semibold text-slate-800">{{ $kamar->tipe_bed }}</td>
                             <td class="px-6 py-4">Rp {{ number_format($kamar->harga_per_kamar, 0, ',', '.') }}</td>
                             <td class="px-6 py-4">{{ $kamar->total_kamar }}</td>
                             <td class="px-6 py-4 text-center">

@@ -53,6 +53,40 @@
                 </div>
             </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="tipe_bed" class="block text-sm font-semibold text-slate-700 mb-1.5">Tipe Bed <span class="text-rose">*</span>
+                    </label>
+                        <select
+                            id="tipe_bed"
+                            name="tipe_bed"
+                            required
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-2.5 text-sm
+                                focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500
+                                @error('tipe_bed') border-rose @enderror">
+                            <option value="" disabled {{ old('tipe_bed', $kamar->tipe_bed) == '' ? 'selected' : '' }}>
+                                Pilih Tipe Bed
+                            </option>
+                            <option value="Single Bed" {{ old('tipe_bed', $kamar->tipe_bed) == 'Single Bed' ? 'selected' : '' }}>Single Bed</option>
+                            <option value="Double Bed" {{ old('tipe_bed', $kamar->tipe_bed) == 'Double Bed' ? 'selected' : '' }}>Double Bed</option>
+                            <option value="Twin Bed" {{ old('tipe_bed', $kamar->tipe_bed) == 'Twin Bed' ? 'selected' : '' }}>Twin Bed</option>
+                            <option value="Queen Bed" {{ old('tipe_bed', $kamar->tipe_bed) == 'Queen Bed' ? 'selected' : '' }}>Queen Bed</option>
+                            <option value="King Bed" {{ old('tipe_bed', $kamar->tipe_bed) == 'King Bed' ? 'selected' : '' }}>King Bed</option>
+                        </select>
+                    @error('tipe_bed') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label for="total_kamar" class="block text-sm font-semibold text-slate-700 mb-1.5">Stok Kamar *</label>
+                    <input 
+                        type="number" 
+                        id="total_kamar" 
+                        name="total_kamar" 
+                        value="{{ old('total_kamar', $kamar->total_kamar) }}" 
+                        required 
+                        class="w-full px-4 py-2 border border-slate-300 rounded-lg 
+                        focus:ring-2 focus:ring-primary focus:border-primary">
+                </div>
+            </div>
             {{-- Harga & Kapasitas --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -82,17 +116,6 @@
                         max="10"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"
-                    >
-                </div>
-                <div>
-                    <label for="total_kamar" class="block text-sm font-semibold text-slate-700 mb-1.5">Stok Kamar *</label>
-                    <input 
-                        type="number" 
-                        id="total_kamar" 
-                        name="total_kamar" 
-                        value="{{ old('total_kamar', $kamar->total_kamar) }}" 
-                        required 
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                     >
                 </div>
             </div>

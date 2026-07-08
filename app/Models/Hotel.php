@@ -23,6 +23,7 @@ class Hotel extends Model
         'harga',
         'fasilitas',
         'gambar',
+        'id_area',
     ];
 
     public function kamar()

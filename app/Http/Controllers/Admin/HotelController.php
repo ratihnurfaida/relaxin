@@ -56,7 +56,7 @@ class HotelController extends Controller
     // Logika upload gambar 
     if ($request->hasFile('gambar')) {
         $path = $request->file('gambar')->store('hotel', 'public');
-        $data['gambar'] = $path;
+        $data['gambar'] = basename($path);
     }
 
     // SIMPAN DATA HOTEL 
@@ -78,7 +78,9 @@ class HotelController extends Controller
     public function edit(string $id)
     {
         $hotel = Hotel::findOrFail($id);
-        return view('admin.hotel.edit', compact('hotel'));
+        $areas = Area::all();
+        
+        return view('admin.hotel.edit', compact('hotel', 'areas'));
     }
 
     /**
@@ -95,31 +97,27 @@ class HotelController extends Controller
             'deskripsi' => 'required|string',
             'star_rating' => 'required|integer|min:1|max:5',
             'harga' => 'required|integer',
-            'fasilitas' => 'nullable|array', 
+            'fasilitas' => 'nullable|array',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'id_area' => 'required|exists:area,id_area',
         ]);
 
-        $hotel = Hotel::findOrFail($id);
         $data = $request->all();
 
-        $gambarPath = $hotel->gambar;
-
-         if($request->has('facilities')) {
+        if ($request->has('facilities')) {
             $data['fasilitas'] = implode(',', $request->input('facilities'));
         } else {
             $data['fasilitas'] = '';
         }
 
-        //logika upload gambar
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('assets/hotel', 'public');
+            $data['gambar'] = basename($request->file('gambar')->store('hotel', 'public'));
         }
 
         $hotel->update($data);
 
-        return redirect()->route('admin.hotel.index')->with('success', 'Data hotel berhasil diupdatee!');
+        return redirect()->route('admin.hotel.index')->with('success', 'Data hotel berhasil diupdate!');
     }
-
     /**
      * Remove the specified resource from storage.
      */
