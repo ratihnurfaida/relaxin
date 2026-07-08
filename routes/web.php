@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HotelController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\KamarController;
+use App\Http\Controllers\Admin\KamarController as AdminKamarController;
 use App\Http\Controllers\Admin\HotelController as AdminHotelController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Models\Booking;
@@ -49,18 +49,25 @@ Route::middleware('auth')->group(function () {
 
 // route untuk admin
 Route::prefix('admin')
-    ->middleware(['auth']) // Pastikan middleware 'role' aktif di Kernel.php
+    ->middleware(['auth'])
     ->name('admin.')
     ->group(function () {
-        
-        // halaman utama dashboard admin
+
         Route::get('dashboard', [HomeController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('reservasi', [HomeController::class, 'reservasi'])->name('reservasi');
 
-        // CRUD hotel & kamar 
+        // Hotel tetap resource, aman
         Route::resource('hotel', AdminHotelController::class);
-        Route::resource('kamar', KamarController::class);
 
-        // verifikasi & update status booking
+        // Kamar — manual, TIDAK ada Route::resource('kamar', ...) di manapun lagi
+        Route::get('kamar/pilih-hotel', [AdminHotelController::class, 'selectHotel'])->name('kamar.pilih-hotel');
+        Route::get('kamar/create/{hotel}', [AdminKamarController::class, 'create'])->name('kamar.create');
+        Route::get('kamar', [AdminKamarController::class, 'index'])->name('kamar.index');
+        Route::post('kamar', [AdminKamarController::class, 'store'])->name('kamar.store');
+        Route::get('kamar/{kamar}/edit', [AdminKamarController::class, 'edit'])->name('kamar.edit');
+        Route::put('kamar/{kamar}', [AdminKamarController::class, 'update'])->name('kamar.update');
+        Route::delete('kamar/{kamar}', [AdminKamarController::class, 'destroy'])->name('kamar.destroy');
+
         Route::get('/booking', [BookingController::class, 'adminIndex'])->name('booking.index');
         Route::put('/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.status');
     });

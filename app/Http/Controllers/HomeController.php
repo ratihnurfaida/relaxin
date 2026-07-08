@@ -18,7 +18,15 @@ class HomeController extends Controller
     {
         $total_selesai = Booking::where('status', 'selesai')->count();
         $booking = Booking::latest()->get();
-        return view('admin.dashboard', compact('total_selesai', 'booking'));
+        $total_hotel = Hotel::count();
+        return view('admin.dashboard', compact('total_selesai', 'booking', 'total_hotel'));
+    }
+
+    public function reservasi()
+    {
+        $booking = Booking::latest()->get();
+
+        return view('admin.reservasi', compact('booking'));
     }
 
     public function search(Request $request)

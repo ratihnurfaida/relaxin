@@ -1,8 +1,5 @@
-<x-app-layout>
-
-@section('title', 'Tambah Hotel')
-
-@section('content')
+<x-admin>
+    <x-slot name="title">Edit Hotel</x-slot>
 <div class="pt-24 pb-16 px-4 md:px-8 max-w-3xl mx-auto">
 
     {{-- Header --}}
@@ -11,12 +8,15 @@
             ← Kembali ke daftar hotel
         </a>
         <h1 class="font-display text-3xl font-black text-slate-900">Edit Hotel</h1>
-        <p class="text-slate-400 text-sm mt-1">Perbarui Informasi Hotel</p>
+        <p class="text-slate-400 text-sm mt-1">
+            Hotel <span class="font-semibold text-slate-600">{{ $hotel->nama }}</span> 
+        </p>
     </div>
 
     <div class="bg-white rounded-3xl shadow-cyan-lg p-8">
         <form method="POST" action="{{ route('admin.hotel.update', $hotel->id_hotel) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
+            @method('PUT')
 
             {{-- Nama Hotel --}}
             <div>
@@ -25,9 +25,8 @@
                     id="nama"
                     type="text"
                     name="nama"
-                    value="{{ old('nama') }}"
+                    value="{{ old('nama', $hotel->nama) }}"
                     required
-                    placeholder="cth. The Grand Relaxin Hotel"
                     class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                            focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
                            placeholder:text-slate-300 @error('nama') border-rose @enderror"
@@ -42,11 +41,10 @@
                     id="deskripsi"
                     name="deskripsi"
                     rows="4"
-                    placeholder="Deskripsikan hotel secara singkat..."
                     class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                            focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
                            placeholder:text-slate-300 resize-none @error('deskripsi') border-rose @enderror"
-                >{{ old('deskripsi') }}</textarea>
+                >{{ old('deskripsi', $hotel->deskripsi) }}</textarea>
                 @error('deskripsi') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
@@ -58,9 +56,8 @@
                         id="kota"
                         type="text"
                         name="kota"
-                        value="{{ old('kota') }}"
+                        value="{{ old('kota', $hotel->kota) }}"
                         required
-                        placeholder="cth. Bandung"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
                                placeholder:text-slate-300 @error('kota') border-rose @enderror"
@@ -73,9 +70,8 @@
                         id="alamat"
                         type="text"
                         name="alamat"
-                        value="{{ old('alamat') }}"
+                        value="{{ old('alamat', $hotel->alamat) }}"
                         required
-                        placeholder="Jl. Merdeka No. 10"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
                                placeholder:text-slate-300 @error('alamat') border-rose @enderror"
@@ -97,7 +93,7 @@
                     >
                         <option value="">-- Pilih bintang --</option>
                         @for ($i = 1; $i <= 5; $i++)
-                            <option value="{{ $i }}" {{ old('star_rating') == $i ? 'selected' : '' }}>
+                            <option value="{{ $i }}" {{ old('star_rating', $hotel->star_rating) == $i ? 'selected' : '' }}>
                                 {{ $i }} Bintang
                             </option>
                         @endfor
@@ -110,10 +106,9 @@
                         id="harga"
                         type="number"
                         name="harga"
-                        value="{{ old('harga') }}"
+                        value="{{ old('harga', $hotel->harga) }}"
                         required
                         min="0"
-                        placeholder="cth. 500000"
                         class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
                                focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
                                placeholder:text-slate-300 @error('harga') border-rose @enderror"
@@ -126,15 +121,32 @@
             <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Fasilitas</label>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    @php
+                        // Ambil string dari DB, ubah ke array, hapus spasi, dan kecilkan hurufnya
+                        $fasilitasDb = array_map('trim', explode(',', $hotel->fasilitas ?? ''));
+                        $fasilitasDb = array_map('strtolower', $fasilitasDb);
+                    @endphp
+
                     @foreach (['WiFi Gratis', 'Kolam Renang', 'Parkir', 'Restoran', 'Gym', 'Spa', 'AC', 'Room Service', 'Bar'] as $facility)
+                        @php
+                            // Logika pencocokan kata kunci: 
+                            // Jika checkbox adalah 'Parkir', kita cek apakah DB mengandung kata 'parkir'
+                            $keyword = strtolower(str_replace(['WiFi Gratis', 'Room Service'], ['wifi', 'layanan kamar'], $facility));
+                            $isChecked = false;
+                            foreach ($fasilitasDb as $dbItem) {
+                                if (str_contains($dbItem, $keyword)) {
+                                    $isChecked = true;
+                                    break;
+                                }
+                            }
+                        @endphp
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input
                                 type="checkbox"
                                 name="facilities[]"
                                 value="{{ $facility }}"
-                                {{ in_array($facility, old('fasilitas', [])) ? 'checked' : '' }}
-                                class="rounded border-slate-300 text-primary focus:ring-primary/40"
-                            >
+                                {{ $isChecked ? 'checked' : '' }}
+                                class="rounded border-slate-300 text-primary focus:ring-primary/40">
                             <span class="text-sm text-slate-600">{{ $facility }}</span>
                         </label>
                     @endforeach
@@ -143,7 +155,13 @@
 
             {{-- Foto Utama --}}
             <div>
-                <label for="gambar" class="block text-sm font-semibold text-slate-700 mb-1.5">Ganti Foto Utama</label>
+                <label for="gambar" class="block text-sm font-semibold text-slate-700 mb-1.5">Ganti Foto Kamar</label>
+                @if ($hotel->gambar)
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/hotel/' . $hotel->gambar) }}" alt="Foto kamar saat ini" class="h-32 w-auto rounded-xl object-cover">
+                        <p class="text-xs text-slate-400 mt-1">Foto saat ini. Upload baru untuk mengganti.</p>
+                    </div>
+                @endif
                 <input
                     id="gambar"
                     type="file"
@@ -151,10 +169,8 @@
                     accept="image/*"
                     class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
                            file:rounded-full file:border-0 file:text-sm file:font-semibold
-                           file:bg-ice-cyan file:text-primary hover:file:bg-primary/10
-                           @error('gambar') border-rose @enderror"
+                           file:bg-ice-cyan file:text-primary hover:file:bg-primary/10"
                 >
-                @error('gambar') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             {{-- Tombol --}}
@@ -165,4 +181,4 @@
         </form>
     </div>
 </div>
-</x-app-layout>
+</x-admin>

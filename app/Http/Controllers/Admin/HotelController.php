@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
+use App\Models\Area;
 use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
@@ -23,7 +24,8 @@ class HotelController extends Controller
      */
     public function create()
     {
-        return view('admin.hotel.create');
+        $areas = Area::all(); 
+        return view('admin.hotel.create', compact('areas'));
     }
 
     /**
@@ -33,6 +35,7 @@ class HotelController extends Controller
 {
     $request->validate([
         'nama' => 'required|string|max:255|unique:hotel,nama',
+        'id_area' => 'required|exists:area,id_area',
         'kota' => 'required|string|max:255',
         'alamat' => 'required|string',
         'deskripsi' => 'required|string',
@@ -131,5 +134,11 @@ class HotelController extends Controller
         $hotel->delete();
 
         return redirect()->route('admin.hotel.index')->with('success', 'Hotel berhasil dihapus!');
+    }
+
+    public function selectHotel()
+    {
+        $hotels = Hotel::all(); // Mengambil semua data hotel
+        return view('admin.kamar.pilih-hotel', compact('hotels'));
     }
 }

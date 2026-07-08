@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-admin>
 
 <div class="pt-24 pb-16 px-4 md:px-8 max-w-3xl mx-auto">
 
@@ -34,7 +34,7 @@
 
             {{-- Deskripsi --}}
             <div>
-                <label for="deskripsi" class="block text-sm font-semibold text-slate-700 mb-1.5">Deskripsi</label>
+                <label for="deskripsi" class="block text-sm font-semibold text-slate-700 mb-1.5">Deskripsi <span class="text-rose">*</span></label>
                 <textarea
                     id="deskripsi"
                     name="deskripsi"
@@ -83,39 +83,35 @@
 
             {{-- Bintang & Harga (2 kolom) --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Kolom Kiri: Rating Bintang -->
                 <div>
-                    <label for="star_rating" class="block text-sm font-semibold text-slate-700 mb-1.5">Rating Bintang</label>
-                    <select
-                        id="star_rating"
-                        name="star_rating"
-                        class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
-                               focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                               @error('star_rating') border-rose @enderror"
-                    >
+                    <label for="star_rating" class="block text-sm font-semibold text-slate-700 mb-1.5">Rating Bintang <span class="text-rose">*</span></label>
+                    <select id="star_rating" name="star_rating" class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary @error('star_rating') border-rose @enderror">
                         <option value="">-- Pilih bintang --</option>
                         @for ($i = 1; $i <= 5; $i++)
-                            <option value="{{ $i }}" {{ old('star_rating') == $i ? 'selected' : '' }}>
-                                {{ $i }} Bintang
-                            </option>
+                            <option value="{{ $i }}" {{ old('star_rating') == $i ? 'selected' : '' }}>{{ $i }} Bintang</option>
                         @endfor
                     </select>
                     @error('star_rating') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
+
+                <!-- Kolom Kanan: Harga -->
                 <div>
                     <label for="harga" class="block text-sm font-semibold text-slate-700 mb-1.5">Harga/Malam (Rp) <span class="text-rose">*</span></label>
-                    <input
-                        id="harga"
-                        type="number"
-                        name="harga"
-                        value="{{ old('harga') }}"
-                        required
-                        min="0"
-                        placeholder="cth. 500000"
-                        class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm
-                               focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
-                               placeholder:text-slate-300 @error('harga') border-rose @enderror"
-                    >
+                    <input id="harga" type="number" name="harga" value="{{ old('harga') }}" required min="0" placeholder="cth. 500000" class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary placeholder:text-slate-300 @error('harga') border-rose @enderror">
                     @error('harga') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- BARU: Kolom Area (Kita taruh di bawahnya agar rapi) -->
+                <div class="md:col-span-2">
+                    <label for="id_area" class="block text-sm font-semibold text-slate-700 mb-1.5">Area <span class="text-rose">*</span></label>
+                    <select id="id_area" name="id_area" class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary @error('id_area') border-rose @enderror" required>
+                        <option value="" disabled selected>-- Pilih area --</option>
+                        @foreach($areas as $area)
+                            <option value="{{ $area->id_area }}" {{ old('id_area') == $area->id_area ? 'selected' : '' }}>{{ $area->nama }}</option>
+                        @endforeach
+                    </select>
+                    @error('id_area') <p class="text-rose text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -162,4 +158,4 @@
         </form>
     </div>
 </div>
-</x-app-layout>
+</x-admin>

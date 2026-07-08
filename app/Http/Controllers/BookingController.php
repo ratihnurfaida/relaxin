@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Kamar;
 use App\Models\Hotel;
+use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; // Tambahkan ini
 
 class BookingController extends Controller
 {
@@ -36,75 +38,68 @@ class BookingController extends Controller
             'total_tamu'        => 'required|integer|min:1',
             'permintaan_khusus' => 'nullable|string',
             'catatan'           => 'nullable|string',
-            'status'             => 'nullable|string',
+            'status'            => 'nullable|string',
         ]);
         
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silahkan login terlebih dahulu.');
         }
 
-        $kamar = Kamar::findOrFail($request->id_kamar);
-        $tgl_checkin = Carbon::parse($request->tgl_checkin);
-        $tgl_checkout = Carbon::parse($request->tgl_checkout);
-        $total_malam = $tgl_checkin->diffInDays($tgl_checkout);
+        // Menggunakan DB Transaction untuk memastikan data sinkron
+        return DB::transaction(function () use ($request) {
+            $kamar = Kamar::findOrFail($request->id_kamar);
 
-        if (!$total_malam || $total_malam <= 0) {
-            $total_malam = 1;
-        }
+            // Cek apakah stok mencukupi
+            if ($kamar->total_kamar < $request->jumlah_kamar) {
+                return back()->with('error', 'Maaf, kamar tidak mencukupi.');
+            }
 
-        $subtotal    = ($kamar->harga_per_kamar * $total_malam) * $request->jumlah_kamar;
-        $pajak       = round($subtotal * 0.1); 
-        $total_harga = $subtotal + $pajak;
+            $tgl_checkin = Carbon::parse($request->tgl_checkin);
+            $tgl_checkout = Carbon::parse($request->tgl_checkout);
+            $total_malam = $tgl_checkin->diffInDays($tgl_checkout);
 
-        $nama_file = null;
-        if ($request->hasFile('bukti_payment')) {
-            $file = $request->file('bukti_payment');
-            $nama_file = time() . '_' . Auth::id() . '_' . $file->getClientOriginalName();
-            $file->storeAs('storage/bukti_transfer', $nama_file);
-        }
+            if (!$total_malam || $total_malam <= 0) {
+                $total_malam = 1;
+            }
 
-        // PERBAIKAN: Gunakan variabel $metode_payment yang sudah dikonversi
-        $metode_payment = $request->metode_payment;
-        if ($metode_payment == 'transfer_bank') {
-            $metode_payment = 'Transfer Bank';
-        } elseif ($metode_payment == 'kartu_kredit') {
-            $metode_payment = 'Kartu Kredit';
-        }
-        
+            $subtotal    = ($kamar->harga_per_kamar * $total_malam) * $request->jumlah_kamar;
+            $pajak       = round($subtotal * 0.1); 
+            $total_harga = $subtotal + $pajak;
+
             $booking = Booking::create([
-            'id_user'           => Auth::id(),
-            'id_hotel'          => $request->id_hotel,
-            'id_kamar'          => $request->id_kamar,
-            'nama_tamu'         => $request->nama_tamu,
-            'email_tamu'        => $request->email_tamu,
-            'no_telepon'        => $request->no_telepon,
-            'no_identitas'      => $request->no_identitas,
-            'tgl_checkin'       => $request->tgl_checkin,
-            'tgl_checkout'      => $request->tgl_checkout,
-            'total_malam'       => $total_malam,
-            'total_tamu'        => $request->total_tamu,
-            'jumlah_kamar'      => $request->jumlah_kamar,
-            'total_harga'       => $total_harga,
-            'status'            => 'Pending', 
-        ]);
+                'id_user'          => Auth::id(),
+                'id_hotel'         => $request->id_hotel,
+                'id_kamar'         => $request->id_kamar,
+                'nama_tamu'        => $request->nama_tamu,
+                'email_tamu'       => $request->email_tamu,
+                'no_telepon'       => $request->no_telepon,
+                'no_identitas'     => $request->no_identitas,
+                'tgl_checkin'      => $request->tgl_checkin,
+                'tgl_checkout'     => $request->tgl_checkout,
+                'total_malam'      => $total_malam,
+                'total_tamu'       => $request->total_tamu,
+                'jumlah_kamar'     => $request->jumlah_kamar,
+                'total_harga'      => $total_harga,
+                'status'           => 'pending', 
+            ]);
 
-        if (!$booking) {
-        return back()->with('error', 'Gagal memproses reservasi.');
-        
-        }
-        // Tambahkan 15 menit ke depan ke session
-        session(['payment_expired_at' => now()->addMinutes(15)->toIso8601String()]);
+            if (!$booking) {
+                return back()->with('error', 'Gagal memproses reservasi.');
+            }
 
-        // Redirect ke halaman pembayaran baru, bukan ke success
-        return redirect()->route('booking.payment', ['id' => $booking->id_booking]);
+            // PENGURANGAN STOK (total_kamar)
+            $kamar->decrement('total_kamar', $request->jumlah_kamar);
+
+            session(['payment_expired_at' => now()->addMinutes(15)->toIso8601String()]);
+            return redirect()->route('booking.payment', ['id' => $booking->id_booking]);
+        });
     }
 
     public function showPaymentPage($id) 
     {
         $booking = Booking::findOrFail($id);
-            // Cek apakah waktu pembayaran sudah habis
         if (now()->greaterThan(session('payment_expired_at', now()))) {
-                return redirect()->route('welcome')->with('error', 'Waktu pembayaran habis.');
+            return redirect()->route('welcome')->with('error', 'Waktu pembayaran habis.');
         }
         return view('pages.booking.payment', compact('booking'));
     }
@@ -121,14 +116,17 @@ class BookingController extends Controller
         if ($request->hasFile('bukti_payment')) {
             $file = $request->file('bukti_payment');
             $nama_file = time() . '_' . $file->getClientOriginalName();
-            
             $file->storeAs('bukti_transfer', $nama_file, 'public');
 
-            $booking->update([
-                'bukti_payment' => $nama_file,
+            Payment::create([
+                'id_booking'     => $id,
+                'bukti_payment'  => $nama_file,
                 'metode_payment' => $request->metode_payment,
-                'status' => 'Pending' // Ubah ke 'berhasil' (kecil) agar sesuai dengan logika admin
+                'jumlah_bayar'   => $booking->total_harga,
+                'status'         => 'pending', 
             ]);
+
+            $booking->update(['status' => 'pending']);
         }
 
         return redirect()->route('booking.success')->with('success', 'Pembayaran berhasil dikirim!');
@@ -142,6 +140,11 @@ class BookingController extends Controller
 
         $booking = Booking::where('id_booking', $id)->firstOrFail();
         
+        // PENGEMBALIAN STOK jika dibatalkan
+        if ($request->status == 'Cancelled' && $booking->status != 'Cancelled') {
+            Kamar::where('id_kamar', $booking->id_kamar)->increment('total_kamar', $booking->jumlah_kamar);
+        }
+        
         $booking->update([
             'status' => $request->status 
         ]);
@@ -151,11 +154,8 @@ class BookingController extends Controller
         return redirect()->back()->with('success', $pesan);
     }
 
-    
-
     public function index()
     {
-
         $bookings = Booking::where('status', '!=', 'selesai')
                         ->orderBy('created_at', 'desc')
                         ->get();
