@@ -1,26 +1,21 @@
 <x-app-layout>
 
-{{-- ===== HEADER & FILTER PENCARIAN (Warna Soft Cyan Padat Tanpa Opacity) ===== --}}
-<section class="px-12 pt-16 pb-12 bg-[#ecfbfc] border-b border-cyan-100/50">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+{{-- ===== HEADER & FILTER PENCARIAN ===== --}}
+<section class="px-12 pt-16 pb-12 bg-[#ecfbfc] border-b border-cyan-100/50" style="font-family: 'Inter', sans-serif;">
     <div class="max-w-7xl mx-auto">
-        <p class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Semua Hotel</p>
-        <h1 class="text-3xl font-black text-gray-800 tracking-tight mb-8">Daftar Hotel di Bandung</h1>
+        <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Semua Hotel</p>
+        <h1 class="text-4xl leading-tight mb-8 font-fraunces" style="font-weight: 600; color: #155E75;">Daftar Hotel di Bandung</h1>
 
         {{-- FILTER & SEARCH FORM --}}
-        <form action="{{ route('hotel.index') }}" method="GET" class="bg-white p-5 rounded-3xl border border-slate-100 shadow-xl">
-            <div class="flex flex-wrap gap-3 items-center">
-
-                {{-- Input: Cari Nama --}}
-                <div class="flex items-center bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 gap-2 flex-1 min-w-[200px] focus-within:border-cyan-500 focus-within:bg-white transition-all">
-                    <span class="text-gray-400">🔍</span>
-                    <input type="text" name="search" value="{{ request('search') }}"
-                           placeholder="Cari nama hotel..."
-                           class="bg-transparent text-sm text-gray-700 placeholder-gray-400 outline-none w-full">
-                </div>
+        <form action="{{ route('hotel.index') }}" method="GET" class="bg-white p-5 rounded-3xl border border-slate-100 shadow-xl w-full">
+            <div class="flex flex-wrap gap-3 items-center w-full">
 
                 {{-- Dropdown: Area --}}
                 <select name="area"
-                        class="bg-slate-50 border border-slate-200 text-sm text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer">
+                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
                     <option value="">Semua Area</option>
                     @foreach(['Dago','Pasteur','Lembang','Buah Batu','Braga'] as $area)
                         <option value="{{ $area }}" {{ request('area') == $area ? 'selected' : '' }}>{{ $area }}</option>
@@ -29,7 +24,7 @@
 
                 {{-- Dropdown: Bintang --}}
                 <select name="bintang"
-                        class="bg-slate-50 border border-slate-200 text-sm text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer">
+                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
                     <option value="">Semua Bintang</option>
                     @foreach([1,2,3,4,5] as $b)
                         <option value="{{ $b }}" {{ request('bintang') == $b ? 'selected' : '' }}>Bintang {{ $b }}</option>
@@ -38,105 +33,88 @@
 
                 {{-- Input Date: Check-In --}}
                 <input type="date" name="checkin" value="{{ request('checkin') }}"
-                       class="bg-slate-50 border border-slate-200 text-sm text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer">
-                
+                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
+
                 {{-- Input Date: Check-Out --}}
                 <input type="date" name="checkout" value="{{ request('checkout') }}"
-                       class="bg-slate-50 border border-slate-200 text-sm text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer">
+                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
 
                 {{-- Tombol Cari --}}
                 <button type="submit"
-                        class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition-colors shadow-md shadow-cyan-600/10 active:scale-95 duration-150">
+                        class="bg-cyan-600 hover:bg-cyan-700 text-white text-base px-6 py-2.5 rounded-xl transition-colors shadow-md shadow-cyan-600/10 active:scale-95 duration-150 flex-shrink-0 font-bold">
                     Cari
                 </button>
 
                 {{-- Tombol Reset --}}
                 @if(request()->anyFilled(['search','area','bintang','checkin','checkout']))
                     <a href="{{ route('hotel.index') }}"
-                       class="text-sm font-semibold text-gray-400 hover:text-cyan-600 transition-colors ml-2">Reset</a>
+                       class="text-base text-gray-400 hover:text-cyan-600 transition-colors ml-2 flex-shrink-0 font-semibold">Reset</a>
                 @endif
             </div>
         </form>
     </div>
 </section>
 
-{{-- ===== SECTION DAFTAR HASIL HOTEL (Warna Slate Terang Kontras Berbeda dari Atas) ===== --}}
-<section class="px-12 py-12 bg-slate-50">
+{{-- ===== SECTION DAFTAR HASIL HOTEL ===== --}}
+<section class="px-12 py-12 bg-slate-50" style="font-family: 'Inter', sans-serif;">
     <div class="max-w-7xl mx-auto">
-        
+
         {{-- Teks Info Pencarian --}}
-        <p class="text-sm text-gray-500 mb-6">
-            Menampilkan <span class="text-gray-800 font-bold">{{ $totalHotels ?? count($hotels ?? []) }}</span> hotel
-            @if(request('search')) untuk "<span class="text-cyan-600 font-semibold">{{ request('search') }}</span>" @endif
-            @if(request('area')) di area <span class="text-cyan-600 font-semibold">{{ request('area') }}</span> @endif
+        <p class="text-base text-gray-500 mb-6">
+            Menampilkan <span class="text-gray-800 font-bold font-mono-plex">{{ $totalHotels ?? count($hotels ?? []) }}</span> hotel
+            @if(request('search')) untuk "<span class="font-semibold" style="color: #0E7490;">{{ request('search') }}</span>" @endif
+            @if(request('area')) di area <span class="font-semibold" style="color: #0E7490;">{{ request('area') }}</span> @endif
         </p>
 
-        {{-- Grid Kartu Hotel --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {{-- Grid Kartu Hotel (sama seperti kartu di halaman Beranda) --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             @if(isset($hotels) && $hotels->count() > 0)
-                @foreach($hotels as $i => $hotel)
-                    
-                    {{-- 🔥 PERUBAHAN UTAMA: Ganti bg-white lama dengan inline style background warna cyan pastel --}}
-                    <div style="background-color: #ecfbfc;" class="border border-cyan-200 rounded-3xl overflow-hidden hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
-                        
-                        {{-- Gambar Hotel --}}
-                        <div class="h-48 overflow-hidden bg-slate-100 relative">
-                            <img src="{{ $hotel->foto ? asset('storage/hotel/' . $hotel->foto) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+                @foreach($hotels as $hotel)
+                    <div style="background-color: #ecfbfc;" class="rounded-2xl overflow-hidden border border-cyan-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+                        <div class="bg-slate-100 h-44 overflow-hidden relative">
+                            <img src="{{ $hotel->gambar ? asset('storage/hotel/' . $hotel->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+
+                            <button type="button" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-gray-400 hover:text-rose-500 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                </svg>
+                            </button>
+
+                            <div class="absolute bottom-3 left-3 flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                                <span class="text-yellow-400">★</span>
+                                {{ number_format($hotel->rating ?? $hotel->bintang ?? 4.5, 1) }}
+                            </div>
                         </div>
-                        
-                        {{-- Konten Detail Card --}}
+
                         <div class="p-5 flex-1 flex flex-col justify-between">
                             <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="text-cyan-700 text-xs font-bold">📍 {{ $hotel->area->nama ?? 'Bandung' }}</div>
-                                    <div class="text-xs">
-                                        @for($s = 1; $s <= 5; $s++)
-                                            <span class="{{ $s <= ($hotel->bintang ?? 4) ? 'text-amber-400' : 'text-slate-200' }}">★</span>
-                                        @endfor
-                                    </div>
-                                </div>
-                                
-                                <h3 class="text-gray-800 font-black text-base mb-1.5 leading-snug">{{ $hotel->nama }}</h3>
-                                
-                                {{-- Skor & Ulasan (Ubah bg badge jadi putih solid biar kebaca jelas) --}}
-                                <div class="flex items-center gap-1.5 mb-4">
-                                    <span class="bg-white text-cyan-700 text-xs font-bold px-1.5 py-0.5 rounded border border-cyan-100">{{ $hotel->rating ?? '4.5' }}</span>
-                                    <span class="text-gray-500 text-xs">({{ $hotel->reviews ?? '100' }} ulasan)</span>
-                                </div>
-                                
-                                {{-- Fasilitas (Badge diubah jadi background putih kontras) --}}
-                                <div class="flex flex-wrap gap-1 mb-5">
-                                    @if($hotel->facilities)
-                                        @foreach(explode(',', $hotel->facilities) as $f)
-                                            <span class="text-[10px] text-cyan-800 bg-white border border-cyan-100 px-2 py-1 rounded-md font-medium tracking-wide">{{ $f }}</span>
-                                        @endforeach
-                                    @else
-                                        <span class="text-[10px] text-cyan-800 bg-white border border-cyan-100 px-2 py-1 rounded-md font-medium tracking-wide">WiFi</span>
-                                        <span class="text-[10px] text-cyan-800 bg-white border border-cyan-100 px-2 py-1 rounded-md font-medium tracking-wide">AC</span>
-                                    @endif
+                                <h3 class="text-lg mb-1.5 hover:text-cyan-600 transition-colors font-fraunces" style="font-weight: 600; color: #155E75;">{{ $hotel->nama }}</h3>
+                                <div class="flex items-center gap-1 text-sm text-gray-500 font-medium mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 flex-shrink-0">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    </svg>
+                                    {{ $hotel->area->nama ?? 'Bandung' }}, Bandung
                                 </div>
                             </div>
-                            
-                            {{-- Baris Harga & Tombol Pesan --}}
-                            <div class="flex items-center justify-between pt-4 border-t border-cyan-200/60 mt-2">
+
+                            <div class="flex items-center justify-between pt-3 border-t border-cyan-200/60">
                                 <div>
-                                    <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wider">Mulai dari</p>
-                                    <p class="text-cyan-700 font-black text-lg leading-none mt-0.5">Rp {{ number_format($hotel->hotel_rooms_min_price ?? $hotel->harga ?? 0,0,',','.') }}</p>
-                                    <p class="text-[10px] text-gray-500 font-medium">/ malam</p>
+                                    <p class="text-[11px] uppercase font-bold tracking-wider text-gray-400">Mulai dari</p>
+                                    <p class="font-bold text-lg font-mono-plex" style="color: #0E7490;">Rp{{ number_format($hotel->hotel_rooms_min_price ?? $hotel->harga ?? 0,0,',','.') }}</p>
                                 </div>
                                 <a href="{{ route('hotel.show', ['id' => $hotel->id_hotel, 'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}"
-                                   class="bg-cyan-600 text-white font-bold text-xs px-5 py-2.5 rounded-xl hover:bg-cyan-700 shadow-md shadow-cyan-600/10 active:scale-95 transition-all duration-150">
+                                   class="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white font-bold text-sm px-4 py-2 rounded-xl hover:from-cyan-700 hover:to-cyan-600 transition-colors shadow-md shadow-cyan-600/10">
                                     Pesan
                                 </a>
                             </div>
                         </div>
-
                     </div>
                 @endforeach
             @else
-                <div class="col-span-1 md:col-span-3 text-center py-20 bg-white border border-slate-100 rounded-3xl shadow-sm">
-                    <span class="text-4xl">🏨</span>
-                    <p class="text-gray-400 text-sm mt-3 font-medium">Tidak ada data hotel yang tersedia saat ini.</p>
+                <div class="col-span-1 md:col-span-2 lg:col-span-4 text-center py-20 bg-white border border-slate-100 rounded-3xl shadow-sm">
+                    <span class="text-5xl">🏨</span>
+                    <p class="text-gray-400 text-base mt-3 font-medium">Tidak ada data hotel yang tersedia saat ini.</p>
                 </div>
             @endif
         </div>

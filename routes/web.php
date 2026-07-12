@@ -21,23 +21,52 @@ Route::get('/hotel/{id}', [HotelController::class, 'show'])->name('hotel.show');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::view('/kebijakan-privasi', 'pages.kebijakan')->name('kebijakan');
 Route::view('/syarat-ketentuan', 'pages.syarat')->name('syarat');
+Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak.index');
+Route::post('/kontak', [HomeController::class, 'kontakStore'])->name('kontak.store');
 
 
 // route user biasa (pelanggan)
 Route::middleware('auth')->group(function () {
-    
+
     // dashboard user biasa
     Route::get('/dashboard', function () {
-        $bookings = Booking::where('id_user', Auth::id())->with('kamar.hotel')->get();
-        return view('pages.dashboard', compact('bookings'));
+        $userId = Auth::id();
+
+        $allBookings = Booking::where('id_user', $userId)->with(['kamar', 'hotel'])->get();
+
+        $totalBooking = $allBookings->count();
+
+        $selesaiCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['confirmed', 'berhasil', 'selesai']))->count();
+        $pendingCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['pending', 'menunggu konfirmasi']))->count();
+        $dibatalkanCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['cancelled', 'dibatalkan']))->count();
+
+        $selesaiPercent = $totalBooking > 0 ? round(($selesaiCount / $totalBooking) * 100) : 0;
+        $pendingPercent = $totalBooking > 0 ? round(($pendingCount / $totalBooking) * 100) : 0;
+        $dibatalkanPercent = $totalBooking > 0 ? round(($dibatalkanCount / $totalBooking) * 100) : 0;
+
+        $nextBooking = $allBookings
+            ->filter(fn($b) => in_array(strtolower(trim($b->status)), ['confirmed', 'berhasil'])
+                && \Carbon\Carbon::parse($b->tgl_checkin)->isFuture())
+            ->sortBy('tgl_checkin')
+            ->first();
+
+        $bookings = Booking::where('id_user', $userId)
+                        ->with(['kamar', 'hotel'])
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(6);
+
+        return view('pages.dashboard', compact(
+            'bookings', 'nextBooking', 'totalBooking',
+            'selesaiCount', 'pendingCount', 'dibatalkanCount',
+            'selesaiPercent', 'pendingPercent', 'dibatalkanPercent'
+        ));
     })->name('dashboard');
 
     // alur reservasi & booking
-    Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create'); 
+    Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');
     Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
     Route::get('/booking/payment/{id}', [BookingController::class, 'showPaymentPage'])->name('booking.payment');
     Route::post('/booking/confirm-payment/{id}', [BookingController::class, 'confirmPayment'])->name('booking.confirm');
-    Route::put('/admin/booking/{id}/archive', [BookingController::class, 'archive'])->name('admin.booking.archive');
     Route::get('/booking-success', function() {
         return view('pages.booking-success');
     })->name('booking.success');
@@ -46,6 +75,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // lihat bukti transfer — wajib login, tidak lagi bisa diakses publik
+    Route::get('/view-bukti/{filename}', function ($filename) {
+        $path = storage_path('app/public/bukti_transfer/' . $filename);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        return response()->file($path);
+    })->name('view.bukti');
 });
 
 
@@ -72,15 +110,10 @@ Route::prefix('admin')
 
         Route::get('/booking', [BookingController::class, 'adminIndex'])->name('booking.index');
         Route::put('/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.status');
+
+        // dipindahkan ke sini dari grup auth biasa — sebelumnya bisa diakses semua user login, bukan cuma admin
+        Route::put('/booking/{id}/archive', [BookingController::class, 'archive'])->name('booking.archive');
     });
 
-Route::get('/view-bukti/{filename}', function ($filename) {
-    $path = storage_path('storage/bukti_transfer/' . $filename);
-    if (!File::exists($path)) {
-        abort(404);
-    }
-    return response()->file($path);
-})->name('view.bukti');
-
-// route untuk autentikasi 
+// route untuk autentikasi
 require __DIR__.'/auth.php';

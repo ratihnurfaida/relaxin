@@ -1,225 +1,310 @@
 <x-app-layout>
 
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+{{-- ===== HERO SECTION ===== --}}
+<div class="min-h-screen" style="background-color: #F0F9FA; font-family: 'Inter', sans-serif;">
+    <section class="relative px-6 md:px-12 pt-16 pb-20 text-right bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('storage/foto/gdsate.png') }}');">
+        {{-- Overlay gelap di sisi kanan (tempat teks) supaya foto tetap terlihat jelas di sisi kiri --}}
+        <div class="absolute inset-0 bg-gradient-to-l from-black/75 via-black/45 to-black/10 z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 z-0"></div>
 
-{{-- ===== HERO SECTION (Tetap Cerah Berenergi) ===== --}}
- <div class="py-14 min-h-screen" style="background-color: #F0F9FA; font-family: 'Inter', sans-serif;">
-    <section class="relative px-12 pt-28 pb-24 text-center bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('storage/foto/bg.jpeg') }}');">
-        <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30 z-0"></div>
+        <div class="relative z-10 max-w-xl ml-auto text-right">
 
-        <div class="relative z-10">
-            <div class="inline-flex items-center gap-2 bg-cyan-400/20 border border-cyan-400/40 text-cyan-200 text-xs font-bold px-4 py-1.5 rounded-full mb-6 backdrop-blur-sm">
-                Khusus Hotel Bandung
-            </div>
-
-            <h1 class="text-4xl md:text-5xl leading-none mb-4" 
-                style="font-family: 'Fraunces', serif; font-weight: 600; color: #F0F9FA;">
-                Temukan Hotel Terbaik<br>
-                di <span class="text-cyan-600">Bandung</span>, Mudah & Cepat
+            <h1 class="text-4xl md:text-6xl leading-tight mb-4 font-fraunces" style="font-weight: 600; color: #F0F9FA;">
+                Temukan Hotel Terbaik di <span class="text-cyan-300">Bandung</span>
             </h1>
-            <p class="text-lg text-white mb-10 max-w-xl mx-auto font-medium">
-                Dari budget hingga bintang lima, semua hotel di Bandung ada di sini
+            <p class="text-lg md:text-xl text-white/90 mb-10 font-medium">
+                Booking hotel favoritmu dengan harga terbaik, mudah, cepat, dan aman hanya di RelaXin.
             </p>
 
-            <form action="{{ route('hotel.index') }}" method="GET">
-                <div class="bg-white rounded-2xl px-7 py-5 max-w-2xl mx-auto shadow-xl border border-gray-100 flex items-center gap-4 flex-wrap md:flex-nowrap">
-                    <div class="flex flex-col flex-1 min-w-[120px] text-left">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Destination</label>
-                        <input type="text" name="search" placeholder="Cari hotel di Bandung...."
-                               class="text-sm font-bold text-gray-800 outline-none border-none bg-transparent w-full placeholder-gray-400">
+            {{-- FITUR SINGKAT --}}
+            <div class="flex flex-nowrap items-center justify-end gap-x-8 gap-y-4 mb-10">
+                @foreach([
+                    ['title' => 'Harga Terbaik', 'desc' => 'Jaminan harga termurah', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'],
+                    ['title' => 'Booking Instan', 'desc' => 'Konfirmasi dalam hitungan detik', 'icon' => 'm3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z'],
+                    ['title' => 'Aman & Terpercaya', 'desc' => 'Transaksi aman dan terpercaya', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9Zm-9-9v9l6 3'],
+                ] as $feat)
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-xl bg-white/15 border border-white/25 flex items-center justify-center flex-shrink-0 backdrop-blur-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#A5F3FC" stroke-width="2" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $feat['icon'] }}" />
+                            </svg>
+                        </span>
+                        <div class="text-right">
+                            <div class="text-white font-bold text-sm">{{ $feat['title'] }}</div>
+                            <div class="text-white/70 text-xs font-medium">{{ $feat['desc'] }}</div>
+                        </div>
                     </div>
-                    <div class="w-px h-10 bg-gray-200 hidden md:block"></div>
-                    <div class="flex flex-col flex-1 min-w-[120px] text-left">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Check-in</label>
-                        <input type="date" name="checkin" class="text-sm font-bold text-gray-700 outline-none border-none bg-transparent w-full">
-                    </div>
-                    <div class="w-px h-10 bg-gray-200 hidden md:block"></div>
-                    <div class="flex flex-col flex-1 min-w-[120px] text-left">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Check-out</label>
-                        <input type="date" name="checkout" class="text-sm font-bold text-gray-700 outline-none border-none bg-transparent w-full">
-                    </div>
-                    <!-- Tombol Cari diubah jadi Gradasi Cyan-Teal yang Pop Out -->
-                    <button type="submit" class="bg-gradient-to-r from-cyan-600 to-teal-600 text-white font-bold text-sm px-7 py-3.5 rounded-xl hover:from-cyan-700 hover:to-teal-700 transition-all shadow-md shadow-cyan-600/20">
-                        Cari Hotel
-                    </button>
+                @endforeach
+            </div>
+        </div>
+
+        {{-- FILTER & SEARCH FORM (tetap di tengah) --}}
+        <form action="{{ route('hotel.index') }}" method="GET" class="relative z-10 bg-white p-4 rounded-2xl border border-slate-100 shadow-2xl w-full max-w-5xl mx-auto">
+            <div class="flex flex-wrap gap-3 items-center w-full">
+
+                {{-- Area --}}
+                <select name="area"
+                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
+                    <option value="">Semua Area</option>
+                    @foreach(['Dago','Pasteur','Lembang','Buah Batu','Braga'] as $area)
+                        <option value="{{ $area }}" {{ request('area') == $area ? 'selected' : '' }}>{{ $area }}</option>
+                    @endforeach
+                </select>
+
+                {{-- Bintang --}}
+                <select name="bintang"
+                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
+                    <option value="">Semua Bintang</option>
+                    @foreach([1,2,3,4,5] as $b)
+                        <option value="{{ $b }}" {{ request('bintang') == $b ? 'selected' : '' }}>Bintang {{ $b }}</option>
+                    @endforeach
+                </select>
+
+                {{-- Check-In --}}
+                <input type="date" name="checkin" value="{{ request('checkin') }}"
+                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
+
+                {{-- Check-Out --}}
+                <input type="date" name="checkout" value="{{ request('checkout') }}"
+                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
+
+                {{-- Tombol Cari --}}
+                <button type="submit"
+                        class="bg-cyan-600 hover:bg-cyan-700 text-white text-base px-6 py-2.5 rounded-xl transition-colors shadow-md shadow-cyan-600/10 active:scale-95 duration-150 flex-shrink-0 font-bold">
+                    Cari
+                </button>
+
+                {{-- Reset --}}
+                @if(request()->anyFilled(['area','bintang','checkin','checkout']))
+                    <a href="{{ route('hotel.index') }}"
+                       class="text-base text-gray-400 hover:text-cyan-600 transition-colors ml-2 flex-shrink-0 font-semibold">Reset</a>
+                @endif
+            </div>
+        </form>
+    </section>
+
+    {{-- ===== DESTINASI POPULER ===== --}}
+    <section id="destinasi" class="px-6 md:px-12 pt-16 pb-16">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-end justify-between mb-8 flex-wrap gap-4">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Destinasi Populer</p>
+                    <h2 class="text-3xl leading-tight font-fraunces" style="font-weight: 600; color: #155E75;">Jelajahi Area Terbaik di Bandung</h2>
                 </div>
-            </form>
+                <a href="{{ route('hotel.index') }}" class="text-base font-bold hover:text-cyan-700 transition-colors" style="color: #0E7490;">
+                    Lihat semua →
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                @php
+                    $areaMeta = [
+                        'Asia Afrika' => ['foto' => 'asia-afrika.jpeg'],
+                        'Braga'       => ['foto' => 'braga1.jpeg'],
+                        'Dago'        => ['foto' => 'dago.jpeg'],
+                        'Lembang'     => ['foto' => 'lembang.jpeg'],
+                        'Pasteur'     => ['foto' => 'pasteur.jpeg'],
+                        'Buah Batu'   => ['foto' => 'bg.jpeg'],
+                    ];
+                    @endphp
+
+                    @foreach($areas as $area)
+
+                    @php
+                        $meta = $areaMeta[$area->nama] ?? ['foto' => 'default-area.jpeg'];
+                    @endphp
+                    <a href="{{ route('hotel.index', ['area' => $area->nama]) }}"
+                       class="group relative rounded-2xl overflow-hidden h-56 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-200 bg-cyan-800">
+                        <img
+                            src="{{ asset('storage/foto/' . $meta['foto']) }}"
+                            alt="{{ $area->nama }}"
+                            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+
+                        <div class="absolute bottom-4 left-4 right-4 text-white">
+                            <div class="font-bold text-lg font-fraunces">{{ $area->nama }}</div>
+                            <div class="text-sm text-cyan-200 font-semibold">{{ $area->hotels_count }} Hotel</div>
+                        </div>
+                        <div class="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-cyan-700 group-hover:bg-cyan-500 group-hover:text-white transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
         </div>
     </section>
 
-{{-- ===== HOTEL POPULER (Background Putih Bersih) ===== --}}
-<section id="hotel" class="px-12 py-16 bg-white">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <p class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Rekomendasi</p>
-                <h2 class="text-2xl font-extrabold text-gray-800">Hotel Populer Minggu Ini</h2>
+    {{-- ===== HOTEL REKOMENDASI ===== --}}
+    <section id="hotel" class="px-6 md:px-12 py-16 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-end justify-between mb-8 flex-wrap gap-4">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Rekomendasi</p>
+                    <h2 class="text-3xl leading-tight font-fraunces" style="font-weight: 600; color: #155E75;">Hotel Pilihan untuk Anda</h2>
+                </div>
+                <a href="{{ route('hotel.index') }}" class="text-base font-bold hover:text-cyan-700 transition-colors" style="color: #0E7490;">
+                    Lihat semua hotel →
+                </a>
             </div>
-            <a href="{{ route('hotel.index') }}" class="text-cyan-600 text-sm font-bold hover:text-cyan-700 transition-colors">
-                Lihat semua →
-            </a>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            @if(isset($hotels) && $hotels->count() > 0)
-                @foreach($hotels as $i => $hotel)
-                    
-                    {{-- 🔥 DISINI PERUBAHANNYA: Ganti bg-white lama dengan inline style background warna soft cyan + border cyan --}}
-                    <div style="background-color: #ecfbfc;" class="rounded-2xl overflow-hidden border border-cyan-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
-                        <div class="bg-slate-100 h-48 overflow-hidden relative">
-                            <img src="{{ $hotel->gambar ? asset('storage/hotel/' . $hotel->gambar) : asset('storage/app/public/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 flex-1 flex flex-col justify-between">
-                            <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="text-cyan-700 text-xs font-bold">📍 {{ $hotel->area->nama ?? '-' }}</div>
-                                    <div class="text-xs">
-                                        @for($s = 1; $s <= 5; $s++)
-                                            <span class="{{ $s <= ($hotel->star_rating ?? 4) ? 'text-yellow-400' : 'text-gray-200' }}">★</span>
-                                        @endfor
-                                    </div>
-                                </div>
-                                <h3 class="text-gray-800 font-extrabold text-lg mb-2 hover:text-cyan-600 transition-colors">{{ $hotel->nama }}</h3>
-                                
-                                {{-- Rating & Skor (Diberi border tipis dan bg-white biar mencolok di atas background cyan) --}}
-                                <div class="flex items-center gap-2 mb-4">
-                                    <span class="bg-white text-cyan-700 text-xs font-bold px-1.5 py-0.5 rounded border border-cyan-100">4.5</span>
-                                    <span class="text-gray-500 text-xs">(100 ulasan)</span>
-                                </div>
-                                
-                                <div class="flex flex-wrap gap-1.5 mb-4">
-                                    {{-- Badge fasilitas diubah dari bg-cyan-50 ke bg-white padat supaya kontras bersih --}}
-                                    @if($hotel->fasilitas)
-                                        @foreach(explode(',', $hotel->fasilitas) as $f)
-                                            <span class="text-[11px] text-cyan-800 bg-white border border-cyan-100 font-semibold px-2.5 py-1 rounded-md">{{ trim($f) }}</span>
-                                        @endforeach
-                                    @else
-                                        <span class="text-[11px] text-cyan-800 bg-white border border-cyan-100 font-semibold px-2.5 py-1 rounded-md">WiFi</span>
-                                        <span class="text-[11px] text-cyan-800 bg-white border border-cyan-100 font-semibold px-2.5 py-1 rounded-md">AC</span>
-                                    @endif
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                @if(isset($hotels) && $hotels->count() > 0)
+                    @foreach($hotels as $hotel)
+                        <div style="background-color: #ecfbfc;" class="rounded-2xl overflow-hidden border border-cyan-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+                            <div class="bg-slate-100 h-44 overflow-hidden relative">
+                                <img src="{{ $hotel->gambar ? asset('storage/hotel/' . $hotel->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+
+                                <button type="button" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-gray-400 hover:text-rose-500 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                                    </svg>
+                                </button>
+
+                                <div class="absolute bottom-3 left-3 flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                                    <span class="text-yellow-400">★</span>
+                                    {{ number_format($hotel->star_rating ?? 4.5, 1) }}
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between pt-4 border-t border-cyan-200/60 mt-2">
+                            <div class="p-5 flex-1 flex flex-col justify-between">
                                 <div>
-                                    <p class="text-[9px] uppercase font-bold tracking-wider text-gray-400">Mulai dari</p>
-                                    <p class="text-cyan-700 font-black text-xl">Rp {{ number_format($hotel->harga,0,',','.') }}</p>
-                                    <p class="text-xs text-gray-400">/malam</p>
+                                    <h3 class="text-lg mb-1.5 hover:text-cyan-600 transition-colors font-fraunces" style="font-weight: 600; color: #155E75;">{{ $hotel->nama }}</h3>
+                                    <div class="flex items-center gap-1 text-sm text-gray-500 font-medium mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4 flex-shrink-0">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                        </svg>
+                                        {{ $hotel->area->nama ?? 'Bandung' }}, Bandung
+                                    </div>
                                 </div>
-                                <a href="{{ route('hotel.show', ['id' => $hotel->id_hotel, 'checkin' => request('checkin'), 'checkout' => request('checkout')]) }}"
-                                   class="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white font-bold text-sm px-5 py-2.5 rounded-xl hover:from-cyan-700 hover:to-cyan-600 transition-colors shadow-md shadow-cyan-600/10">
-                                    Lihat Detail
-                                </a>
+
+                                <div class="flex items-center justify-between pt-3 border-t border-cyan-200/60">
+                                    <div>
+                                        <p class="text-[11px] uppercase font-bold tracking-wider text-gray-400">Mulai dari</p>
+                                        <p class="font-bold text-lg font-mono-plex" style="color: #0E7490;">Rp{{ number_format($hotel->harga,0,',','.') }}</p>
+                                    </div>
+                                    <a href="{{ route('hotel.show', ['id' => $hotel->id_hotel]) }}"
+                                       class="bg-gradient-to-r from-cyan-600 to-cyan-500 text-white font-bold text-sm px-4 py-2 rounded-xl hover:from-cyan-700 hover:to-cyan-600 transition-colors shadow-md shadow-cyan-600/10">
+                                        Lihat Detail
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <p class="col-span-4 text-center text-gray-500 py-10">Belum ada data hotel populer saat ini.</p>
+                @endif
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== KENAPA RELAXIN ===== --}}
+    <section id="tentang" class="px-6 md:px-12 py-16 bg-slate-50 border-t border-b border-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-8">
+                <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Kenapa Memilih RelaXin?</p>
+                <h2 class="text-3xl leading-tight font-fraunces" style="font-weight: 600; color: #155E75;">Lebih Mudah, Lebih Nyaman</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach([
+                    ['title' => 'Harga Terbaik', 'desc' => 'Kami jamin harga termurah dibandingkan platform lain.', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z'],
+                    ['title' => 'Booking Cepat', 'desc' => 'Proses booking cepat dan konfirmasi instan.', 'icon' => 'm3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z'],
+                    ['title' => 'Aman & Terpercaya', 'desc' => 'Transaksi aman, data terjaga, dan terpercaya.', 'icon' => 'M9 12.75 11.25 15 15 9.75M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9Zm-9-9v9l6 3'],
+                    ['title' => 'Customer Support 24/7', 'desc' => 'Tim kami siap membantu kapan pun Anda butuhkan.', 'icon' => 'M8.25 15.75c1.5.5 2.25 1.5 3.75 1.5s2.25-1 3.75-1.5m-9-3.75h.008v.008H6.75v-.008Zm10.5 0h.008v.008h-.008v-.008Zm-8.25 0a8.25 8.25 0 1 1 8.25 8.25 8.25 8.25 0 0 1-8.25-8.25Z'],
+                ] as $why)
+                    <div class="bg-white border border-cyan-200 rounded-2xl p-6 hover:shadow-xl hover:border-cyan-400 hover:-translate-y-1 transition-all duration-200">
+                        <div class="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center mb-4 shadow-sm shadow-cyan-600/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="{{ $why['icon'] }}" />
+                            </svg>
+                        </div>
+                        <h4 class="mb-2 text-lg font-fraunces" style="font-weight: 600; color: #155E75;">{{ $why['title'] }}</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">{{ $why['desc'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== CARA BOOKING ===== --}}
+    <section id="cara-booking" class="px-6 md:px-12 py-16 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12">
+                <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Cara Booking</p>
+                <h2 class="text-3xl leading-tight font-fraunces" style="font-weight: 600; color: #155E75;">Booking dalam 3 Langkah</h2>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center md:items-start justify-between gap-10 md:gap-4">
+                @foreach([
+                    ['step' => 1, 'title' => 'Cari Hotel', 'desc' => 'Cari hotel sesuai lokasi, tanggal, dan kebutuhanmu.', 'icon' => 'm21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z'],
+                    ['step' => 2, 'title' => 'Pilih Kamar', 'desc' => 'Pilih kamar favorit dan lakukan pemesanan.', 'icon' => 'M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5'],
+                    ['step' => 3, 'title' => 'Konfirmasi Booking', 'desc' => 'Dapatkan konfirmasi instan dan siap untuk menginap.', 'icon' => 'm4.5 12.75 6 6 9-13.5'],
+                ] as $step)
+                    <div class="flex flex-col items-center text-center px-2 flex-1 max-w-[220px]">
+                        <div class="relative mb-4">
+                            <div class="w-20 h-20 rounded-full bg-white border-2 border-dashed border-cyan-300 flex items-center justify-center shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0E7490" stroke-width="2" class="w-8 h-8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="{{ $step['icon'] }}" />
+                                </svg>
+                            </div>
+                            <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-cyan-600 text-white text-sm font-bold flex items-center justify-center font-mono-plex shadow">
+                                {{ $step['step'] }}
+                            </span>
+                        </div>
+                        <h4 class="text-base font-bold mb-1 mt-2" style="color: #155E75;">{{ $step['title'] }}</h4>
+                        <p class="text-gray-500 text-sm">{{ $step['desc'] }}</p>
+                    </div>
+
+                    @if(!$loop->last)
+                        <div class="hidden md:flex items-center justify-center flex-shrink-0 mt-8">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#A5D8E0" stroke-width="2" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== ULASAN ===== --}}
+    <section id="ulasan" class="px-6 md:px-12 py-16 bg-slate-50 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-end justify-between mb-8 flex-wrap gap-4">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Apa Kata Mereka?</p>
+                    <h2 class="text-3xl leading-tight font-fraunces" style="font-weight: 600; color: #155E75;">Ulasan dari Tamu Kami</h2>
+                </div>
+                <a href="#" class="text-base font-bold hover:text-cyan-700 transition-colors" style="color: #0E7490;">
+                    Lihat semua ulasan →
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach([
+                    ['name' => 'Rina Kartika', 'city' => 'Bandung', 'text' => 'Booking di RelaXin sangat mudah dan cepat. Harganya juga lebih murah dibanding aplikasi lain. Pasti akan booking lagi!'],
+                    ['name' => 'Dimas Pratama', 'city' => 'Jakarta', 'text' => 'Hotel yang saya pesan sesuai ekspektasi, pelayanannya bagus dan lokasinya strategis.'],
+                    ['name' => 'Siti Nurhaliza', 'city' => 'Jakarta', 'text' => 'Promo di RelaXin paling sering dan paling worth it! Recommended banget.'],
+                ] as $review)
+                    <div class="bg-white border border-cyan-100 rounded-2xl p-6 shadow-sm">
+                        <div class="text-yellow-400 text-lg mb-3 tracking-wide">★★★★★</div>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">"{{ $review['text'] }}"</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-cyan-100 text-cyan-700 font-bold flex items-center justify-center flex-shrink-0 font-mono-plex">
+                                {{ collect(explode(' ', $review['name']))->map(fn($n) => $n[0])->join('') }}
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold text-gray-800">{{ $review['name'] }}</div>
+                                <div class="text-xs text-gray-400 font-medium">{{ $review['city'] }}</div>
                             </div>
                         </div>
                     </div>
                 @endforeach
-            @else
-                <div class="col-span-1 md:col-span-3 text-center py-12 bg-slate-50 border border-dashed border-gray-200 rounded-2xl">
-                    <p class="text-gray-400 font-medium">Belum ada rekomendasi hotel tersedia.</p>
-                </div>
-            @endif
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-{{-- ===== JELAJAHI AREA (Background Selang-seling: Slate Ringan) ===== --}}
-<section id="destinasi" class="px-12 py-16 bg-slate-50 border-t border-b border-gray-100">
-    <div class="max-w-7xl mx-auto">
-        <div class="mb-8">
-            <p class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Jelajahi</p>
-            <h2 class="text-2xl font-extrabold text-gray-800">Cari berdasarkan area</h2>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-            @foreach($areas as $area)
-                <a href="{{ route('hotel.index', ['area' => $area->nama]) }}"
-                   style="background-color: #ecfbfc;"
-                   class="border border-cyan-200 rounded-xl p-5 flex items-center gap-4
-                          hover:border-cyan-400 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-150 cursor-pointer">
-                    
-                    {{-- Kontainer Icon --}}
-                    <div class="w-12 h-12 bg-white border border-cyan-100 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-                        {{-- Menggunakan icon dinamis berdasarkan nama area --}}
-                        @if($area->nama == 'Dago')
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M16.5 7.5a4.5 4.5 0 0 1-9 0" /></svg>
-                        @elseif($area->nama == 'Pasteur')
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 16.5h1.5m3 0H15" /></svg>
-                        @elseif($area->nama == 'Lembang')
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-                        @elseif($area->nama == 'Buah Batu')
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
-                        @else
-                            {{-- Default Icon untuk area lain --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
-                        @endif
-                    </div>
-
-                    {{-- Info Teks Dinamis --}}
-                    <div>
-                        <div class="text-gray-800 text-sm font-bold">{{ $area->nama }}</div>
-                        <div class="text-cyan-700 text-xs font-semibold mt-0.5">{{ $area->hotels_count }} hotel</div>
-                    </div>
-                </a>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- ===== KENAPA RELAXIN (Background Kembali ke Putih) ===== --}}
-<section id="tentang" class="px-12 py-16 bg-white">
-    <div class="max-w-7xl mx-auto">
-        <div class="mb-8">
-            <p class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Kenapa RelaXin?</p>
-            <h2 class="text-2xl font-extrabold text-gray-800">Lebih fokus, lebih mudah</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            @foreach([
-                ['title'=>'Khusus Bandung',    'desc'=>'Semua hotel yang tampil memang ada di Bandung tidak perlu filter ulang.'],
-                ['title'=>'Pesan cepat',        'desc'=>'Pilih hotel, tentukan tanggal, konfirmasi selesai dalam hitungan menit.'],
-                ['title'=>'Ulasan terpercaya',  'desc'=>'Rating dan ulasan dari tamu yang benar-benar sudah menginap.'],
-                ['title'=>'Harga transparan',   'desc'=>'Harga yang tampil sudah termasuk pajak, tanpa biaya tersembunyi.'],
-            ] as $why)
-                <div style="background-color: #ecfbfc;" 
-                     class="border border-cyan-200 rounded-2xl p-6 hover:bg-white hover:shadow-xl hover:border-cyan-400 hover:-translate-y-1 transition-all duration-200">
-                    
-                    {{-- Kontainer Icon SVG --}}
-                    <div class="w-12 h-12 bg-white border border-cyan-100 rounded-xl flex items-center justify-center mb-4 shadow-sm">
-                        
-                        @if($why['title'] == 'Khusus Bandung')
-                            {{-- Icon Pin Peta (Location Map Pin) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                            </svg>
-
-                        @elseif($why['title'] == 'Pesan cepat')
-                            {{-- Icon Petir / Kilat (Lightning Bolt) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
-                            </svg>
-
-                        @elseif($why['title'] == 'Ulasan terpercaya')
-                            {{-- Icon Bintang Gari-garis (Star Outline) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499c.151-.312.59-.312.741 0l2.22 4.504 4.97A.75.75 0 0 1 19.83 9.22l-3.597 3.504.85 4.952a.75.75 0 0 1-1.088.791L11.5 16.12l-4.444 2.333a.75.75 0 0 1-1.088-.791l.85-4.952-3.597-3.504a.75.75 0 0 1 .419-1.282l4.97-.443 2.22-4.504Z" />
-                            </svg>
-
-                        @elseif($why['title'] == 'Harga transparan')
-                            {{-- Icon Kartu/Dompet/Tag Uang (Banknotes / Tag) --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 text-cyan-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5M5.25 7.5h13.5m-15 3h15m-16.5 3h16.5m-18 3h19.5M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-                            </svg>
-                        @endif
-
-                    </div>
-                    
-                    {{-- Judul & Deskripsi --}}
-                    <h4 class="text-gray-800 font-bold text-base mb-2">{{ $why['title'] }}</h4>
-                    <p class="text-gray-600 text-xs leading-relaxed">{{ $why['desc'] }}</p>
-                </div>
-            @endforeach
-        </div>
-    </div>
 </div>
-</section>
 </x-app-layout>

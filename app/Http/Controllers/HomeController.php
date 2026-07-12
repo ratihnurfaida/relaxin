@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Area;
 
+
 class HomeController extends Controller
 {
-    
+
     public function index()
     {
-        $hotels = Hotel::all();
+        // Tampilkan 4 hotel sebagai rekomendasi (tidak lagi berdasarkan jumlah booking)
+        $hotels = Hotel::latest()->take(4)->get();
         $areas = Area::withCount('hotels')->get();
+
         return view('pages.welcome', compact('hotels', 'areas'));
     }
+
     public function adminDashboard()
     {
         $total_selesai = Booking::where('status', 'selesai')->count();
@@ -52,6 +56,21 @@ class HomeController extends Controller
     {
         return view('pages.about', [
             'title' => 'Tentang Kami — RelaXin'
+        ]);
+    }
+
+    public function kontak()
+    {
+        return view('pages.kontak');
+    }
+ 
+    public function kontakStore(Request $request)
+    {
+        $request->validate([
+            'nama'   => 'required|string|max:255',
+            'email'  => 'required|email|max:255',
+            'subjek' => 'required|string|max:255',
+            'pesan'  => 'required|string|max:2000',
         ]);
     }
 }

@@ -1,16 +1,19 @@
 <x-app-layout>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
     {{-- HEADER --}}
-    <section class="px-12 py-12 bg-white border-b border-cyan-100">
+    <section class="px-12 py-12 bg-white border-b border-cyan-100" style="font-family: 'Inter', sans-serif;">
         <div class="max-w-7xl mx-auto">
-            <p class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Jelajahi</p>
-            <h1 class="text-3xl font-black text-gray-800 mb-2 tracking-tight">Area & Kawasan di Bandung</h1>
-            <p class="text-gray-500 text-sm font-medium">Pilih kawasan favoritmu dan temukan hotel terbaik di sana</p>
+            <p class="text-sm font-bold uppercase tracking-widest mb-1" style="color: #0E7490; font-family: 'IBM Plex Mono', monospace;">Jelajahi</p>
+            <h1 class="text-4xl mb-2 leading-tight" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">Area &amp; Kawasan di Bandung</h1>
+            <p class="text-gray-500 text-base font-medium">Pilih kawasan favoritmu dan temukan hotel terbaik di sana</p>
         </div>
     </section>
 
     {{-- GRID AREA --}}
-    <section class="px-12 py-12 bg-cyan-50/40 min-h-screen">
+    <section class="px-12 py-12 bg-cyan-50/40 min-h-screen" style="font-family: 'Inter', sans-serif;">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @php
@@ -42,23 +45,23 @@
 
                                 <div class="absolute inset-0 bg-black/30"></div>
 
-                                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-cyan-800 text-xs font-extrabold px-3 py-1 rounded-full shadow-sm">
+                                <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-sm font-extrabold px-3 py-1 rounded-full shadow-sm" style="color: #155E75; font-family: 'IBM Plex Mono', monospace;">
                                     {{ $area->hotels_count }} hotel
                                 </div>
 
                                 <div class="absolute bottom-3 left-4 flex items-center gap-2">
-                                    <h3 class="text-white font-black text-xl drop-shadow-md tracking-tight">{{ $area->nama }}</h3>
+                                    <h3 class="text-white text-2xl drop-shadow-md leading-none" style="font-family: 'Fraunces', serif; font-weight: 600;">{{ $area->nama }}</h3>
                                 </div>
                             </div>
 
                             <div class="p-5">
-                                <p class="text-gray-600 text-xs leading-relaxed font-medium">{{ $meta['desc'] }}</p>
+                                <p class="text-gray-600 text-sm leading-relaxed font-medium">{{ $meta['desc'] }}</p>
                             </div>
                         </div>
 
                         <div class="px-5 pb-5 pt-3 border-t border-cyan-200/40 flex items-center justify-between">
-                            <span class="text-xs text-cyan-800/70 font-bold">{{ $area->hotels_count }} hotel tersedia</span>
-                            <span class="text-cyan-600 text-xs font-extrabold group-hover:text-cyan-700 flex items-center gap-1 transition-colors">
+                            <span class="text-sm font-bold" style="color: rgba(21,94,117,0.7); font-family: 'IBM Plex Mono', monospace;">{{ $area->hotels_count }} hotel tersedia</span>
+                            <span class="text-sm font-extrabold flex items-center gap-1 transition-colors group-hover:opacity-80" style="color: #0E7490;">
                                 Lihat hotel
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
@@ -71,8 +74,8 @@
 
             {{-- TIPS --}}
             <div class="mt-12 bg-white rounded-3xl p-8 border border-cyan-100 shadow-sm">
-                <p class="text-xs font-bold text-cyan-600 uppercase tracking-widest mb-1">Tips</p>
-                <h2 class="text-xl font-black text-gray-800 mb-6 tracking-tight">Panduan Memilih Area</h2>
+                <p class="text-sm font-bold uppercase tracking-widest mb-1" style="color: #0E7490; font-family: 'IBM Plex Mono', monospace;">Tips</p>
+                <h2 class="text-2xl mb-6 leading-tight" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">Panduan Memilih Area</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     @foreach([
                         ['icon'=>'💼','title'=>'Perjalanan Bisnis','desc'=>'Pilih Pasteur dekat pintu tol gerbang utama dan pusat korporat Bandung.'],
@@ -80,12 +83,12 @@
                         ['icon'=>'🎭','title'=>'Wisata Budaya & Estetik','desc'=>'Braga dan Asia Afrika adalah pusatnya seni, jalan kaki, dan sejarah heritage kota.'],
                     ] as $tip)
                         <div class="flex gap-4">
-                            <div style="background-color: #ecfbfc;" class="w-12 h-12 rounded-2xl flex items-center justify-center text-xl flex-shrink-0 border border-cyan-100 shadow-sm">
+                            <div style="background-color: #ecfbfc;" class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 border border-cyan-100 shadow-sm">
                                 {{ $tip['icon'] }}
                             </div>
                             <div>
-                                <h4 class="text-gray-800 font-bold text-sm mb-1 tracking-tight">{{ $tip['title'] }}</h4>
-                                <p class="text-gray-500 text-xs leading-relaxed font-medium">{{ $tip['desc'] }}</p>
+                                <h4 class="text-base mb-1 leading-tight" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">{{ $tip['title'] }}</h4>
+                                <p class="text-gray-500 text-sm leading-relaxed font-medium">{{ $tip['desc'] }}</p>
                             </div>
                         </div>
                     @endforeach

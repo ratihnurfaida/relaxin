@@ -1,31 +1,38 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+    <div style="font-family: 'Inter', sans-serif;">
+        <div class="w-full bg-white border border-cyan-100 rounded-2xl p-8 shadow-xl shadow-cyan-600/10">
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
-
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+            {{-- Judul Form --}}
+            <div class="text-center mb-6">
+                <h1 class="text-2xl mb-0.5" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">Verifikasi Email</h1>
+                <p class="text-gray-500 text-base leading-relaxed">
+                    Terima kasih sudah mendaftar! Sebelum mulai, mohon verifikasi email kamu dengan mengklik link yang baru saja kami kirim. Tidak menerima email?
+                </p>
             </div>
-        </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+            @if (session('status') == 'verification-link-sent')
+                <div class="rounded-xl px-4 py-3 mb-4 text-base font-medium" style="background-color: #ECFDF5; color: #047857; border: 1px solid #A7F3D0;">
+                    Link verifikasi baru telah dikirim ke alamat email yang kamu daftarkan.
+                </div>
+            @endif
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+            <div class="flex flex-col gap-3">
+                <form method="POST" action="{{ route('verification.send') }}">
+                    @csrf
+                    <button type="submit"
+                        class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-base py-3 rounded-xl transition-all shadow-md shadow-cyan-600/10 active:scale-[0.98] duration-150">
+                        Kirim Ulang Email Verifikasi
+                    </button>
+                </form>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="w-full text-center text-base font-semibold text-gray-500 hover:text-cyan-700 hover:underline py-2">
+                        Keluar
+                    </button>
+                </form>
+            </div>
+
+        </div>
     </div>
 </x-guest-layout>

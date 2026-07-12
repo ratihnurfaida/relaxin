@@ -19,10 +19,13 @@ class KamarController extends Controller
 
         $hotel = Hotel::find($id_hotel);
 
-        $daftar_kamar = Kamar::when($id_hotel, function ($query, $id_hotel) {
-            return $query->where('id_hotel', $id_hotel);
-        })->get();
-        
+        if (!$hotel) {
+            return redirect()->route('admin.kamar.pilih-hotel')
+                ->with('error', 'Hotel tidak ditemukan, silakan pilih hotel terlebih dahulu.');
+        }
+
+        $daftar_kamar = Kamar::where('id_hotel', $id_hotel)->get();
+
         return view('admin.kamar.index', compact('daftar_kamar', 'hotel'));
     }
 
