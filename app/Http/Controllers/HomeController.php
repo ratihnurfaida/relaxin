@@ -6,6 +6,8 @@ use App\Models\Hotel;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Area;
+use App\Mail\PesanKontakMasuk;
+use Illuminate\Support\Facades\Mail;
 
 
 class HomeController extends Controller
@@ -72,5 +74,21 @@ class HomeController extends Controller
             'subjek' => 'required|string|max:255',
             'pesan'  => 'required|string|max:2000',
         ]);
+ 
+        $data = $request->only(['nama', 'email', 'subjek', 'pesan']);
+ 
+        // Alamat tujuan diambil dari .env, tambahkan baris ini di .env:
+        // CONTACT_RECEIVER_EMAIL=emailkamu@gmail.com
+        // Kalau tidak diisi, fallback ke MAIL_FROM_ADDRESS
+        $tujuan = env('CONTACT_RECEIVER_EMAIL', config('mail.from.address'));
+ 
+        try {
+            Mail::to($tujuan)->send(new PesanKontakMasuk($data));
+        } catch (\Throwable $e) {
+            report($e);
+            return back()->with('error', 'Gagal mengirim pesan. Coba lagi sebentar lagi ya.')->withInput();
+        }
+ 
+        return redirect()->route('kontak.index')->with('success', 'Pesan kamu berhasil dikirim! Tim kami akan segera membalas.');
     }
 }

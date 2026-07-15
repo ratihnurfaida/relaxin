@@ -80,6 +80,22 @@
                 </div>
             @endif
 
+            @if(session('error'))
+                <div class="bg-rose-50 text-rose-700 text-sm rounded-xl px-4 py-3 mb-5 border border-rose-100 font-medium">
+                    ⚠️ {{ session('error') }}
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="bg-rose-50 text-rose-700 text-sm rounded-xl px-4 py-3 mb-5 border border-rose-100 font-medium">
+                    <ul class="space-y-0.5">
+                        @foreach($errors->all() as $error)
+                            <li>⚠️ {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('kontak.store') }}" class="space-y-4">
                 @csrf
 
