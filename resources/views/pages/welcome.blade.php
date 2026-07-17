@@ -39,48 +39,85 @@
         </div>
 
         {{-- FILTER & SEARCH FORM (tetap di tengah) --}}
-        <form action="{{ route('hotel.index') }}" method="GET" class="relative z-10 bg-white p-4 rounded-2xl border border-slate-100 shadow-2xl w-full max-w-5xl mx-auto">
-            <div class="flex flex-wrap gap-3 items-center w-full">
+        <form action="{{ route('hotel.index') }}" method="GET"
+      class="relative z-10 bg-white p-2 rounded-full border border-slate-100 shadow-2xl shadow-slate-300/40 w-full max-w-5xl mx-auto">
+    <div class="flex flex-wrap md:flex-nowrap items-center w-full">
 
-                {{-- Area --}}
-                <select name="area"
-                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
-                    <option value="">Semua Area</option>
-                    @foreach(['Dago','Pasteur','Lembang','Buah Batu','Braga'] as $area)
-                        <option value="{{ $area }}" {{ request('area') == $area ? 'selected' : '' }}>{{ $area }}</option>
-                    @endforeach
-                </select>
+        {{-- Area --}}
+        <div class="flex flex-col items-start flex-1 min-w-[140px] px-5 py-2 text-left">
+            <label class="block w-full text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5 text-left">
+                Area
+            </label>
+            <select name="area"
+                    class="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none cursor-pointer text-left -ml-0.5">
+                <option value="">Semua Area</option>
+                @foreach(['Dago','Pasteur','Lembang','Buah Batu','Braga'] as $area)
+                    <option value="{{ $area }}" {{ request('area') == $area ? 'selected' : '' }}>{{ $area }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                {{-- Bintang --}}
-                <select name="bintang"
-                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
-                    <option value="">Semua Bintang</option>
-                    @foreach([1,2,3,4,5] as $b)
-                        <option value="{{ $b }}" {{ request('bintang') == $b ? 'selected' : '' }}>Bintang {{ $b }}</option>
-                    @endforeach
-                </select>
+        <span class="hidden md:block h-9 w-px bg-slate-200"></span>
 
-                {{-- Check-In --}}
-                <input type="date" name="checkin" value="{{ request('checkin') }}"
-                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
+        {{-- Bintang --}}
+        <div class="flex flex-col items-start flex-1 min-w-[140px] px-5 py-2 text-left">
+            <label class="block w-full text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5 text-left">
+                Bintang
+            </label>
+            <select name="bintang"
+                    class="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none cursor-pointer text-left -ml-0.5">
+                <option value="">Semua Bintang</option>
+                @foreach([1,2,3,4,5] as $b)
+                    <option value="{{ $b }}" {{ request('bintang') == $b ? 'selected' : '' }}>Bintang {{ $b }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                {{-- Check-Out --}}
-                <input type="date" name="checkout" value="{{ request('checkout') }}"
-                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
+        <span class="hidden md:block h-9 w-px bg-slate-200"></span>
 
-                {{-- Tombol Cari --}}
-                <button type="submit"
-                        class="bg-cyan-600 hover:bg-cyan-700 text-white text-base px-6 py-2.5 rounded-xl transition-colors shadow-md shadow-cyan-600/10 active:scale-95 duration-150 flex-shrink-0 font-bold">
-                    Cari
-                </button>
+        {{-- Check-In --}}
+        <div class="flex flex-col items-start flex-1 min-w-[150px] px-5 py-2 text-left">
+            <label class="block w-full text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5 text-left">
+                Check-In
+            </label>
+            <input type="date" name="checkin" value="{{ request('checkin') }}"
+                   class="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none cursor-pointer text-left">
+        </div>
 
-                {{-- Reset --}}
-                @if(request()->anyFilled(['area','bintang','checkin','checkout']))
-                    <a href="{{ route('hotel.index') }}"
-                       class="text-base text-gray-400 hover:text-cyan-600 transition-colors ml-2 flex-shrink-0 font-semibold">Reset</a>
-                @endif
-            </div>
-        </form>
+        <span class="hidden md:block h-9 w-px bg-slate-200"></span>
+
+        {{-- Check-Out --}}
+        <div class="flex flex-col items-start flex-1 min-w-[150px] px-5 py-2 text-left">
+            <label class="block w-full text-[11px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5 text-left">
+                Check-Out
+            </label>
+            <input type="date" name="checkout" value="{{ request('checkout') }}"
+                   class="w-full bg-transparent text-sm font-semibold text-slate-800 outline-none cursor-pointer text-left">
+        </div>
+
+        {{-- Tombol Cari --}}
+        <div class="w-full md:w-auto px-2 py-1.5 md:pl-3">
+            <button type="submit"
+                    class="w-full md:w-auto flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-bold px-7 py-3.5 rounded-full transition-all shadow-lg shadow-cyan-600/30 active:scale-95 duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                Cari
+            </button>
+        </div>
+    </div>
+
+    {{-- Reset --}}
+    @if(request()->anyFilled(['area','bintang','checkin','checkout']))
+        <div class="text-center md:text-right md:absolute md:-bottom-7 md:right-2 mt-2 md:mt-0">
+            <a href="{{ route('hotel.index') }}"
+               class="text-xs text-slate-400 hover:text-cyan-600 transition-colors font-semibold">
+                Reset filter
+            </a>
+        </div>
+    @endif
+</form>
     </section>
 
     {{-- ===== DESTINASI POPULER ===== --}}

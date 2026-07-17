@@ -4,29 +4,25 @@
     <div class="min-h-screen bg-slate-50 flex flex-col lg:flex-row">
     
         {{-- ── KIRI: SIDE PANEL (Soft Cyan Palette) ── --}}
-        <aside class="w-full lg:w-5/12 bg-cyan-800 p-8 lg:p-12 flex flex-col justify-between lg:sticky lg:top-0 lg:h-screen">
-            <div>
-                <span class="text-xs font-bold tracking-widest text-cyan-200 uppercase">RelaXin Hotels</span>
-            </div>
-    
-            <div class="my-12 lg:my-0">
-                <h1 class="text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                    Your perfect<br>
-                    <span class="text-cyan-300">escape</span> awaits
-                </h1>
-                <p class="text-cyan-100/70 text-sm mt-4 max-w-sm leading-relaxed">
-                    Satu langkah lagi untuk menikmati pengalaman menginap terbaik dengan kenyamanan ekstra.
-                </p>
-            </div>
-    
-            @isset($hotel)
-            <div class="border-t border-white/20 pt-6">
-                <p class="text-xs text-cyan-300/70 uppercase tracking-wider font-semibold mb-2">Destinasi Anda</p>
-                <h3 class="text-xl font-bold text-white">{{ $hotel->nama }}</h3>
-                <p class="text-sm text-cyan-100/70 mt-1">📍 {{ $hotel->kota ?? 'Bandung' }}</p>
-            </div>
-            @endisset
-        </aside>
+<aside class="w-full lg:w-5/12 bg-cyan-800 p-8 lg:p-12 flex flex-col lg:sticky lg:top-0 lg:h-screen">
+    <div class="my-12 lg:my-0">
+        <h1 class="text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            Your perfect<br>
+            <span class="text-cyan-300">escape</span> awaits
+        </h1>
+        <p class="text-cyan-100/70 text-sm mt-4 max-w-sm leading-relaxed">
+            Satu langkah lagi untuk menikmati pengalaman menginap terbaik dengan kenyamanan ekstra.
+        </p>
+    </div>
+
+    @isset($hotel)
+    <div class="border-t border-white/20 pt-6 mt-16 lg:mt-24">
+        <p class="text-xs text-cyan-300/70 uppercase tracking-wider font-semibold mb-2">Destinasi Anda</p>
+        <h3 class="text-xl font-bold text-white">{{ $hotel->nama }}</h3>
+        <p class="text-sm text-cyan-100/70 mt-1">📍 {{ $hotel->kota ?? 'Bandung' }}</p>
+    </div>
+    @endisset
+</aside>
     
         {{-- ── KANAN: FORM PANEL (Soft Cyan Accents) ── --}}
         <main class="w-full lg:w-7/12 bg-white px-6 py-10 md:px-12 lg:py-14 overflow-y-auto">

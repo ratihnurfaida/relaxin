@@ -3,58 +3,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-{{-- ===== HEADER & FILTER PENCARIAN ===== --}}
-<section class="px-12 pt-16 pb-12 bg-[#ecfbfc] border-b border-cyan-100/50" style="font-family: 'Inter', sans-serif;">
-    <div class="max-w-7xl mx-auto">
-        <p class="text-sm font-bold uppercase tracking-widest mb-1 font-mono-plex" style="color: #0E7490;">Semua Hotel</p>
-        <h1 class="text-4xl leading-tight mb-8 font-fraunces" style="font-weight: 600; color: #155E75;">Daftar Hotel di Bandung</h1>
-
-        {{-- FILTER & SEARCH FORM --}}
-        <form action="{{ route('hotel.index') }}" method="GET" class="bg-white p-5 rounded-3xl border border-slate-100 shadow-xl w-full">
-            <div class="flex flex-wrap gap-3 items-center w-full">
-
-                {{-- Dropdown: Area --}}
-                <select name="area"
-                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
-                    <option value="">Semua Area</option>
-                    @foreach(['Dago','Pasteur','Lembang','Buah Batu','Braga'] as $area)
-                        <option value="{{ $area }}" {{ request('area') == $area ? 'selected' : '' }}>{{ $area }}</option>
-                    @endforeach
-                </select>
-
-                {{-- Dropdown: Bintang --}}
-                <select name="bintang"
-                        class="bg-slate-50 border border-slate-200 text-base text-gray-700 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[150px]">
-                    <option value="">Semua Bintang</option>
-                    @foreach([1,2,3,4,5] as $b)
-                        <option value="{{ $b }}" {{ request('bintang') == $b ? 'selected' : '' }}>Bintang {{ $b }}</option>
-                    @endforeach
-                </select>
-
-                {{-- Input Date: Check-In --}}
-                <input type="date" name="checkin" value="{{ request('checkin') }}"
-                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
-
-                {{-- Input Date: Check-Out --}}
-                <input type="date" name="checkout" value="{{ request('checkout') }}"
-                       class="bg-slate-50 border border-slate-200 text-base text-gray-600 rounded-xl px-4 py-2.5 outline-none focus:border-cyan-500 focus:bg-white transition-all cursor-pointer flex-1 basis-40 min-w-[160px]">
-
-                {{-- Tombol Cari --}}
-                <button type="submit"
-                        class="bg-cyan-600 hover:bg-cyan-700 text-white text-base px-6 py-2.5 rounded-xl transition-colors shadow-md shadow-cyan-600/10 active:scale-95 duration-150 flex-shrink-0 font-bold">
-                    Cari
-                </button>
-
-                {{-- Tombol Reset --}}
-                @if(request()->anyFilled(['search','area','bintang','checkin','checkout']))
-                    <a href="{{ route('hotel.index') }}"
-                       class="text-base text-gray-400 hover:text-cyan-600 transition-colors ml-2 flex-shrink-0 font-semibold">Reset</a>
-                @endif
-            </div>
-        </form>
-    </div>
-</section>
-
 {{-- ===== SECTION DAFTAR HASIL HOTEL ===== --}}
 <section class="px-12 py-12 bg-slate-50" style="font-family: 'Inter', sans-serif;">
     <div class="max-w-7xl mx-auto">

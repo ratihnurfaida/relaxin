@@ -16,26 +16,11 @@
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     Booking Saya
                 </a>
-                <span class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold text-slate-400 cursor-not-allowed">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                    Invoice
-                    <span class="ml-auto text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-slate-100" style="font-family: 'IBM Plex Mono', monospace;">Segera</span>
-                </span>
                 <a href="{{ route('profile.edit') }}"
                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     Profil Saya
                 </a>
-                <span class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold text-slate-400 cursor-not-allowed">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    Metode Pembayaran
-                    <span class="ml-auto text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-slate-100" style="font-family: 'IBM Plex Mono', monospace;">Segera</span>
-                </span>
-                <span class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold text-slate-400 cursor-not-allowed">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    Pengaturan
-                    <span class="ml-auto text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-slate-100" style="font-family: 'IBM Plex Mono', monospace;">Segera</span>
-                </span>
                 <a href="{{ url('kontak') }}"
                    class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50 transition-colors">
                     <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -108,15 +93,6 @@
                                 <div>
                                     <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pembayaran</p>
                                     <p class="text-2xl font-bold" style="color: #0E7490; font-family: 'IBM Plex Mono', monospace;">Rp {{ number_format($nextBooking->total_harga, 0, ',', '.') }}</p>
-                                </div>
-                                <div class="flex gap-2">
-                                    <span class="inline-flex items-center gap-1.5 border border-slate-200 text-slate-600 text-sm font-bold px-4 py-2 rounded-lg cursor-not-allowed">
-                                        Lihat Detail
-                                    </span>
-                                    <span class="inline-flex items-center gap-1.5 text-white text-sm font-bold px-4 py-2 rounded-lg cursor-not-allowed" style="background-color: #0E7490;">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"></path></svg>
-                                        Download Invoice
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -196,62 +172,81 @@
                     <button class="filter-tab px-4 py-2 rounded-lg text-sm font-bold text-slate-500 bg-white border border-slate-200 hover:bg-slate-50 transition-colors" data-filter="dibatalkan">Dibatalkan</button>
                 </div>
 
-                {{-- List --}}
-                <div class="space-y-3" id="bookingList">
-                    @forelse($bookings as $booking)
-                        @php
-                            $st = strtolower(trim($booking->status ?? 'pending'));
-                            $filterKey = in_array($st, ['confirmed','berhasil']) ? 'confirmed' : (in_array($st, ['selesai']) ? 'selesai' : (in_array($st, ['cancelled','dibatalkan']) ? 'dibatalkan' : 'pending'));
-                            $kodeBooking = 'RXN-' . \Carbon\Carbon::parse($booking->created_at)->format('ymd') . '-' . str_pad($booking->id_booking, 3, '0', STR_PAD_LEFT);
-                        @endphp
-                        <a href="#" data-status="{{ $filterKey }}" data-search="{{ strtolower(($booking->hotel->nama ?? '') . ' ' . ($booking->hotel->kota ?? '') . ' ' . $kodeBooking) }}"
-                           class="booking-row flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white border border-slate-100 rounded-2xl shadow-sm p-4 hover:shadow-md hover:border-cyan-200 transition-all">
+     {{-- List --}}
+<div class="space-y-3" id="bookingList">
+    @forelse($bookings as $booking)
+        @php
+            $st = strtolower(trim($booking->status ?? 'pending'));
+            $filterKey = in_array($st, ['confirmed','berhasil']) ? 'confirmed' : (in_array($st, ['selesai']) ? 'selesai' : (in_array($st, ['cancelled','dibatalkan']) ? 'dibatalkan' : 'pending'));
+            $kodeBooking = 'RXN-' . \Carbon\Carbon::parse($booking->created_at)->format('ymd') . '-' . str_pad($booking->id_booking, 3, '0', STR_PAD_LEFT);
+        @endphp
+        
+        <a href="#" data-status="{{ $filterKey }}" data-search="{{ strtolower(($booking->hotel->nama ?? '') . ' ' . ($booking->hotel->kota ?? '') . ' ' . $kodeBooking) }}"
+           class="booking-row flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white border border-slate-100 rounded-2xl shadow-sm p-4 hover:shadow-md hover:border-cyan-200 transition-all">
 
-                            <div class="w-full sm:w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                                <img src="{{ $booking->kamar->gambar ? asset('storage/hotel/' . $booking->kamar->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
-                            </div>
+            <div class="w-full sm:w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
+                <img src="{{ $booking->kamar->gambar ? asset('storage/hotel/' . $booking->kamar->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+            </div>
 
-                            <div class="flex-1 min-w-0">
-                                <h3 class="text-base font-bold text-slate-900 truncate" style="font-family: 'Fraunces', serif; font-weight: 600;">{{ $booking->hotel->nama ?? 'Hotel RelaXin' }}</h3>
-                                <p class="text-sm text-slate-400 mb-1.5">📍 {{ $booking->hotel->kota ?? 'Bandung' }}</p>
-                                <div class="flex items-center gap-3 text-sm text-slate-500 flex-wrap">
-                                    <span class="flex items-center gap-1">📅 {{ \Carbon\Carbon::parse($booking->tgl_checkin)->format('d M') }} – {{ \Carbon\Carbon::parse($booking->tgl_checkout)->format('d M Y') }}</span>
-                                    <span class="flex items-center gap-1">👤 {{ $booking->total_tamu }} Tamu</span>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col items-start sm:items-end gap-1.5 sm:min-w-[160px]">
-                                @if($filterKey == 'pending')
-                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">Pending</span>
-                                @elseif($filterKey == 'confirmed')
-                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmed</span>
-                                @elseif($filterKey == 'selesai')
-                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">Selesai</span>
-                                @else
-                                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200">Dibatalkan</span>
-                                @endif
-
-                                <p class="text-xs text-slate-400" style="font-family: 'IBM Plex Mono', monospace;">{{ $kodeBooking }}</p>
-
-                                <div class="text-left sm:text-right">
-                                    <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wide">Total</p>
-                                    <p class="text-base font-bold" style="color: #0E7490; font-family: 'IBM Plex Mono', monospace;">Rp {{ number_format($booking->total_harga, 0, ',', '.') }}</p>
-                                </div>
-                            </div>
-
-                            <svg class="hidden sm:block w-5 h-5 text-slate-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
-                        </a>
-                    @empty
-                        <div class="bg-white border border-dashed border-slate-200 rounded-2xl p-12 text-center">
-                            <div class="text-4xl mb-3">🏨</div>
-                            <p class="text-slate-700 font-bold mb-1 text-lg">Belum ada booking</p>
-                            <p class="text-slate-400 text-base mb-5">Yuk temukan hotel terbaik di Bandung dan mulai perjalananmu!</p>
-                            <a href="{{ route('welcome') }}" class="inline-block text-white font-bold text-base px-6 py-2.5 rounded-xl transition-colors" style="background-color: #0E7490;">
-                                Cari Hotel Sekarang
-                            </a>
-                        </div>
-                    @endforelse
+            <div class="flex-1 min-w-0">
+                <h3 class="text-base font-bold text-slate-900 truncate" style="font-family: 'Fraunces', serif; font-weight: 600;">{{ $booking->hotel->nama ?? 'Hotel RelaXin' }}</h3>
+                <p class="text-sm text-slate-400 mb-1.5">📍 {{ $booking->hotel->kota ?? 'Bandung' }}</p>
+                <div class="flex items-center gap-3 text-sm text-slate-500 flex-wrap">
+                    <span class="flex items-center gap-1">📅 {{ \Carbon\Carbon::parse($booking->tgl_checkin)->format('d M') }} – {{ \Carbon\Carbon::parse($booking->tgl_checkout)->format('d M Y') }}</span>
+                    <span class="flex items-center gap-1">👤 {{ $booking->total_tamu }} Tamu</span>
                 </div>
+            </div>
+
+            <div class="flex flex-col items-start sm:items-end gap-1.5 sm:min-w-[160px]">
+                @if($filterKey == 'pending')
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">Pending</span>
+                    
+                    {{-- Logic Upload Ulang --}}
+                    @if($booking->status == 'ditolak')
+                        <div class="mt-2 p-2 bg-rose-50 border border-rose-200 rounded-lg w-full" onclick="event.stopPropagation()">
+                            <p class="text-[10px] text-rose-700 font-bold mb-1">
+                                ⚠️ Ditolak: {{ $booking->alasan_penolakan ?? 'Perlu bukti baru' }}
+                            </p>
+                            <form action="{{ route('booking.updateBukti', $booking->id_booking) }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <input type="file" name="bukti_payment" class="text-[10px] w-full mb-1" required>
+                                <button type="submit" class="w-full text-[10px] bg-cyan-600 text-white py-1 rounded font-bold hover:bg-cyan-700 transition-colors">
+                                    Kirim Ulang
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+
+                @elseif($filterKey == 'confirmed')
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Confirmed</span>
+                @elseif($filterKey == 'selesai')
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-cyan-50 text-cyan-700 border border-cyan-200">Selesai</span>
+                @else
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200">Dibatalkan</span>
+                @endif
+
+                <p class="text-xs text-slate-400 mt-1" style="font-family: 'IBM Plex Mono', monospace;">{{ $kodeBooking }}</p>
+
+                <div class="text-left sm:text-right">
+                    <p class="text-[11px] text-slate-400 uppercase font-bold tracking-wide">Total</p>
+                    <p class="text-base font-bold" style="color: #0E7490; font-family: 'IBM Plex Mono', monospace;">Rp {{ number_format($booking->total_harga, 0, ',', '.') }}</p>
+                </div>
+            </div>
+
+            <svg class="hidden sm:block w-5 h-5 text-slate-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+    @empty
+        <div class="bg-white border border-dashed border-slate-200 rounded-2xl p-12 text-center">
+            <div class="text-4xl mb-3">🏨</div>
+            <p class="text-slate-700 font-bold mb-1 text-lg">Belum ada booking</p>
+            <p class="text-slate-400 text-base mb-5">Yuk temukan hotel terbaik di Bandung dan mulai perjalananmu!</p>
+            <a href="{{ route('welcome') }}" class="inline-block text-white font-bold text-base px-6 py-2.5 rounded-xl transition-colors" style="background-color: #0E7490;">
+                Cari Hotel Sekarang
+            </a>
+        </div>
+    @endforelse
+</div>
 
                 <p id="noResultRiwayat" class="hidden text-center text-slate-400 text-sm py-8">Tidak ada booking yang cocok dengan pencarian.</p>
 

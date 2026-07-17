@@ -154,6 +154,40 @@ class BookingController extends Controller
         return redirect()->back()->with('success', $pesan);
     }
 
+    public function updateBukti(Request $request, $id)
+    {
+        // 1. Validasi file baru
+        $request->validate([
+            'bukti_payment' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // 2. Cari data pembayaran berdasarkan id_booking
+        $payment = Payment::where('id_booking', $id)->firstOrFail();
+        $booking = Booking::findOrFail($id);
+
+        // 3. Hapus file lama dari storage (opsional agar storage tidak penuh)
+        if ($payment->bukti_payment && \Illuminate\Support\Facades\Storage::exists('public/bukti_transfer/' . $payment->bukti_payment)) {
+            \Illuminate\Support\Facades\Storage::delete('public/bukti_transfer/' . $payment->bukti_payment);
+        }
+
+        // 4. Upload file baru
+        if ($request->hasFile('bukti_payment')) {
+            $file = $request->file('bukti_payment');
+            $nama_file = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('bukti_transfer', $nama_file, 'public');
+
+            // 5. Update data di tabel payment dan status booking
+            $payment->update([
+                'bukti_payment' => $nama_file,
+                'status'        => 'pending', // Reset status agar bisa dicek ulang admin
+            ]);
+
+            $booking->update(['status' => 'pending']);
+        }
+
+        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diunggah ulang.');
+    }
+
     public function index()
     {
         $bookings = Booking::where('status', '!=', 'selesai')

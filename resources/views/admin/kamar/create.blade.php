@@ -53,6 +53,25 @@
                 </div>
             </div>
 
+            {{-- Tipe Bed --}}
+            <div>
+                <label for="tipe_bed" class="block text-base font-semibold text-slate-700 mb-1.5">Tipe Bed <span class="text-rose">*</span></label>
+                <select
+                    id="tipe_bed"
+                    name="tipe_bed"
+                    required
+                    class="w-full rounded-xl border border-slate-200 bg-ice-cyan/50 px-4 py-2.5 text-base
+                        focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary
+                        @error('tipe_bed') border-rose @enderror"
+                >
+                    <option value="" disabled {{ old('tipe_bed') ? '' : 'selected' }}>Pilih tipe bed</option>
+                    @foreach (['Single', 'Twin', 'Double', 'Queen', 'King', 'Super King', 'Twin/Double (Bisa Diminta)'] as $bed)
+                        <option value="{{ $bed }}" {{ old('tipe_bed') == $bed ? 'selected' : '' }}>{{ $bed }}</option>
+                    @endforeach
+                </select>
+                @error('tipe_bed') <p class="text-rose text-sm mt-1">{{ $message }}</p> @enderror
+            </div>
+
             {{-- Harga & Kapasitas & Total --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
