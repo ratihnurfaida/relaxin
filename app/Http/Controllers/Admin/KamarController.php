@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kamar;
 use App\Models\Hotel;
-use Illuminate\Support\Facades\Storage;
 
 class KamarController extends Controller
 {
@@ -56,8 +55,10 @@ class KamarController extends Controller
         $data = $request->except('gambar');
 
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('hotel', 'public');
-            $data['gambar'] = basename($path);
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('hotel'), $filename);
+            $data['gambar'] = $filename;
         }
 
         Kamar::create($data);
@@ -98,8 +99,10 @@ class KamarController extends Controller
 
         // Handle foto jika ada
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('hotel', 'public');
-            $data['gambar'] = basename($path);
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('hotel'), $filename);
+            $data['gambar'] = $filename;
         }
 
         // Update semua data termasuk stok
@@ -116,7 +119,9 @@ class KamarController extends Controller
     {
         $kamar = Kamar::findOrFail($id);
 
-        Storage::disk('public')->delete($kamar->gambar);
+        if ($kamar->gambar && file_exists(public_path('hotel/' . $kamar->gambar))) {
+            unlink(public_path('hotel/' . $kamar->gambar));
+        }
         
         // hapus datanya
         $kamar->delete();

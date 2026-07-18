@@ -2,7 +2,7 @@
 
 {{-- ===== HERO SECTION ===== --}}
 <div class="min-h-screen" style="background-color: #F0F9FA; font-family: 'Inter', sans-serif;">
-    <section class="relative px-6 md:px-12 pt-16 pb-20 text-right bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('storage/foto/gdsate.png') }}');">
+    <section class="relative px-6 md:px-12 pt-16 pb-20 text-right bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('foto/gdsate.png') }}');">
         {{-- Overlay gelap di sisi kanan (tempat teks) supaya foto tetap terlihat jelas di sisi kiri --}}
         <div class="absolute inset-0 bg-gradient-to-l from-black/75 via-black/45 to-black/10 z-0"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 z-0"></div>
@@ -153,7 +153,7 @@
                     <a href="{{ route('hotel.index', ['area' => $area->nama]) }}"
                        class="group relative rounded-2xl overflow-hidden h-56 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-200 bg-cyan-800">
                         <img
-                            src="{{ asset('storage/foto/' . $meta['foto']) }}"
+                            src="{{ asset('foto/' . $meta['foto']) }}"
                             alt="{{ $area->nama }}"
                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
@@ -191,7 +191,7 @@
                     @foreach($hotels as $hotel)
                         <div style="background-color: #ecfbfc;" class="rounded-2xl overflow-hidden border border-cyan-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
                             <div class="bg-slate-100 h-44 overflow-hidden relative">
-                                <img src="{{ $hotel->gambar ? asset('storage/hotel/' . $hotel->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+                                <img src="{{ $hotel->gambar ? asset('hotel/' . $hotel->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
 
                                 <button type="button" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-gray-400 hover:text-rose-500 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">

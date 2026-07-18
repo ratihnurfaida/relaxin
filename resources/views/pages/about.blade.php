@@ -5,7 +5,7 @@
 
 {{-- ===== HERO ABOUT US (Inspirasi: image_16e5e5.jpg) ===== --}}
 <section class="relative px-12 pt-32 pb-28 text-left bg-cover bg-center bg-no-repeat rounded-b-[40px] overflow-hidden"
-         style="background-image: url('{{ asset('storage/foto/bg.jpeg') }}'); font-family: 'Inter', sans-serif;">
+         style="background-image: url('{{ asset('foto/bg.jpeg') }}'); font-family: 'Inter', sans-serif;">
     <!-- Overlay gradasi gelap lembut -->
     <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-0"></div>
 
@@ -30,7 +30,7 @@
             <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-2xl blur opacity-20"></div>
             <div class="relative bg-slate-100 rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
                 <!-- Ganti source gambar dengan foto suasana Bandung/Hotel Aston -->
-                <img src="{{ asset('storage/hotel/hotelaston.jpg') }}" alt="Suasana Bandung" class="w-full h-full object-cover">
+                <img src="{{ asset('hotel/hotelaston.jpg') }}" alt="Suasana Bandung" class="w-full h-full object-cover">
             </div>
         </div>
 

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\Area;
-use Illuminate\Support\Facades\Storage;
 
 class HotelController extends Controller
 {
@@ -55,8 +54,10 @@ class HotelController extends Controller
 
     // Logika upload gambar 
     if ($request->hasFile('gambar')) {
-        $path = $request->file('gambar')->store('hotel', 'public');
-        $data['gambar'] = basename($path);
+        $file = $request->file('gambar');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('hotel'), $filename);
+        $data['gambar'] = $filename;
     }
 
     // SIMPAN DATA HOTEL 
@@ -111,7 +112,10 @@ class HotelController extends Controller
         }
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = basename($request->file('gambar')->store('hotel', 'public'));
+            $file = $request->file('gambar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('hotel'), $filename);
+            $data['gambar'] = $filename;
         }
 
         $hotel->update($data);
@@ -126,7 +130,9 @@ class HotelController extends Controller
         // cari hotel
         $hotel = Hotel::findOrFail($id);
 
-        Storage::disk('public')->delete($hotel->gambar);
+        if ($hotel->gambar && file_exists(public_path('hotel/' . $hotel->gambar))) {
+            unlink(public_path('hotel/' . $hotel->gambar));
+        }
         
         // hapus datanya
         $hotel->delete();

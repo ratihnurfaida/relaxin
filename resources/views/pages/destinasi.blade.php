@@ -39,7 +39,7 @@
                         <div>
                             {{-- FOTO dengan overlay --}}
                             <div class="relative h-48 overflow-hidden bg-white">
-                                <img src="{{ asset('storage/foto/' . $meta['foto']) }}"
+                                <img src="{{ asset('foto/' . $meta['foto']) }}"
                                      alt="{{ $area->nama }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 

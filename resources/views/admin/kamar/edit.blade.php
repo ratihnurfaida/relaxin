@@ -145,7 +145,7 @@
                 <label for="gambar" class="block text-base font-semibold text-slate-700 mb-1.5">Ganti Foto Kamar</label>
                 @if ($kamar->gambar)
                     <div class="mb-2">
-                        <img src="{{ asset('storage/hotel/' . $kamar->gambar) }}" alt="Foto kamar saat ini" class="h-32 w-auto rounded-xl object-cover">
+                        <img src="{{ asset('hotel/' . $kamar->gambar) }}" alt="Foto kamar saat ini" class="h-32 w-auto rounded-xl object-cover">
                         <p class="text-sm text-slate-400 mt-1">Foto saat ini. Upload baru untuk mengganti.</p>
                     </div>
                 @endif

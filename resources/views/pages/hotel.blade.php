@@ -20,7 +20,7 @@
                 @foreach($hotels as $hotel)
                     <div style="background-color: #ecfbfc;" class="rounded-2xl overflow-hidden border border-cyan-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
                         <div class="bg-slate-100 h-44 overflow-hidden relative">
-                            <img src="{{ $hotel->gambar ? asset('storage/hotel/' . $hotel->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+                            <img src="{{ $hotel->gambar ? asset('hotel/' . $hotel->gambar) : asset('hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
 
                             <button type="button" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center text-gray-400 hover:text-rose-500 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-4 h-4">
