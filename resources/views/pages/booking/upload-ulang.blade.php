@@ -23,7 +23,7 @@
             {{-- Ringkasan booking --}}
             <div class="flex gap-4 mb-6 pb-6 border-b border-dashed border-slate-200">
                 <div class="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                    <img src="{{ $booking->kamar->gambar ? asset('hotel/' . $booking->kamar->gambar) : asset('hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+                    <img src="{{ $booking->kamar->gambar ? asset('fotohotel/' . $booking->kamar->gambar) : asset('fotohotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
                 </div>
                 <div class="min-w-0">
                     <h3 class="font-bold text-slate-900 truncate">{{ $booking->hotel->nama ?? 'Hotel RelaXin' }}</h3>

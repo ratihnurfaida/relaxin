@@ -51,7 +51,7 @@
                          onmouseover="this.style.borderColor='#0E7490'" onmouseout="this.style.borderColor='#CCE7E9'">
 
                         <div class="w-full md:w-56 h-48 md:h-auto flex-shrink-0" style="background-color: #E0F2F1;">
-                            <img src="{{ asset('hotel/' . $item->gambar) }}" alt="{{ $item->tipe_kamar }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('fotohotel/' . $item->gambar) }}" alt="{{ $item->tipe_kamar }}" class="w-full h-full object-cover">
                         </div>
 
                         <div class="flex-1 p-6">

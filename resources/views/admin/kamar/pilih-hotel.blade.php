@@ -12,7 +12,7 @@
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-cyan-lg transition-all duration-300">
                     <div class="mb-4">
                         @if ($hotel->gambar)
-                            <img src="{{ asset('hotel/' . $hotel->gambar) }}" alt="{{ $hotel->nama }}" class="w-full h-40 object-cover rounded-xl mb-4">
+                            <img src="{{ asset('fotohotel/' . $hotel->gambar) }}" alt="{{ $hotel->nama }}" class="w-full h-40 object-cover rounded-xl mb-4">
                         @endif
                         <h2 class="text-xl" style="font-family: 'Fraunces', serif; font-weight: 600; color: #155E75;">{{ $hotel->nama }}</h2>
                     </div>

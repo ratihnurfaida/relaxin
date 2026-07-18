@@ -30,7 +30,7 @@
             <div class="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-2xl blur opacity-20"></div>
             <div class="relative bg-slate-100 rounded-2xl overflow-hidden shadow-xl aspect-[4/3]">
                 <!-- Ganti source gambar dengan foto suasana Bandung/Hotel Aston -->
-                <img src="{{ asset('hotel/hotelaston.jpg') }}" alt="Suasana Bandung" class="w-full h-full object-cover">
+                <img src="{{ asset('fotohotel/hotelaston.jpg') }}" alt="Suasana Bandung" class="w-full h-full object-cover">
             </div>
         </div>
 

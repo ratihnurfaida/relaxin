@@ -58,7 +58,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-5">
                         <div class="h-44 md:h-full rounded-xl overflow-hidden bg-slate-100">
-                            <img src="{{ $nextBooking->kamar->gambar ? asset('hotel/' . $nextBooking->kamar->gambar) : asset('hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+                            <img src="{{ $nextBooking->kamar->gambar ? asset('fotohotel/' . $nextBooking->kamar->gambar) : asset('fotohotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
                         </div>
 
                         <div class="flex flex-col justify-between">
@@ -185,7 +185,7 @@
              class="booking-row flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white border border-slate-100 rounded-2xl shadow-sm p-4 hover:shadow-md hover:border-cyan-200 transition-all">
 
             <div class="w-full sm:w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
-                <img src="{{ $booking->kamar->gambar ? asset('hotel/' . $booking->kamar->gambar) : asset('hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
+                <img src="{{ $booking->kamar->gambar ? asset('hotel/' . $booking->kamar->gambar) : asset('hotelaston.jpg') }}" class="w-full h-full object-cover">
             </div>
 
             <div class="flex-1 min-w-0">
