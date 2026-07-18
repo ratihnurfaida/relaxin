@@ -56,7 +56,7 @@ class HotelController extends Controller
     if ($request->hasFile('gambar')) {
         $file = $request->file('gambar');
         $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('hotel'), $filename);
+        $file->move(public_path('fotohotel'), $filename);
         $data['gambar'] = $filename;
     }
 
