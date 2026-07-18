@@ -9,7 +9,8 @@ use App\Models\Hotel;
 use App\Models\Payment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // Tambahkan ini
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -45,11 +46,9 @@ class BookingController extends Controller
             return redirect()->route('login')->with('error', 'Silahkan login terlebih dahulu.');
         }
 
-        // Menggunakan DB Transaction untuk memastikan data sinkron
         return DB::transaction(function () use ($request) {
             $kamar = Kamar::findOrFail($request->id_kamar);
 
-            // Cek apakah stok mencukupi
             if ($kamar->total_kamar < $request->jumlah_kamar) {
                 return back()->with('error', 'Maaf, kamar tidak mencukupi.');
             }
@@ -87,7 +86,6 @@ class BookingController extends Controller
                 return back()->with('error', 'Gagal memproses reservasi.');
             }
 
-            // PENGURANGAN STOK (total_kamar)
             $kamar->decrement('total_kamar', $request->jumlah_kamar);
 
             session(['payment_expired_at' => now()->addMinutes(15)->toIso8601String()]);
@@ -135,13 +133,13 @@ class BookingController extends Controller
     public function updateStatus(Request $request, $id) 
     {
         $request->validate([
-            'status' => 'required|in:confirmed,Cancelled',
+            'status' => 'required|in:confirmed,cancelled',
         ]);
 
         $booking = Booking::where('id_booking', $id)->firstOrFail();
         
         // PENGEMBALIAN STOK jika dibatalkan
-        if ($request->status == 'Cancelled' && $booking->status != 'Cancelled') {
+        if ($request->status == 'cancelled' && $booking->status != 'cancelled') {
             Kamar::where('id_kamar', $booking->id_kamar)->increment('total_kamar', $booking->jumlah_kamar);
         }
         
@@ -154,38 +152,70 @@ class BookingController extends Controller
         return redirect()->back()->with('success', $pesan);
     }
 
+    public function reject(Request $request, $id)
+    {
+        $request->validate([
+            'alasan_penolakan' => 'required|string|max:500',
+        ]);
+
+        $booking = Booking::findOrFail($id);
+        $payment = Payment::where('id_booking', $id)->firstOrFail();
+
+        $booking->update([
+            'status' => 'ditolak',
+        ]);
+
+        $payment->update([
+            'status'           => 'ditolak',
+            'alasan_penolakan' => $request->alasan_penolakan,
+        ]);
+
+        return redirect()->back()->with('success', 'Bukti pembayaran ditolak, user diminta upload ulang.');
+    }
+
     public function updateBukti(Request $request, $id)
     {
-        // 1. Validasi file baru
         $request->validate([
             'bukti_payment' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // 2. Cari data pembayaran berdasarkan id_booking
         $payment = Payment::where('id_booking', $id)->firstOrFail();
         $booking = Booking::findOrFail($id);
 
-        // 3. Hapus file lama dari storage (opsional agar storage tidak penuh)
-        if ($payment->bukti_payment && \Illuminate\Support\Facades\Storage::exists('public/bukti_transfer/' . $payment->bukti_payment)) {
-            \Illuminate\Support\Facades\Storage::delete('public/bukti_transfer/' . $payment->bukti_payment);
+        if ($payment->bukti_payment && Storage::exists('public/bukti_transfer/' . $payment->bukti_payment)) {
+            Storage::delete('public/bukti_transfer/' . $payment->bukti_payment);
         }
 
-        // 4. Upload file baru
         if ($request->hasFile('bukti_payment')) {
             $file = $request->file('bukti_payment');
             $nama_file = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('bukti_transfer', $nama_file, 'public');
 
-            // 5. Update data di tabel payment dan status booking
             $payment->update([
-                'bukti_payment' => $nama_file,
-                'status'        => 'pending', // Reset status agar bisa dicek ulang admin
+                'bukti_payment'    => $nama_file,
+                'status'           => 'pending',
+                'alasan_penolakan' => null,
             ]);
 
             $booking->update(['status' => 'pending']);
         }
 
         return redirect()->back()->with('success', 'Bukti pembayaran berhasil diunggah ulang.');
+    }
+
+    public function showUploadUlang($id)
+    {
+        $booking = Booking::with(['hotel', 'kamar', 'payment'])->findOrFail($id);
+
+        if ($booking->id_user != auth()->id()) {
+            abort(403);
+        }
+
+        if ($booking->status != 'ditolak') {
+            return redirect()->route('dashboard')->with('error', 'Booking ini tidak memerlukan upload ulang.');
+        }
+
+        return view('pages.booking.upload-ulang', compact('booking'));
     }
 
     public function index()

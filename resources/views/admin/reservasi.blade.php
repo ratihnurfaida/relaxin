@@ -88,18 +88,48 @@
                                     @endphp
 
                                     @if(in_array($status, ['pending', 'menunggu konfirmasi']))
-                                        <div class="flex items-center justify-center gap-2">
+                                        <div class="flex items-center justify-center gap-2 flex-wrap">
                                             <form method="POST" action="{{ route('admin.booking.status', $item->id_booking) }}">
                                                 @csrf @method('PUT')
                                                 <input type="hidden" name="status" value="confirmed">
                                                 <button type="submit" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-lg">✓ Setuju</button>
                                             </form>
-                                            <form method="POST" action="{{ route('admin.booking.status', $item->id_booking) }}">
+
+                                            <button type="button"
+                                                    onclick="document.getElementById('rejectModal-{{ $item->id_booking }}').showModal()"
+                                                    class="bg-white border border-amber-200 text-amber-600 text-xs px-2.5 py-1.5 rounded-lg">
+                                                ⟲ Tolak (Upload Ulang)
+                                            </button>
+
+                                            <form method="POST" action="{{ route('admin.booking.status', $item->id_booking) }}"
+                                                  onsubmit="return confirm('Batalkan permanen? Stok kamar akan dikembalikan.')">
                                                 @csrf @method('PUT')
-                                                <input type="hidden" name="status" value="Cancelled">
-                                                <button type="submit" class="bg-white border border-rose-200 text-rose-600 text-xs px-2.5 py-1.5 rounded-lg">✕ Tolak</button>
+                                                <input type="hidden" name="status" value="cancelled">
+                                                <button type="submit" class="bg-white border border-rose-200 text-rose-600 text-xs px-2.5 py-1.5 rounded-lg">✕ Batalkan</button>
                                             </form>
                                         </div>
+
+                                        {{-- Modal alasan penolakan --}}
+                                        <dialog id="rejectModal-{{ $item->id_booking }}" class="rounded-xl p-0 backdrop:bg-slate-900/40 w-full max-w-sm">
+                                            <form method="POST" action="{{ route('admin.booking.reject', $item->id_booking) }}" class="p-5 space-y-3">
+                                                @csrf
+                                                <h4 class="font-bold text-slate-800 text-sm">Tolak Bukti Pembayaran</h4>
+                                                <p class="text-xs text-slate-500">Jelaskan alasan penolakan, akan ditampilkan ke tamu agar upload ulang.</p>
+                                                <textarea name="alasan_penolakan" required rows="3"
+                                                          class="w-full text-sm border border-slate-200 rounded-lg p-2 focus:ring-2 focus:ring-amber-300 focus:outline-none"
+                                                          placeholder="Contoh: Nominal transfer tidak sesuai total tagihan."></textarea>
+                                                <div class="flex justify-end gap-2 pt-1">
+                                                    <button type="button"
+                                                            onclick="document.getElementById('rejectModal-{{ $item->id_booking }}').close()"
+                                                            class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600">Batal</button>
+                                                    <button type="submit" class="text-xs px-3 py-1.5 rounded-lg bg-amber-600 text-white font-semibold">Kirim Penolakan</button>
+                                                </div>
+                                            </form>
+                                        </dialog>
+
+                                    @elseif($status == 'ditolak')
+                                        <div class="text-xs text-amber-600 italic font-semibold">⟲ Menunggu Upload Ulang</div>
+
                                     @elseif($status == 'selesai' || $status == 'confirmed')
                                         <form method="POST" action="{{ route('admin.booking.archive', $item->id_booking) }}" class="archive-form">
                                             @csrf @method('PUT')

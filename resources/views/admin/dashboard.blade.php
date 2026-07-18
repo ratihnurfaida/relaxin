@@ -134,6 +134,8 @@
                                     <td class="px-6 py-3.5 text-center">
                                         @if(in_array($st, ['pending', 'menunggu konfirmasi']))
                                             <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-200">Menunggu</span>
+                                        @elseif($st == 'ditolak')
+                                            <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-orange-50 text-orange-600 border border-orange-200">Upload Ulang</span>
                                         @elseif(in_array($st, ['confirmed', 'selesai', 'success']))
                                             <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200">Terkonfirmasi</span>
                                         @else

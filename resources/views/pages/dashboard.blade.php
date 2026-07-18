@@ -180,9 +180,9 @@
             $filterKey = in_array($st, ['confirmed','berhasil']) ? 'confirmed' : (in_array($st, ['selesai']) ? 'selesai' : (in_array($st, ['cancelled','dibatalkan']) ? 'dibatalkan' : 'pending'));
             $kodeBooking = 'RXN-' . \Carbon\Carbon::parse($booking->created_at)->format('ymd') . '-' . str_pad($booking->id_booking, 3, '0', STR_PAD_LEFT);
         @endphp
-        
-        <a href="#" data-status="{{ $filterKey }}" data-search="{{ strtolower(($booking->hotel->nama ?? '') . ' ' . ($booking->hotel->kota ?? '') . ' ' . $kodeBooking) }}"
-           class="booking-row flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white border border-slate-100 rounded-2xl shadow-sm p-4 hover:shadow-md hover:border-cyan-200 transition-all">
+
+        <div data-status="{{ $filterKey }}" data-search="{{ strtolower(($booking->hotel->nama ?? '') . ' ' . ($booking->hotel->kota ?? '') . ' ' . $kodeBooking) }}"
+             class="booking-row flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-white border border-slate-100 rounded-2xl shadow-sm p-4 hover:shadow-md hover:border-cyan-200 transition-all">
 
             <div class="w-full sm:w-24 h-24 rounded-xl overflow-hidden bg-slate-100 flex-shrink-0">
                 <img src="{{ $booking->kamar->gambar ? asset('storage/hotel/' . $booking->kamar->gambar) : asset('storage/hotel/hotelaston.jpg') }}" class="w-full h-full object-cover">
@@ -200,22 +200,13 @@
             <div class="flex flex-col items-start sm:items-end gap-1.5 sm:min-w-[160px]">
                 @if($filterKey == 'pending')
                     <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">Pending</span>
-                    
-                    {{-- Logic Upload Ulang --}}
+
+                    {{-- Notifikasi ditolak, arahkan ke halaman upload ulang --}}
                     @if($booking->status == 'ditolak')
-                        <div class="mt-2 p-2 bg-rose-50 border border-rose-200 rounded-lg w-full" onclick="event.stopPropagation()">
-                            <p class="text-[10px] text-rose-700 font-bold mb-1">
-                                ⚠️ Ditolak: {{ $booking->alasan_penolakan ?? 'Perlu bukti baru' }}
-                            </p>
-                            <form action="{{ route('booking.updateBukti', $booking->id_booking) }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <input type="file" name="bukti_payment" class="text-[10px] w-full mb-1" required>
-                                <button type="submit" class="w-full text-[10px] bg-cyan-600 text-white py-1 rounded font-bold hover:bg-cyan-700 transition-colors">
-                                    Kirim Ulang
-                                </button>
-                            </form>
-                        </div>
+                        <a href="{{ route('booking.uploadUlang', $booking->id_booking) }}"
+                           class="mt-2 flex items-center gap-1.5 px-2.5 py-1.5 bg-rose-50 border border-rose-200 rounded-lg w-full text-[11px] font-bold text-rose-700 hover:bg-rose-100 transition-colors">
+                            ⚠️ Ditolak, klik untuk upload ulang →
+                        </a>
                     @endif
 
                 @elseif($filterKey == 'confirmed')
@@ -235,7 +226,7 @@
             </div>
 
             <svg class="hidden sm:block w-5 h-5 text-slate-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path></svg>
-        </a>
+        </div>
     @empty
         <div class="bg-white border border-dashed border-slate-200 rounded-2xl p-12 text-center">
             <div class="text-4xl mb-3">🏨</div>

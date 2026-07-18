@@ -25,14 +25,14 @@ class HomeController extends Controller
     public function adminDashboard()
     {
         $total_selesai = Booking::where('status', 'selesai')->count();
-        $booking = Booking::latest()->get();
+        $booking = Booking::with(['hotel', 'kamar', 'payment'])->latest()->get();
         $total_hotel = Hotel::count();
         return view('admin.dashboard', compact('total_selesai', 'booking', 'total_hotel'));
     }
 
     public function reservasi()
     {
-        $booking = Booking::latest()->get();
+        $booking = Booking::with(['hotel', 'kamar', 'payment'])->latest()->get();
 
         return view('admin.reservasi', compact('booking'));
     }

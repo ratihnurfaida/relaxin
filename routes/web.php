@@ -32,12 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         $userId = Auth::id();
 
-        $allBookings = Booking::where('id_user', $userId)->with(['kamar', 'hotel'])->get();
+        $allBookings = Booking::where('id_user', $userId)->with(['kamar', 'hotel', 'payment'])->get();
 
         $totalBooking = $allBookings->count();
 
         $selesaiCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['confirmed', 'berhasil', 'selesai']))->count();
-        $pendingCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['pending', 'menunggu konfirmasi']))->count();
+        $pendingCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['pending', 'menunggu konfirmasi', 'ditolak']))->count();
         $dibatalkanCount = $allBookings->filter(fn($b) => in_array(strtolower(trim($b->status)), ['cancelled', 'dibatalkan']))->count();
 
         $selesaiPercent = $totalBooking > 0 ? round(($selesaiCount / $totalBooking) * 100) : 0;
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
             ->first();
 
         $bookings = Booking::where('id_user', $userId)
-                        ->with(['kamar', 'hotel'])
+                        ->with(['kamar', 'hotel', 'payment'])
                         ->orderBy('created_at', 'desc')
                         ->paginate(6);
 
@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/booking/payment/{id}', [BookingController::class, 'showPaymentPage'])->name('booking.payment');
     Route::post('/booking/confirm-payment/{id}', [BookingController::class, 'confirmPayment'])->name('booking.confirm');
     Route::put('/booking/update-bukti/{id}', [BookingController::class, 'updateBukti'])->name('booking.updateBukti');
+    Route::get('/booking/{id}/upload-ulang', [BookingController::class, 'showUploadUlang'])->name('booking.uploadUlang');
     Route::get('/booking-success', function() {
         return view('pages.booking-success');
     })->name('booking.success');
@@ -109,8 +110,8 @@ Route::prefix('admin')
         Route::put('kamar/{kamar}', [AdminKamarController::class, 'update'])->name('kamar.update');
         Route::delete('kamar/{kamar}', [AdminKamarController::class, 'destroy'])->name('kamar.destroy');
 
-        Route::get('/booking', [BookingController::class, 'adminIndex'])->name('booking.index');
         Route::put('/booking/{id}/status', [BookingController::class, 'updateStatus'])->name('booking.status');
+        Route::post('/booking/{id}/reject', [BookingController::class, 'reject'])->name('booking.reject');
 
         // dipindahkan ke sini dari grup auth biasa — sebelumnya bisa diakses semua user login, bukan cuma admin
         Route::put('/booking/{id}/archive', [BookingController::class, 'archive'])->name('booking.archive');
